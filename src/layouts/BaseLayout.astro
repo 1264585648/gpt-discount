@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/pro-layout.css';
 
 interface Props {
   title: string;
@@ -30,24 +31,24 @@ const { title, description, navMode = 'home' } = Astro.props;
         {navMode === 'home' ? (
           <div class="nav-links" aria-label="分类快捷入口">
             <a href="/#ai-tools">AI 工具</a>
+            <a href="/#edu-ai-discounts">教育邮箱</a>
             <a href="/#common-software">常用软件</a>
             <a href="/#cloud-credit">云服务赠金</a>
-            <a href="/#latest">最近更新</a>
           </div>
         ) : (
           <div class="nav-links" aria-label="文章目录">
-            <a href="#overview">优惠概览</a>
-            <a href="#prepare">准备条件</a>
-            <a href="#steps">详细步骤</a>
-            <a href="#faq">失败排查</a>
+            <a href="#overview">概览</a>
+            <a href="#prepare">准备</a>
+            <a href="#steps">步骤</a>
+            <a href="#faq">排查</a>
           </div>
         )}
 
         <div class="nav-actions">
           {navMode === 'home' ? (
             <>
-              <a class="btn btn-ghost" href="#">登录</a>
-              <a class="btn btn-primary" href="#">投稿优惠</a>
+              <a class="btn btn-ghost" href="#latest">浏览教程</a>
+              <a class="btn btn-primary" href="#edu-ai-discounts">教育专题</a>
             </>
           ) : (
             <>
