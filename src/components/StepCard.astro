@@ -9,12 +9,15 @@ interface Props {
 const { step, index } = Astro.props;
 ---
 
-<div class="step-card">
-  <div class="step-number">{index + 1}</div>
+<div class="step-card pro-step-card">
+  <div class="step-number-wrap">
+    <div class="step-number">{index + 1}</div>
+    <span>Step</span>
+  </div>
   <div class="step-content">
     <h3>{step.title}</h3>
     <p>{step.description}</p>
-    {step.imageLabel && <div class="mock-shot">截图占位：{step.imageLabel}</div>}
     {step.note && <div class="step-note">{step.note}</div>}
+    {step.imageLabel && <div class="mock-shot"><span>建议截图</span><strong>{step.imageLabel}</strong></div>}
   </div>
 </div>
