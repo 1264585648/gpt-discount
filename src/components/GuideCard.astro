@@ -12,7 +12,7 @@ const { guide } = Astro.props;
   class="guide-card pro-guide-card"
   href={`/guides/${guide.slug}/`}
   data-guide-card
-  data-search-text={`${guide.title} ${guide.category} ${guide.summary} ${guide.audience} ${guide.dealType} ${guide.difficulty} ${guide.region}`}
+  data-search-text={`${guide.title} ${guide.category} ${guide.summary} ${guide.audience} ${guide.dealType} ${guide.dealPrice} ${guide.difficulty} ${guide.region}`}
 >
   <div class="card-top">
     <div class="badges">
@@ -29,12 +29,12 @@ const { guide } = Astro.props;
 
   <div class="meta-row compact-meta-row" aria-label="优惠关键信息">
     <div class="meta-item">
-      <span>适用身份</span>
-      <strong>{guide.audience}</strong>
+      <span>优惠价</span>
+      <strong>{guide.dealPrice}</strong>
     </div>
     <div class="meta-item">
-      <span>优惠类型</span>
-      <strong>{guide.dealType}</strong>
+      <span>适合人群</span>
+      <strong>{guide.audience}</strong>
     </div>
     <div class="meta-item">
       <span>最后验证</span>
@@ -43,7 +43,7 @@ const { guide } = Astro.props;
   </div>
 
   <div class="card-footer">
-    <span class="badge warning">先看风险</span>
+    <span class="badge warning">先看资格与风险</span>
     <span class="text-link">查看领取步骤 →</span>
   </div>
 </a>
