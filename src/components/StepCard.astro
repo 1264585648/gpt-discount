@@ -1,0 +1,20 @@
+---
+import type { GuideStep } from '../data/guides';
+
+interface Props {
+  step: GuideStep;
+  index: number;
+}
+
+const { step, index } = Astro.props;
+---
+
+<div class="step-card">
+  <div class="step-number">{index + 1}</div>
+  <div class="step-content">
+    <h3>{step.title}</h3>
+    <p>{step.description}</p>
+    {step.imageLabel && <div class="mock-shot">截图占位：{step.imageLabel}</div>}
+    {step.note && <div class="step-note">{step.note}</div>}
+  </div>
+</div>
