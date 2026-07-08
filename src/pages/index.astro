@@ -10,24 +10,81 @@ const guideGroups = categories.map((category) => ({
 }));
 const eduGuides = allGuides.filter((guide) => guideMatchesCategory(guide, 'edu-ai-discounts'));
 const latestGuides = allGuides.slice(0, 4);
+
+const routeCards = [
+  {
+    title: '教育邮箱 / 学生认证',
+    summary: '从学校邮箱、GitHub Student Pack 到 JetBrains、Notion、Adobe 等学生权益。',
+    href: '#edu-ai-discounts',
+    tag: '学生最常用',
+    metric: `${eduGuides.length} 篇`,
+    query: '教育邮箱',
+  },
+  {
+    title: 'AI 工具订阅优惠',
+    summary: 'ChatGPT、Claude、Cursor、Perplexity 等工具，先看套餐限制和付款风险。',
+    href: '#ai-tools',
+    tag: '订阅前先看',
+    metric: 'AI 工具',
+    query: 'AI 工具',
+  },
+  {
+    title: '常用软件低价方案',
+    summary: '设计、办公、密码管理、浏览器插件等软件优惠，适合长期续费前比价。',
+    href: '#common-software',
+    tag: '日常软件',
+    metric: '软件优惠',
+    query: '软件',
+  },
+  {
+    title: '云服务赠金 / 免费额度',
+    summary: 'Google Cloud、Oracle Cloud、VPS 免费额度，重点看账单、扣费和风控。',
+    href: '#cloud-credit',
+    tag: '防扣费',
+    metric: '云服务',
+    query: '云服务',
+  },
+];
+
+const trustRules = [
+  {
+    title: '只看公开入口',
+    description: '优先保留官方说明、公开活动页和最后验证时间，不把论坛传闻当结论。',
+  },
+  {
+    title: '先判断能不能领',
+    description: '邮箱、地区、身份、付款方式和续费规则先看清，避免做到一半卡住。',
+  },
+  {
+    title: '失败原因放前面',
+    description: '验证失败、价格变化、风控、商用限制和替代路线单独提醒。',
+  },
+];
 ---
 
 <BaseLayout
-  title="GPT Discount｜优惠获取教程分享站"
-  description="手把手分享 AI 工具、云服务、软件订阅等优惠领取教程。每篇文章都包含领取前准备、详细步骤、失败原因和注意事项。"
+  title="GPT Discount｜AI 工具与软件优惠领取导航"
+  description="整理 AI 工具、教育邮箱、常用软件、云服务赠金等优惠领取路径。每篇文章先判断资格和风险，再给操作步骤、失败原因和替代方案。"
 >
   <main>
-    <section class="hero pro-hero">
+    <section class="hero pro-hero site-hero">
       <div class="shell hero-grid pro-hero-grid">
         <div class="hero-copy-block">
-          <div class="eyebrow">优惠不只告诉你在哪，更告诉你怎么拿到</div>
-          <h1>把优惠教程做成一张 <span>可操作路线图</span></h1>
-          <p class="hero-copy">先判断资格，再跟着步骤做。每篇文章都把准备材料、验证方式、价格变化、失败原因和风险提醒放到前面，适合手机端边看边操作。</p>
+          <div class="eyebrow">公开入口 · 可复查路径 · 先避坑再操作</div>
+          <h1>先确认能不能领，<span>再去拿优惠</span></h1>
+          <p class="hero-copy">GPT Discount 帮你整理 AI 工具、学生包、常用软件和云服务赠金的领取路线。每篇先给资格判断、适用人群、风险和失败排查，再放具体步骤。</p>
 
           <div class="search-panel" role="search">
             <span class="search-icon">⌕</span>
-            <input data-search type="search" placeholder="搜索 JetBrains、GitHub 学生包、Notion、Adobe、Google AI…" aria-label="搜索优惠教程" />
-            <button class="btn btn-primary" type="button">搜索教程</button>
+            <input data-search type="search" placeholder="搜索 ChatGPT、Claude、JetBrains、GitHub 学生包、Google Cloud…" aria-label="搜索优惠教程" />
+            <button class="btn btn-primary" type="button" data-search-submit>搜索优惠</button>
+          </div>
+
+          <div class="search-presets" aria-label="常用搜索">
+            <button type="button" data-search-preset="教育邮箱">教育邮箱</button>
+            <button type="button" data-search-preset="GitHub 学生包">GitHub 学生包</button>
+            <button type="button" data-search-preset="AI 工具">AI 工具</button>
+            <button type="button" data-search-preset="云服务">云服务赠金</button>
           </div>
 
           <div class="category-jump topic-rail" aria-label="分类跳转">
@@ -38,10 +95,16 @@ const latestGuides = allGuides.slice(0, 4);
           </div>
         </div>
 
-        <aside class="hero-card editorial-card" aria-label="站点特性">
-          <span class="mini-label">编辑原则</span>
-          <h2>只收录能复查的领取路径</h2>
-          <p>论坛和社群只当线索，真正发布时优先保留官方入口、最后验证时间、失败排查和替代方案。</p>
+        <aside class="hero-card editorial-card finder-card" aria-label="快速判断">
+          <span class="mini-label">快速判断</span>
+          <h2>不知道从哪篇开始？</h2>
+          <p>先选你的身份和目标，再进入对应专题。每篇都会告诉你：能不能领、要准备什么、哪里容易失败。</p>
+          <div class="finder-list">
+            <a href="#edu-ai-discounts">我有教育邮箱 / 学生身份 <span>看学生认证</span></a>
+            <a href="#ai-tools">想便宜订 AI 工具 <span>看订阅优惠</span></a>
+            <a href="#cloud-credit">想领云服务赠金 <span>看账单提醒</span></a>
+            <a href="#latest">只是想先看热门教程 <span>看近期更新</span></a>
+          </div>
           <div class="quick-stats pro-stats">
             <div class="stat">
               <strong>{categories.length}</strong>
@@ -49,33 +112,51 @@ const latestGuides = allGuides.slice(0, 4);
             </div>
             <div class="stat">
               <strong>{allGuides.length}</strong>
-              <span>教程文章</span>
+              <span>可读教程</span>
             </div>
             <div class="stat">
               <strong>{eduGuides.length}</strong>
-              <span>教育专题</span>
+              <span>学生相关</span>
             </div>
             <div class="stat">
-              <strong>严选</strong>
-              <span>不写传闻领取</span>
+              <strong>公开</strong>
+              <span>不收录黑卡接码</span>
             </div>
           </div>
         </aside>
       </div>
     </section>
 
-    <section class="shell trust-strip" aria-label="教程阅读规则">
-      <div><strong>先看资格</strong><span>确认邮箱、地区、身份和套餐限制</span></div>
-      <div><strong>再看步骤</strong><span>每一步都有截图位和失败提醒</span></div>
-      <div><strong>最后看风险</strong><span>账单、续费、商用限制单独提醒</span></div>
+    <section class="shell route-board" aria-label="快速找到优惠路线">
+      <div class="route-board-head">
+        <span class="mini-label">领取入口</span>
+        <h2>按你的目标找优惠</h2>
+        <p>不用先读一堆介绍，直接从最接近你的场景进入。</p>
+      </div>
+      <div class="route-grid">
+        {routeCards.map((route) => (
+          <a class="route-card" href={route.href} data-search-preset={route.query}>
+            <span class="route-tag">{route.tag}</span>
+            <h3>{route.title}</h3>
+            <p>{route.summary}</p>
+            <strong>{route.metric}</strong>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="shell trust-strip" aria-label="本站收录规则">
+      {trustRules.map((rule) => (
+        <div><strong>{rule.title}</strong><span>{rule.description}</span></div>
+      ))}
     </section>
 
     <section class="main-section shell pro-main-section">
       <div class="section-head featured-head" id="latest">
         <div>
-          <span class="mini-label">Featured</span>
-          <h2>最近值得先看的教程</h2>
-          <p>用更稳定的列表式卡片展示关键信息，减少来回扫视。想找具体工具，可以直接搜索名称。</p>
+          <span class="mini-label">近期优先看</span>
+          <h2>最近值得先看的优惠</h2>
+          <p>这些教程更适合先浏览：要么需求高，要么容易因为资格、地区、付款方式或验证流程踩坑。</p>
         </div>
       </div>
 
@@ -85,9 +166,9 @@ const latestGuides = allGuides.slice(0, 4);
 
       <div class="section-head category-index-head">
         <div>
-          <span class="mini-label">Browse</span>
-          <h2>按专题继续浏览</h2>
-          <p>每个专题保留统一的信息结构：适合人群、验证状态、预计耗时和阅读入口。</p>
+          <span class="mini-label">分类浏览</span>
+          <h2>按优惠类型继续找</h2>
+          <p>每个专题都按“适合谁、怎么领、失败怎么办、风险是什么”的结构整理。</p>
         </div>
       </div>
 
@@ -98,7 +179,7 @@ const latestGuides = allGuides.slice(0, 4);
               <h2><span class="section-icon">{category.icon}</span>{category.name}</h2>
               <p>{category.description}</p>
             </div>
-            <span class="category-count">{guides.length} 篇教程</span>
+            <span class="category-count">{guides.length} 篇</span>
           </div>
 
           <div class="guide-grid pro-guide-grid">
@@ -108,19 +189,25 @@ const latestGuides = allGuides.slice(0, 4);
       ))}
 
       <div class="empty-state" data-empty-state>
-        没有找到匹配的教程。可以尝试搜索「教育邮箱」「JetBrains」「GitHub」「AI」「云服务」或「赠金」。
+        没有找到匹配的优惠。可以尝试搜索「教育邮箱」「JetBrains」「GitHub」「Claude」「云服务」或「赠金」。
       </div>
     </section>
   </main>
 
   <script is:inline>
     const searchInput = document.querySelector('[data-search]');
+    const searchSubmit = document.querySelector('[data-search-submit]');
     const guideCards = Array.from(document.querySelectorAll('[data-guide-card]'));
     const categoryBlocks = Array.from(document.querySelectorAll('[data-category-block]'));
     const emptyState = document.querySelector('[data-empty-state]');
+    const presetButtons = Array.from(document.querySelectorAll('[data-search-preset]'));
 
     function normalize(text) {
       return (text || '').toLowerCase().trim();
+    }
+
+    function scrollToResults() {
+      document.querySelector('#latest')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     function applySearch(value) {
@@ -143,5 +230,17 @@ const latestGuides = allGuides.slice(0, 4);
     }
 
     if (searchInput) searchInput.addEventListener('input', (event) => applySearch(event.target.value));
+    if (searchSubmit) searchSubmit.addEventListener('click', scrollToResults);
+
+    presetButtons.forEach((button) => {
+      button.addEventListener('click', (event) => {
+        const keyword = button.getAttribute('data-search-preset');
+        if (!keyword || !searchInput) return;
+        event.preventDefault();
+        searchInput.value = keyword;
+        applySearch(keyword);
+        scrollToResults();
+      });
+    });
   </script>
 </BaseLayout>
