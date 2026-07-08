@@ -62,6 +62,7 @@ Cloudflare Pages
 /guides/google-cloud-credit/
 /guides/edu-ai-discounts-hub/
 /guides/github-student-pack-copilot/
+/guides/jetbrains-idea-student-pack/
 /guides/notion-education-ai-responses/
 /guides/google-ai-pro-student/
 /guides/adobe-creative-cloud-firefly-student/
@@ -83,7 +84,7 @@ Cloudflare Pages
   - 教育邮箱专题
   - 常用软件优惠
   - 云服务 / 免费额度
-- 教育邮箱专题已补充 1 篇总览和 8 篇细分文章
+- 教育邮箱专题已补充 1 篇总览和 9 篇细分文章
 - 响应式卡片布局
 
 ### 教育邮箱专题
@@ -93,6 +94,7 @@ Cloudflare Pages
 已覆盖方向：
 
 - GitHub Student Developer Pack / Copilot 学生计划
+- JetBrains IDEA 全家桶 / 学生教育授权
 - Notion Education / AI 响应
 - Google AI Pro 学生项目
 - Adobe Creative Cloud Pro / Firefly
