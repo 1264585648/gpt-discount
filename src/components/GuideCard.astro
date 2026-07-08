@@ -9,7 +9,7 @@ const { guide } = Astro.props;
 ---
 
 <a
-  class="guide-card"
+  class="guide-card pro-guide-card"
   href={`/guides/${guide.slug}/`}
   data-guide-card
   data-search-text={`${guide.title} ${guide.category} ${guide.summary} ${guide.audience} ${guide.dealType}`}
@@ -19,29 +19,31 @@ const { guide } = Astro.props;
       <span class="badge brand">{guide.category}</span>
       <span class="badge success">{guide.status}</span>
     </div>
-    <span class="badge">{guide.estimatedTime}</span>
+    <span class="badge card-time">{guide.estimatedTime}</span>
   </div>
 
-  <h3>{guide.title}</h3>
-  <p>{guide.summary}</p>
+  <div class="guide-card-body">
+    <h3>{guide.title}</h3>
+    <p>{guide.summary}</p>
+  </div>
 
-  <div class="meta-row">
+  <div class="meta-row compact-meta-row" aria-label="教程关键信息">
     <div class="meta-item">
       <span>难度</span>
       <strong>{guide.difficulty}</strong>
     </div>
     <div class="meta-item">
-      <span>适合人群</span>
+      <span>对象</span>
       <strong>{guide.audience}</strong>
     </div>
     <div class="meta-item">
-      <span>最后验证</span>
+      <span>验证</span>
       <strong>{guide.lastVerified}</strong>
     </div>
   </div>
 
   <div class="card-footer">
-    <span class="badge warning">含注意事项</span>
-    <span class="text-link">查看完整教程 →</span>
+    <span class="badge warning">含风险提醒</span>
+    <span class="text-link">阅读全文 →</span>
   </div>
 </a>
