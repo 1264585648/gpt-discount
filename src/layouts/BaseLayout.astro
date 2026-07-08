@@ -1,0 +1,70 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  navMode?: 'home' | 'article';
+}
+
+const { title, description, navMode = 'home' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f6f7fb" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="topbar">
+      <nav class="shell nav" aria-label="主导航">
+        <a class="logo" href="/" aria-label="返回首页">
+          <span class="logo-mark">折</span>
+          <span>GPT Discount</span>
+        </a>
+
+        {navMode === 'home' ? (
+          <div class="nav-links" aria-label="分类快捷入口">
+            <a href="/#ai-tools">AI 工具</a>
+            <a href="/#cloud-credit">云服务赠金</a>
+            <a href="/#latest">最近更新</a>
+          </div>
+        ) : (
+          <div class="nav-links" aria-label="文章目录">
+            <a href="#overview">优惠概览</a>
+            <a href="#prepare">准备条件</a>
+            <a href="#steps">详细步骤</a>
+            <a href="#faq">失败排查</a>
+          </div>
+        )}
+
+        <div class="nav-actions">
+          {navMode === 'home' ? (
+            <>
+              <a class="btn btn-ghost" href="#">登录</a>
+              <a class="btn btn-primary" href="#">投稿优惠</a>
+            </>
+          ) : (
+            <>
+              <a class="btn btn-ghost" href="/">返回首页</a>
+              <a class="btn btn-primary" href="#steps">看步骤</a>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
+
+    <slot />
+
+    <footer class="footer">
+      <div class="shell footer-inner">
+        <span>© GPT Discount · 优惠获取教程分享站</span>
+        <span>Astro 静态输出，可直接部署到 Cloudflare Pages。</span>
+      </div>
+    </footer>
+  </body>
+</html>
