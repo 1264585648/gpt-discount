@@ -1,10 +1,13 @@
 ---
+import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import StepCard from '../../components/StepCard.astro';
 import DealSidebar from '../../components/DealSidebar.astro';
-import { guides } from '../../data/guides';
+import { getGuides } from '../../data/guides';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const guides = await getGuides();
+
   return guides.map((guide) => ({
     params: { slug: guide.slug },
     props: { guide },
@@ -12,6 +15,7 @@ export function getStaticPaths() {
 }
 
 const { guide } = Astro.props;
+const { Content } = await render(guide.entry);
 ---
 
 <BaseLayout
@@ -80,6 +84,10 @@ const { guide } = Astro.props;
               <p>{item.answer}</p>
             </>
           ))}
+        </section>
+
+        <section class="article-card markdown-content">
+          <Content />
         </section>
 
         <section class="article-card">
