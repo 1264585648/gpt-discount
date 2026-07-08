@@ -43,7 +43,7 @@ const { Content } = await render(guide.entry);
           <h1>{guide.title}</h1>
           <p class="article-lead">{guide.summary}</p>
 
-          <div class="article-quick-grid" aria-label="文章关键判断">
+          <div class="article-quick-grid" aria-label="优惠关键判断">
             <div><span>适合人群</span><strong>{guide.audience}</strong></div>
             <div><span>操作难度</span><strong>{guide.difficulty}</strong></div>
             <div><span>优惠类型</span><strong>{guide.dealType}</strong></div>
@@ -57,8 +57,8 @@ const { Content } = await render(guide.entry);
       <article class="article-main pro-article-main">
         <section class="article-card reading-card overview-card" id="overview">
           <span class="section-step">01</span>
-          <h2>先判断：这篇值不值得操作</h2>
-          <p>先别急着点领取入口。优惠教程最重要的是确认自己是否符合条件：邮箱、地区、身份、套餐、付款方式和续费规则都要提前看清楚。</p>
+          <h2>先判断：你能不能领、值不值得领</h2>
+          <p>不要一上来就点领取入口。先确认邮箱、地区、身份、套餐、付款方式和续费规则，避免最后一步才发现不符合条件。</p>
           <div class="info-grid pro-info-grid">
             <div class="info-tile"><span>优惠类型</span><strong>{guide.dealType}</strong></div>
             <div class="info-tile"><span>预计耗时</span><strong>{guide.estimatedTime}</strong></div>
@@ -70,17 +70,17 @@ const { Content } = await render(guide.entry);
         <section class="article-card reading-card prepare-card" id="prepare">
           <span class="section-step">02</span>
           <h2>领取前准备</h2>
-          <p>正式操作前，先把下面几项准备好。这样读者不会做到一半才发现缺材料、地区不支持或无法验证。</p>
+          <p>正式操作前，先把下面这些信息准备好。能提前确认的内容越多，后面遇到验证失败、价格不一致或付款被拒的概率越低。</p>
           <ul class="check-list">
             {guide.preparation.map((item) => <li>{item}</li>)}
           </ul>
-          <div class="callout">建议上线时补充“最后验证截图”“领取成功截图”“最终价格截图”，让文章更可信。</div>
+          <div class="callout">建议先看完「常见失败原因」再开始操作，尤其是涉及教育认证、地区限制、云服务账单和自动续费的优惠。</div>
         </section>
 
         <section class="article-card reading-card steps-card" id="steps">
           <span class="section-step">03</span>
-          <h2>详细操作步骤</h2>
-          <p>每一步都保留一个截图位和必要提示。移动端会变成单列卡片，方便用户边看边操作。</p>
+          <h2>详细领取步骤</h2>
+          <p>按顺序操作。遇到页面文案、价格或验证方式变化时，先停下来核对本篇的失败排查和官方说明，不要急着反复提交。</p>
           <div class="step-list pro-step-list">
             {guide.steps.map((step, index) => <StepCard step={step} index={index} />)}
           </div>
@@ -105,8 +105,8 @@ const { Content } = await render(guide.entry);
         </section>
 
         <section class="article-card reading-card editor-note-card">
-          <span class="section-step">Note</span>
-          <h2>编辑建议</h2>
+          <span class="section-step">提醒</span>
+          <h2>补充提醒</h2>
           <p>{guide.editorNote}</p>
         </section>
       </article>
@@ -117,7 +117,7 @@ const { Content } = await render(guide.entry);
 
   <div class="mobile-action-bar" aria-label="移动端操作栏">
     <button class="btn" type="button" data-copy="#coupon-code">复制优惠码</button>
-    <a class="btn btn-primary" href="#steps">看步骤</a>
+    <a class="btn btn-primary" href="#steps">看领取步骤</a>
   </div>
 
   <script is:inline>
