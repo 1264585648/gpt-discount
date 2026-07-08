@@ -1,25 +1,63 @@
 # GPT Discount
 
-一个优惠获取教程分享站的静态 MVP 页面骨架。
+一个面向 Cloudflare Pages 的优惠获取教程分享站。
 
-当前版本重点不是做复杂后台，而是先确定信息架构和阅读体验：
+当前版本已经升级为 **Astro 静态站**：开发时可以使用组件、数据文件和后续 Markdown 内容集合；部署时输出纯静态文件到 `dist/`，适合 Cloudflare Pages。
+
+## 当前定位
+
+这个站不是普通优惠券列表，而是：
+
+> 手把手教你怎么拿到优惠的教程站。
+
+核心体验：
 
 - 首页直接展示各种优惠分类
-- 每个分类下展示示例教程文章
+- 每个分类下展示教程文章
 - 点击文章卡片进入具体教程页
 - 教程页强调领取前准备、详细步骤、注意事项、失败排查
 - 优先保证手机端阅读体验
+
+## 技术栈
+
+```txt
+Astro
+TypeScript
+CSS
+Cloudflare Pages
+```
+
+## 目录结构
+
+```txt
+/
+├─ astro.config.mjs
+├─ package.json
+├─ public/
+│  ├─ _headers
+│  └─ _redirects
+└─ src/
+   ├─ components/
+   │  ├─ DealSidebar.astro
+   │  ├─ GuideCard.astro
+   │  └─ StepCard.astro
+   ├─ data/
+   │  └─ guides.ts
+   ├─ layouts/
+   │  └─ BaseLayout.astro
+   ├─ pages/
+   │  ├─ index.astro
+   │  └─ guides/[slug].astro
+   └─ styles/
+      └─ global.css
+```
 
 ## 当前页面
 
 ```txt
 /
-├─ index.html
-├─ styles.css
-├─ script.js
-└─ guides/
-   ├─ claude-pro-discount.html
-   └─ google-cloud-credit.html
+/guides/claude-pro-discount/
+/guides/google-cloud-credit/
 ```
 
 ## 已实现
@@ -56,23 +94,56 @@
 - 分类锚点跳转
 - 文章目录锚点跳转
 
-## 本地预览
-
-这个版本是纯静态页面，不需要安装依赖。
-
-直接打开 `index.html` 即可。
-
-也可以用任意静态服务器预览：
+## 本地开发
 
 ```bash
-python -m http.server 3000
+npm install
+npm run dev
 ```
 
-然后访问：
+## 构建
+
+```bash
+npm run build
+```
+
+构建结果输出到：
 
 ```txt
-http://localhost:3000
+dist/
 ```
+
+## Cloudflare Pages 部署
+
+```txt
+Framework preset: Astro
+Build command: npm run build
+Build output directory: dist
+Root directory: /
+```
+
+## 新增文章
+
+当前文章数据在：
+
+```txt
+src/data/guides.ts
+```
+
+新增文章时，只需要在 `guides` 数组里增加一条数据，Astro 会通过：
+
+```txt
+src/pages/guides/[slug].astro
+```
+
+自动生成详情页。
+
+后续文章多了之后，可以把数据迁移为：
+
+- Astro Content Collections
+- Markdown / MDX
+- Headless CMS
+- Supabase / Payload CMS
 
 ## 后续建议
 
@@ -89,30 +160,4 @@ http://localhost:3000
 
 - Payload CMS
 - Supabase
-- Next.js + 数据库
 - 自研后台管理系统
-
-推荐数据模型：
-
-```txt
-Category
-Guide
-GuideStep
-User
-Feedback
-Favorite
-```
-
-## 设计方向
-
-这个站的定位不是普通优惠券列表，而是：
-
-> 手把手教你怎么拿到优惠的教程站。
-
-所以页面应该优先服务于：
-
-- 快速判断优惠是否适合自己
-- 清楚看到领取前准备
-- 按步骤完成操作
-- 知道失败原因
-- 在手机端也能顺畅阅读和复制优惠码
