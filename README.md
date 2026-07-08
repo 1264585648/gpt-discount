@@ -41,6 +41,8 @@ Cloudflare Pages
    │  ├─ DealSidebar.astro
    │  ├─ GuideCard.astro
    │  └─ StepCard.astro
+   ├─ content/
+   │  └─ guides/
    ├─ data/
    │  └─ guides.ts
    ├─ layouts/
@@ -58,6 +60,15 @@ Cloudflare Pages
 /
 /guides/claude-pro-discount/
 /guides/google-cloud-credit/
+/guides/edu-ai-discounts-hub/
+/guides/github-student-pack-copilot/
+/guides/notion-education-ai-responses/
+/guides/google-ai-pro-student/
+/guides/adobe-creative-cloud-firefly-student/
+/guides/canva-education-ai/
+/guides/figma-education-ai-make/
+/guides/microsoft-365-student-ai/
+/guides/ai-tools-no-official-student-discount/
 ```
 
 ## 已实现
@@ -67,11 +78,28 @@ Cloudflare Pages
 - Hero 区
 - 搜索框
 - 分类锚点
-- 两个示例分类
+- 当前分类
   - AI 工具优惠
+  - 教育邮箱专题
+  - 常用软件优惠
   - 云服务 / 免费额度
-- 每个分类一篇示例文章
+- 教育邮箱专题已补充 1 篇总览和 8 篇细分文章
 - 响应式卡片布局
+
+### 教育邮箱专题
+
+当前专题原则：只写官方入口和可核验路径。论坛、Reddit、V2EX、社群帖子可以作为选题线索，但没有官方入口、最近成功截图和清晰资格说明时，不写成“可领取”。
+
+已覆盖方向：
+
+- GitHub Student Developer Pack / Copilot 学生计划
+- Notion Education / AI 响应
+- Google AI Pro 学生项目
+- Adobe Creative Cloud Pro / Firefly
+- Canva Education / Campus
+- Figma Education / Figma Make / AI 工作流
+- Microsoft 365 学生权益 / Copilot
+- ChatGPT Plus、Claude Pro、Cursor、Midjourney、Perplexity 等避坑说明
 
 ### 文章页
 
@@ -124,13 +152,19 @@ Root directory: /
 
 ## 新增文章
 
-当前文章数据在：
+当前文章数据来源于 Astro Content Collections，正文在：
+
+```txt
+src/content/guides/
+```
+
+分类配置在：
 
 ```txt
 src/data/guides.ts
 ```
 
-新增文章时，只需要在 `guides` 数组里增加一条数据，Astro 会通过：
+新增文章时，只需要在 `src/content/guides/` 下增加一篇 Markdown，并填写 `src/content.config.ts` 中定义的 frontmatter 字段，Astro 会通过：
 
 ```txt
 src/pages/guides/[slug].astro
@@ -138,9 +172,9 @@ src/pages/guides/[slug].astro
 
 自动生成详情页。
 
-后续文章多了之后，可以把数据迁移为：
+后续文章多了之后，可以继续升级为：
 
-- Astro Content Collections
+- 更完整的 Astro Content Collections
 - Markdown / MDX
 - Headless CMS
 - Supabase / Payload CMS
@@ -149,12 +183,12 @@ src/pages/guides/[slug].astro
 
 第一阶段可以继续补：
 
-- 更多分类
-- 更多示例文章
+- 每篇文章的官方入口截图
+- 每篇文章的最后验证截图
+- 成功 / 失败反馈组件
+- 文章状态：可领取 / 已失效 / 待验证
 - 登录 / 注册页面静态稿
 - 投稿页面静态稿
-- 文章状态：可领取 / 已失效 / 待验证
-- 成功 / 失败反馈组件
 
 第二阶段再接后台：
 
