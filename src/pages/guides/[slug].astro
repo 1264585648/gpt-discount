@@ -91,7 +91,7 @@ const { Content } = await render(guide.entry);
           <h2>常见失败原因</h2>
           <div class="faq-list">
             {guide.faq.map((item) => (
-              <details class="faq-item" open>
+              <details class="faq-item">
                 <summary>{item.question}</summary>
                 <p>{item.answer}</p>
               </details>
