@@ -29,6 +29,12 @@ export const categories = [
     description: 'ChatGPT、Claude、Cursor、Perplexity、Grok 等 AI 工具订阅优惠和领取教程。',
   },
   {
+    name: '教育邮箱专题',
+    slug: 'edu-ai-discounts',
+    icon: '🎓',
+    description: '教育邮箱、学生认证、GitHub Student Pack 等可领取的 AI 工具、设计、视频、办公优惠。',
+  },
+  {
     name: '常用软件优惠',
     slug: 'common-software',
     icon: '🧰',
