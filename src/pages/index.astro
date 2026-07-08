@@ -1,7 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import GuideCard from '../components/GuideCard.astro';
-import { categories, getGuidesByCategory, guides } from '../data/guides';
+import { categories, getGuides, guideMatchesCategory } from '../data/guides';
+
+const allGuides = await getGuides();
+const guideGroups = categories.map((category) => ({
+  category,
+  guides: allGuides.filter((guide) => guideMatchesCategory(guide, category.slug)),
+}));
 ---
 
 <BaseLayout
@@ -39,12 +45,12 @@ import { categories, getGuidesByCategory, guides } from '../data/guides';
               <span>优惠分类</span>
             </div>
             <div class="stat">
-              <strong>{guides.length}</strong>
+              <strong>{allGuides.length}</strong>
               <span>教程文章</span>
             </div>
             <div class="stat">
-              <strong>步骤</strong>
-              <span>按操作顺序阅读</span>
+              <strong>MD</strong>
+              <span>Markdown 编辑</span>
             </div>
             <div class="stat">
               <strong>手机</strong>
@@ -63,7 +69,7 @@ import { categories, getGuidesByCategory, guides } from '../data/guides';
         </div>
       </div>
 
-      {categories.map((category) => (
+      {guideGroups.map(({ category, guides }) => (
         <div class="category-block" id={category.slug} data-category-block>
           <div class="section-head category-head">
             <div>
@@ -74,7 +80,7 @@ import { categories, getGuidesByCategory, guides } from '../data/guides';
           </div>
 
           <div class="guide-grid">
-            {getGuidesByCategory(category.slug).map((guide) => <GuideCard guide={guide} />)}
+            {guides.map((guide) => <GuideCard guide={guide} />)}
           </div>
         </div>
       ))}
