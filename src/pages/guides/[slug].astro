@@ -1,0 +1,119 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StepCard from '../../components/StepCard.astro';
+import DealSidebar from '../../components/DealSidebar.astro';
+import { guides } from '../../data/guides';
+
+export function getStaticPaths() {
+  return guides.map((guide) => ({
+    params: { slug: guide.slug },
+    props: { guide },
+  }));
+}
+
+const { guide } = Astro.props;
+---
+
+<BaseLayout
+  navMode="article"
+  title={`${guide.title}｜GPT Discount`}
+  description={guide.summary}
+>
+  <main>
+    <section class="article-hero">
+      <div class="shell">
+        <div class="breadcrumb">
+          <a href="/">首页</a>
+          <span>/</span>
+          <a href={`/#${guide.categorySlug}`}>{guide.category}</a>
+          <span>/</span>
+          <span>{guide.title}</span>
+        </div>
+
+        <div class="article-title-card">
+          <div class="badges">
+            <span class="badge brand">{guide.category}</span>
+            <span class="badge success">{guide.status}</span>
+            <span class="badge warning">{guide.warning}</span>
+          </div>
+          <h1>{guide.title}</h1>
+          <p class="article-lead">{guide.summary}</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell article-layout">
+      <article class="article-main">
+        <section class="article-card" id="overview">
+          <h2>优惠概览</h2>
+          <p>这类优惠教程的重点不是简单给一个链接，而是把用户最关心的问题提前讲清楚：谁能领、要准备什么、在哪里输入优惠码、怎么确认折扣已经生效，以及失败后该怎么排查。</p>
+          <div class="info-grid">
+            <div class="info-tile"><span>优惠类型</span><strong>{guide.dealType}</strong></div>
+            <div class="info-tile"><span>预计耗时</span><strong>{guide.estimatedTime}</strong></div>
+            <div class="info-tile"><span>操作难度</span><strong>{guide.difficulty}</strong></div>
+            <div class="info-tile"><span>适合人群</span><strong>{guide.audience}</strong></div>
+          </div>
+        </section>
+
+        <section class="article-card" id="prepare">
+          <h2>领取前准备</h2>
+          <p>正式操作前，先确认下面几项。优惠教程站的可读性，核心就在于让用户开始前就知道自己是否满足条件。</p>
+          <ul>
+            {guide.preparation.map((item) => <li>{item}</li>)}
+          </ul>
+          <div class="callout">建议：真实文章里可以在这里放“领取成功截图”和“最终价格截图”，提升可信度。</div>
+        </section>
+
+        <section class="article-card" id="steps">
+          <h2>详细操作步骤</h2>
+          <p>每一步都建议配截图。移动端阅读时，步骤卡片会自动变成单列，减少横向挤压。</p>
+          <div class="step-list">
+            {guide.steps.map((step, index) => <StepCard step={step} index={index} />)}
+          </div>
+        </section>
+
+        <section class="article-card" id="faq">
+          <h2>常见失败原因</h2>
+          {guide.faq.map((item) => (
+            <>
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </>
+          ))}
+        </section>
+
+        <section class="article-card">
+          <h2>编辑建议</h2>
+          <p>{guide.editorNote}</p>
+        </section>
+      </article>
+
+      <DealSidebar guide={guide} />
+    </section>
+  </main>
+
+  <div class="mobile-action-bar" aria-label="移动端操作栏">
+    <button class="btn" type="button" data-copy="#coupon-code">复制优惠码</button>
+    <a class="btn btn-primary" href="#steps">看步骤</a>
+  </div>
+
+  <script is:inline>
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const targetSelector = button.getAttribute('data-copy');
+        const target = document.querySelector(targetSelector);
+        const text = target?.textContent?.trim();
+        if (!text) return;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = button.textContent;
+          button.textContent = '已复制';
+          setTimeout(() => { button.textContent = original; }, 1400);
+        } catch (error) {
+          button.textContent = '复制失败';
+        }
+      });
+    });
+  </script>
+</BaseLayout>
