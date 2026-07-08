@@ -14,50 +14,53 @@ const latestGuides = allGuides.slice(0, 4);
 const routeCards = [
   {
     title: '教育邮箱 / 学生认证',
-    summary: '从学校邮箱、GitHub Student Pack 到 JetBrains、Notion、Adobe 等学生权益。',
+    summary: '如果你有学校邮箱、学生身份，优先从这条路线开始，覆盖 JetBrains、GitHub Student Pack、Notion、Adobe 等。',
+    examples: 'JetBrains · GitHub Student Pack · Notion',
     href: '#edu-ai-discounts',
     tag: '学生最常用',
-    metric: `${eduGuides.length} 篇`,
-    query: '教育邮箱',
+    icon: '🎓',
   },
   {
     title: 'AI 工具订阅优惠',
-    summary: 'ChatGPT、Claude、Cursor、Perplexity 等工具，先看套餐限制和付款风险。',
+    summary: '适合想低价订阅 ChatGPT、Claude、Cursor、Perplexity 等工具的用户，重点看地区、套餐和付款限制。',
+    examples: 'ChatGPT · Claude · Cursor · Perplexity',
     href: '#ai-tools',
     tag: '订阅前先看',
-    metric: 'AI 工具',
-    query: 'AI 工具',
+    icon: '🤖',
   },
   {
     title: '常用软件低价方案',
-    summary: '设计、办公、密码管理、浏览器插件等软件优惠，适合长期续费前比价。',
+    summary: '适合长期使用设计、办公、密码管理和浏览器插件的用户，领取前先比价，再看续费规则。',
+    examples: '1Password · Notion · 设计办公软件',
     href: '#common-software',
-    tag: '日常软件',
-    metric: '软件优惠',
-    query: '软件',
+    tag: '适合长期续费前比价',
+    icon: '🧰',
   },
   {
     title: '云服务赠金 / 免费额度',
-    summary: 'Google Cloud、Oracle Cloud、VPS 免费额度，重点看账单、扣费和风控。',
+    summary: '想要领取 Google Cloud、Oracle Cloud 或 VPS 免费额度，先看账单、风控和扣费提醒。',
+    examples: 'Google Cloud · Oracle Cloud · VPS',
     href: '#cloud-credit',
-    tag: '防扣费',
-    metric: '云服务',
-    query: '云服务',
+    tag: '防扣费重点看',
+    icon: '☁️',
   },
 ];
 
-const trustRules = [
+const readingSteps = [
   {
-    title: '只看公开入口',
-    description: '优先保留官方说明、公开活动页和最后验证时间，不把论坛传闻当结论。',
+    step: '01',
+    title: '先选路线',
+    description: '先按你的身份和目标进入对应专题，不用一上来就通读全站。',
   },
   {
-    title: '先判断能不能领',
-    description: '邮箱、地区、身份、付款方式和续费规则先看清，避免做到一半卡住。',
+    step: '02',
+    title: '再看资格',
+    description: '重点看邮箱、地区、身份、付款方式、是否会自动续费。',
   },
   {
-    title: '失败原因放前面',
-    description: '验证失败、价格变化、风控、商用限制和替代路线单独提醒。',
+    step: '03',
+    title: '最后看步骤',
+    description: '确认能领以后，再按步骤操作，遇到问题直接看失败排查。',
   },
 ];
 ---
@@ -66,127 +69,156 @@ const trustRules = [
   title="GPT Discount｜AI 工具与软件优惠领取导航"
   description="整理 AI 工具、教育邮箱、常用软件、云服务赠金等优惠领取路径。每篇文章先判断资格和风险，再给操作步骤、失败原因和替代方案。"
 >
-  <main>
-    <section class="hero pro-hero site-hero">
-      <div class="shell hero-grid pro-hero-grid">
-        <div class="hero-copy-block">
-          <div class="eyebrow">公开入口 · 可复查路径 · 先避坑再操作</div>
-          <h1>先确认能不能领，<span>再去拿优惠</span></h1>
-          <p class="hero-copy">GPT Discount 帮你整理 AI 工具、学生包、常用软件和云服务赠金的领取路线。每篇先给资格判断、适用人群、风险和失败排查，再放具体步骤。</p>
+  <main class="home-page">
+    <section class="home-hero">
+      <div class="shell home-hero-shell">
+        <div class="home-hero-grid">
+          <div class="home-hero-main">
+            <div class="eyebrow">公开入口 · 可复查路径 · 先判断再操作</div>
+            <h1>先确认能不能领，<span>再去拿优惠</span></h1>
+            <p class="hero-copy">这里不是单纯的信息堆砌，而是一份可直接使用的优惠导航。你可以先按自己的目标进入专题，再看资格判断、失败排查和具体领取步骤。</p>
 
-          <div class="search-panel" role="search">
-            <span class="search-icon">⌕</span>
-            <input data-search type="search" placeholder="搜索 ChatGPT、Claude、JetBrains、GitHub 学生包、Google Cloud…" aria-label="搜索优惠教程" />
-            <button class="btn btn-primary" type="button" data-search-submit>搜索优惠</button>
+            <div class="search-panel" role="search">
+              <span class="search-icon">⌕</span>
+              <input data-search type="search" placeholder="搜索 ChatGPT、Claude、JetBrains、GitHub 学生包、Google Cloud…" aria-label="搜索优惠教程" />
+              <button class="btn btn-primary" type="button" data-search-submit>搜索优惠</button>
+            </div>
+
+            <div class="search-presets" aria-label="常用搜索">
+              <button type="button" data-search-preset="教育邮箱">教育邮箱</button>
+              <button type="button" data-search-preset="GitHub 学生包">GitHub 学生包</button>
+              <button type="button" data-search-preset="ChatGPT">ChatGPT</button>
+              <button type="button" data-search-preset="云服务">云服务赠金</button>
+            </div>
+
+            <div class="category-jump home-chip-row" aria-label="分类跳转">
+              {categories.map((category) => (
+                <a class="pill" href={`#${category.slug}`}>{category.icon} {category.name}</a>
+              ))}
+              <a class="pill" href="#latest">🆕 最近更新</a>
+            </div>
           </div>
 
-          <div class="search-presets" aria-label="常用搜索">
-            <button type="button" data-search-preset="教育邮箱">教育邮箱</button>
-            <button type="button" data-search-preset="GitHub 学生包">GitHub 学生包</button>
-            <button type="button" data-search-preset="AI 工具">AI 工具</button>
-            <button type="button" data-search-preset="云服务">云服务赠金</button>
-          </div>
+          <aside class="home-hero-side" aria-label="阅读建议">
+            <div class="hero-side-head">
+              <span class="mini-label">快速开始</span>
+              <h2>3 步找到适合你的优惠</h2>
+              <p>先找路线，再看资格，最后按步骤领取。整个站点都按这个顺序组织。</p>
+            </div>
 
-          <div class="category-jump topic-rail" aria-label="分类跳转">
-            {categories.map((category) => (
-              <a class="pill" href={`#${category.slug}`}>{category.icon} {category.name}</a>
-            ))}
-            <a class="pill" href="#latest">🆕 最近更新</a>
-          </div>
+            <div class="reading-steps">
+              {readingSteps.map((item) => (
+                <div class="reading-step-card">
+                  <span class="step-mark">{item.step}</span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div class="quick-stats hero-quick-stats">
+              <div class="stat">
+                <strong>{categories.length}</strong>
+                <span>优惠分类</span>
+              </div>
+              <div class="stat">
+                <strong>{allGuides.length}</strong>
+                <span>可读教程</span>
+              </div>
+              <div class="stat">
+                <strong>{eduGuides.length}</strong>
+                <span>学生相关</span>
+              </div>
+              <div class="stat">
+                <strong>公开</strong>
+                <span>不收录黑卡接码</span>
+              </div>
+            </div>
+          </aside>
         </div>
-
-        <aside class="hero-card editorial-card finder-card" aria-label="快速判断">
-          <span class="mini-label">快速判断</span>
-          <h2>不知道从哪篇开始？</h2>
-          <p>先选你的身份和目标，再进入对应专题。每篇都会告诉你：能不能领、要准备什么、哪里容易失败。</p>
-          <div class="finder-list">
-            <a href="#edu-ai-discounts">我有教育邮箱 / 学生身份 <span>看学生认证</span></a>
-            <a href="#ai-tools">想便宜订 AI 工具 <span>看订阅优惠</span></a>
-            <a href="#cloud-credit">想领云服务赠金 <span>看账单提醒</span></a>
-            <a href="#latest">只是想先看热门教程 <span>看近期更新</span></a>
-          </div>
-          <div class="quick-stats pro-stats">
-            <div class="stat">
-              <strong>{categories.length}</strong>
-              <span>优惠分类</span>
-            </div>
-            <div class="stat">
-              <strong>{allGuides.length}</strong>
-              <span>可读教程</span>
-            </div>
-            <div class="stat">
-              <strong>{eduGuides.length}</strong>
-              <span>学生相关</span>
-            </div>
-            <div class="stat">
-              <strong>公开</strong>
-              <span>不收录黑卡接码</span>
-            </div>
-          </div>
-        </aside>
       </div>
     </section>
 
-    <section class="shell route-board" aria-label="快速找到优惠路线">
-      <div class="route-board-head">
-        <span class="mini-label">领取入口</span>
-        <h2>按你的目标找优惠</h2>
-        <p>不用先读一堆介绍，直接从最接近你的场景进入。</p>
+    <section class="shell path-section" aria-label="按目标找优惠">
+      <div class="home-section-head compact-home-head">
+        <div>
+          <span class="mini-label">快速开始</span>
+          <h2>从这 4 条路线开始</h2>
+          <p>如果你不知道先看什么，就从最接近自己需求的一条路线进入。</p>
+        </div>
       </div>
-      <div class="route-grid">
+
+      <div class="path-grid">
         {routeCards.map((route) => (
-          <a class="route-card" href={route.href} data-search-preset={route.query}>
-            <span class="route-tag">{route.tag}</span>
+          <a class="path-card" href={route.href}>
+            <div class="path-card-top">
+              <span class="path-icon">{route.icon}</span>
+              <span class="path-tag">{route.tag}</span>
+            </div>
             <h3>{route.title}</h3>
             <p>{route.summary}</p>
-            <strong>{route.metric}</strong>
+            <strong>{route.examples}</strong>
+            <span class="path-link">进入专题 →</span>
           </a>
         ))}
       </div>
     </section>
 
-    <section class="shell trust-strip" aria-label="本站收录规则">
-      {trustRules.map((rule) => (
-        <div><strong>{rule.title}</strong><span>{rule.description}</span></div>
-      ))}
+    <section class="shell highlight-strip" aria-label="使用方式">
+      <div>
+        <strong>先看资格</strong>
+        <span>邮箱、地区、身份、付款方式和自动续费规则先看清。</span>
+      </div>
+      <div>
+        <strong>再看验证</strong>
+        <span>优先保留最后验证时间、成功条件和失败原因，不靠传闻判断。</span>
+      </div>
+      <div>
+        <strong>最后再操作</strong>
+        <span>确认值得领以后再按步骤做，避免做到一半才发现不符合条件。</span>
+      </div>
     </section>
 
-    <section class="main-section shell pro-main-section">
-      <div class="section-head featured-head" id="latest">
+    <section class="main-section shell home-content-section">
+      <div class="home-section-head" id="latest">
         <div>
           <span class="mini-label">近期优先看</span>
           <h2>最近值得先看的优惠</h2>
-          <p>这些教程更适合先浏览：要么需求高，要么容易因为资格、地区、付款方式或验证流程踩坑。</p>
+          <p>这些内容更适合先浏览：要么用户需求高，要么最容易因为资格、付款、地区或验证方式踩坑。</p>
         </div>
       </div>
 
-      <div class="featured-guide-list">
+      <div class="featured-guide-list home-featured-grid">
         {latestGuides.map((guide) => <GuideCard guide={guide} />)}
       </div>
 
-      <div class="section-head category-index-head">
+      <div class="home-section-head category-overview-head">
         <div>
-          <span class="mini-label">分类浏览</span>
+          <span class="mini-label">专题浏览</span>
           <h2>按优惠类型继续找</h2>
-          <p>每个专题都按“适合谁、怎么领、失败怎么办、风险是什么”的结构整理。</p>
+          <p>每个专题都按统一结构整理：适合谁、怎么领、容易失败在哪里、有哪些风险提醒。</p>
         </div>
       </div>
 
-      {guideGroups.map(({ category, guides }) => (
-        <div class="category-block pro-category-block" id={category.slug} data-category-block>
-          <div class="section-head category-head">
-            <div>
-              <h2><span class="section-icon">{category.icon}</span>{category.name}</h2>
-              <p>{category.description}</p>
+      <div class="category-stack">
+        {guideGroups.map(({ category, guides }) => (
+          <section class="category-surface" id={category.slug} data-category-block>
+            <div class="category-surface-head">
+              <div>
+                <h2><span class="section-icon">{category.icon}</span>{category.name}</h2>
+                <p>{category.description}</p>
+              </div>
+              <span class="category-count">{guides.length} 篇教程</span>
             </div>
-            <span class="category-count">{guides.length} 篇</span>
-          </div>
 
-          <div class="guide-grid pro-guide-grid">
-            {guides.map((guide) => <GuideCard guide={guide} />)}
-          </div>
-        </div>
-      ))}
+            <div class="guide-grid home-guide-grid">
+              {guides.map((guide) => <GuideCard guide={guide} />)}
+            </div>
+          </section>
+        ))}
+      </div>
 
       <div class="empty-state" data-empty-state>
         没有找到匹配的优惠。可以尝试搜索「教育邮箱」「JetBrains」「GitHub」「Claude」「云服务」或「赠金」。
@@ -229,8 +261,22 @@ const trustRules = [
       if (emptyState) emptyState.style.display = visibleCount ? 'none' : 'block';
     }
 
-    if (searchInput) searchInput.addEventListener('input', (event) => applySearch(event.target.value));
-    if (searchSubmit) searchSubmit.addEventListener('click', scrollToResults);
+    if (searchInput) {
+      searchInput.addEventListener('input', (event) => applySearch(event.target.value));
+      searchInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          applySearch(event.target.value);
+          scrollToResults();
+        }
+      });
+    }
+
+    if (searchSubmit) {
+      searchSubmit.addEventListener('click', () => {
+        applySearch(searchInput?.value || '');
+        scrollToResults();
+      });
+    }
 
     presetButtons.forEach((button) => {
       button.addEventListener('click', (event) => {
