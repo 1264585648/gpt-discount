@@ -1,0 +1,36 @@
+---
+import type { Guide } from '../data/guides';
+
+interface Props {
+  guide: Guide;
+}
+
+const { guide } = Astro.props;
+---
+
+<aside class="sidebar" aria-label="优惠信息侧栏">
+  <section class="sidebar-card">
+    <h2>优惠信息</h2>
+    <div class="deal-box">
+      <div class="deal-line"><span>当前状态</span><strong>{guide.status}</strong></div>
+      <div class="deal-line"><span>优惠类型</span><strong>{guide.dealType}</strong></div>
+      <div class="deal-line"><span>原价</span><strong>{guide.originalPrice}</strong></div>
+      <div class="deal-line"><span>优惠价</span><strong>{guide.dealPrice}</strong></div>
+      <div class="deal-line"><span>适用地区</span><strong>{guide.region}</strong></div>
+      <div class="deal-line"><span>最后验证</span><strong>{guide.lastVerified}</strong></div>
+    </div>
+    <div class="coupon-box">
+      <code id="coupon-code">{guide.couponCode}</code>
+      <button class="copy-btn" type="button" data-copy="#coupon-code">复制</button>
+    </div>
+    <a class="btn btn-primary" href="#steps">打开领取入口</a>
+  </section>
+
+  <section class="sidebar-card toc">
+    <h3>文章目录</h3>
+    <a href="#overview">优惠概览</a>
+    <a href="#prepare">领取前准备</a>
+    <a href="#steps">详细操作步骤</a>
+    <a href="#faq">常见失败原因</a>
+  </section>
+</aside>
