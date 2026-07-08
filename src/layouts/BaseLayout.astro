@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/pro-layout.css';
+import '../styles/site-focused.css';
 
 interface Props {
   title: string;
@@ -30,9 +31,9 @@ const { title, description, navMode = 'home' } = Astro.props;
 
         {navMode === 'home' ? (
           <div class="nav-links" aria-label="分类快捷入口">
-            <a href="/#ai-tools">AI 工具</a>
-            <a href="/#edu-ai-discounts">教育邮箱</a>
-            <a href="/#common-software">常用软件</a>
+            <a href="/#ai-tools">AI 工具优惠</a>
+            <a href="/#edu-ai-discounts">教育学生包</a>
+            <a href="/#common-software">软件优惠</a>
             <a href="/#cloud-credit">云服务赠金</a>
           </div>
         ) : (
@@ -47,13 +48,13 @@ const { title, description, navMode = 'home' } = Astro.props;
         <div class="nav-actions">
           {navMode === 'home' ? (
             <>
-              <a class="btn btn-ghost" href="#latest">浏览教程</a>
-              <a class="btn btn-primary" href="#edu-ai-discounts">教育专题</a>
+              <a class="btn btn-ghost" href="#latest">最近更新</a>
+              <a class="btn btn-primary" href="#edu-ai-discounts">学生认证入口</a>
             </>
           ) : (
             <>
               <a class="btn btn-ghost" href="/">返回首页</a>
-              <a class="btn btn-primary" href="#steps">看步骤</a>
+              <a class="btn btn-primary" href="#steps">看领取步骤</a>
             </>
           )}
         </div>
@@ -64,8 +65,8 @@ const { title, description, navMode = 'home' } = Astro.props;
 
     <footer class="footer">
       <div class="shell footer-inner">
-        <span>© GPT Discount · 优惠获取教程分享站</span>
-        <span>Astro 静态输出，可直接部署到 Cloudflare Pages。</span>
+        <span>© GPT Discount · AI 工具与软件优惠领取导航</span>
+        <span>只整理公开可复查的优惠入口，不收录黑卡、接码、共享号等高风险路径。</span>
       </div>
     </footer>
   </body>
