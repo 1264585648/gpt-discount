@@ -23,9 +23,9 @@ const { Content } = await render(guide.entry);
   title={`${guide.title}｜GPT Discount`}
   description={guide.summary}
 >
-  <main>
-    <section class="article-hero">
-      <div class="shell">
+  <main class="article-page">
+    <section class="article-hero pro-article-hero">
+      <div class="shell article-hero-shell">
         <div class="breadcrumb">
           <a href="/">首页</a>
           <span>/</span>
@@ -34,24 +34,32 @@ const { Content } = await render(guide.entry);
           <span>{guide.title}</span>
         </div>
 
-        <div class="article-title-card">
+        <div class="article-title-card pro-article-title-card">
           <div class="badges">
             <span class="badge brand">{guide.category}</span>
             <span class="badge success">{guide.status}</span>
-            <span class="badge warning">{guide.warning}</span>
+            <span class="badge">{guide.estimatedTime}</span>
           </div>
           <h1>{guide.title}</h1>
           <p class="article-lead">{guide.summary}</p>
+
+          <div class="article-quick-grid" aria-label="文章关键判断">
+            <div><span>适合人群</span><strong>{guide.audience}</strong></div>
+            <div><span>操作难度</span><strong>{guide.difficulty}</strong></div>
+            <div><span>优惠类型</span><strong>{guide.dealType}</strong></div>
+            <div><span>最后验证</span><strong>{guide.lastVerified}</strong></div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="shell article-layout">
-      <article class="article-main">
-        <section class="article-card" id="overview">
-          <h2>优惠概览</h2>
-          <p>这类优惠教程的重点不是简单给一个链接，而是把用户最关心的问题提前讲清楚：谁能领、要准备什么、在哪里输入优惠码、怎么确认折扣已经生效，以及失败后该怎么排查。</p>
-          <div class="info-grid">
+    <section class="shell article-layout pro-article-layout">
+      <article class="article-main pro-article-main">
+        <section class="article-card reading-card overview-card" id="overview">
+          <span class="section-step">01</span>
+          <h2>先判断：这篇值不值得操作</h2>
+          <p>先别急着点领取入口。优惠教程最重要的是确认自己是否符合条件：邮箱、地区、身份、套餐、付款方式和续费规则都要提前看清楚。</p>
+          <div class="info-grid pro-info-grid">
             <div class="info-tile"><span>优惠类型</span><strong>{guide.dealType}</strong></div>
             <div class="info-tile"><span>预计耗时</span><strong>{guide.estimatedTime}</strong></div>
             <div class="info-tile"><span>操作难度</span><strong>{guide.difficulty}</strong></div>
@@ -59,38 +67,45 @@ const { Content } = await render(guide.entry);
           </div>
         </section>
 
-        <section class="article-card" id="prepare">
+        <section class="article-card reading-card prepare-card" id="prepare">
+          <span class="section-step">02</span>
           <h2>领取前准备</h2>
-          <p>正式操作前，先确认下面几项。优惠教程站的可读性，核心就在于让用户开始前就知道自己是否满足条件。</p>
-          <ul>
+          <p>正式操作前，先把下面几项准备好。这样读者不会做到一半才发现缺材料、地区不支持或无法验证。</p>
+          <ul class="check-list">
             {guide.preparation.map((item) => <li>{item}</li>)}
           </ul>
-          <div class="callout">建议：真实文章里可以在这里放“领取成功截图”和“最终价格截图”，提升可信度。</div>
+          <div class="callout">建议上线时补充“最后验证截图”“领取成功截图”“最终价格截图”，让文章更可信。</div>
         </section>
 
-        <section class="article-card" id="steps">
+        <section class="article-card reading-card steps-card" id="steps">
+          <span class="section-step">03</span>
           <h2>详细操作步骤</h2>
-          <p>每一步都建议配截图。移动端阅读时，步骤卡片会自动变成单列，减少横向挤压。</p>
-          <div class="step-list">
+          <p>每一步都保留一个截图位和必要提示。移动端会变成单列卡片，方便用户边看边操作。</p>
+          <div class="step-list pro-step-list">
             {guide.steps.map((step, index) => <StepCard step={step} index={index} />)}
           </div>
         </section>
 
-        <section class="article-card" id="faq">
+        <section class="article-card reading-card faq-card" id="faq">
+          <span class="section-step">04</span>
           <h2>常见失败原因</h2>
-          {guide.faq.map((item) => (
-            <>
-              <h3>{item.question}</h3>
-              <p>{item.answer}</p>
-            </>
-          ))}
+          <div class="faq-list">
+            {guide.faq.map((item) => (
+              <details class="faq-item" open>
+                <summary>{item.question}</summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
         </section>
 
-        <section class="article-card markdown-content">
+        <section class="article-card reading-card markdown-content pro-markdown" id="article-body">
+          <span class="section-step">05</span>
           <Content />
         </section>
 
-        <section class="article-card">
+        <section class="article-card reading-card editor-note-card">
+          <span class="section-step">Note</span>
           <h2>编辑建议</h2>
           <p>{guide.editorNote}</p>
         </section>
