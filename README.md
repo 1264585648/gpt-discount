@@ -59,6 +59,7 @@ Cloudflare Pages
 ```txt
 /
 /guides/claude-pro-discount/
+/guides/grok-free-trial-email-sign-in/
 /guides/google-cloud-credit/
 /guides/edu-ai-discounts-hub/
 /guides/github-student-pack-copilot/
@@ -101,7 +102,7 @@ Cloudflare Pages
 - Canva Education / Campus
 - Figma Education / Figma Make / AI 工作流
 - Microsoft 365 学生权益 / Copilot
-- ChatGPT Plus、Claude Pro、Cursor、Midjourney、Perplexity 等避坑说明
+- ChatGPT Plus、Claude Pro、Grok、Cursor、Midjourney、Perplexity 等避坑说明
 
 ### 文章页
 
