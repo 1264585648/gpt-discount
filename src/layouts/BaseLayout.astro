@@ -99,6 +99,65 @@ const { title, description, navMode = 'home' } = Astro.props;
           fragment.append(source.slice(lastIndex));
           element.replaceChildren(fragment);
         });
+
+        const hero = document.querySelector('.hero-copy-panel');
+        const heroMeta = hero?.querySelector('.hero-meta');
+        const priceNode = heroMeta?.querySelector('span:first-child');
+
+        if (hero && heroMeta && priceNode) {
+          const price = priceNode.textContent?.trim() || '';
+          const pageTitle = hero.querySelector('h1')?.textContent || '';
+          const summary = hero.querySelector('.hero-summary')?.textContent || '';
+          const status = document.querySelector('.eligibility-status strong')?.textContent?.trim() || '';
+          const offerSource = `${pageTitle} ${summary} ${price}`.toLowerCase();
+
+          let offer = { kind: 'deal', label: '优惠', caption: '当前优惠' };
+
+          if (status.includes('已失效')) {
+            offer = { kind: 'expired', label: '已失效', caption: '历史优惠' };
+          } else if (status.includes('待验证')) {
+            offer = { kind: 'pending', label: '待验证', caption: '当前状态' };
+          } else if (/(免费试用|free trial|trial)/i.test(offerSource)) {
+            offer = { kind: 'trial', label: '免费试用', caption: '优惠方式' };
+          } else if (/(免费额度|赠金|credits?|云额度)/i.test(offerSource)) {
+            offer = { kind: 'credit', label: '免费额度', caption: '优惠方式' };
+          } else if (/(免费|零元|0\s*(元|美元|美金|usd|rmb))/i.test(offerSource)) {
+            offer = { kind: 'free', label: '免费', caption: '优惠方式' };
+          } else if (/(折扣|学生价|优惠价|首年|半价|减免|立减|优惠)/i.test(offerSource)) {
+            offer = { kind: 'discount', label: '折扣', caption: '优惠方式' };
+          }
+
+          const callout = document.createElement('div');
+          callout.className = `global-offer-highlight is-${offer.kind}`;
+          callout.setAttribute('aria-label', `${offer.label}：${price}`);
+
+          const badge = document.createElement('span');
+          badge.className = 'global-offer-badge';
+          badge.textContent = offer.label;
+
+          const copy = document.createElement('div');
+          const caption = document.createElement('small');
+          const value = document.createElement('strong');
+          caption.textContent = offer.caption;
+          value.textContent = price;
+          copy.append(caption, value);
+          callout.append(badge, copy);
+
+          heroMeta.before(callout);
+          priceNode.remove();
+
+          const applyLabel = status.includes('已失效')
+            ? '查看官方状态'
+            : status.includes('待验证')
+              ? '核验官方入口'
+              : '立即申请';
+
+          document.querySelectorAll('.primary-action, .mobile-apply-bar a').forEach((element) => {
+            const svg = element.querySelector('svg');
+            element.replaceChildren(document.createTextNode(applyLabel));
+            if (svg) element.append(svg);
+          });
+        }
       });
     </script>
   </body>
@@ -207,5 +266,94 @@ const { title, description, navMode = 'home' } = Astro.props;
 
   .step-copy small {
     line-height: 1.65;
+  }
+
+  .global-offer-highlight {
+    max-width: 760px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+    margin-top: 24px;
+    padding: 17px 18px;
+    border: 1px solid rgba(15, 159, 110, .24);
+    border-radius: 10px;
+    background: linear-gradient(135deg, #effcf6, #f8fffb);
+    box-shadow: 0 8px 22px rgba(15, 159, 110, .08);
+  }
+
+  .global-offer-badge {
+    min-width: 88px;
+    min-height: 48px;
+    display: grid;
+    place-items: center;
+    padding: 0 14px;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: .04em;
+    border-radius: 8px;
+    background: #0f9f6e;
+    box-shadow: 0 8px 18px rgba(15, 159, 110, .2);
+  }
+
+  .global-offer-highlight small,
+  .global-offer-highlight strong {
+    display: block;
+  }
+
+  .global-offer-highlight small {
+    color: #667085;
+    font-size: 12px;
+    font-weight: 750;
+  }
+
+  .global-offer-highlight strong {
+    margin-top: 3px;
+    color: #173a2c;
+    font-size: clamp(17px, 2vw, 21px);
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .global-offer-highlight.is-credit { border-color: #cbdcff; background: linear-gradient(135deg, #f2f7ff, #f8fbff); box-shadow: 0 8px 22px rgba(37, 99, 235, .08); }
+  .global-offer-highlight.is-credit .global-offer-badge { background: #2563eb; box-shadow-color: rgba(37, 99, 235, .2); }
+  .global-offer-highlight.is-credit strong { color: #173a73; }
+
+  .global-offer-highlight.is-discount { border-color: #ffd7ad; background: linear-gradient(135deg, #fff7ed, #fffdf9); box-shadow: 0 8px 22px rgba(233, 115, 12, .08); }
+  .global-offer-highlight.is-discount .global-offer-badge { background: #e9730c; box-shadow-color: rgba(233, 115, 12, .2); }
+  .global-offer-highlight.is-discount strong { color: #71350d; }
+
+  .global-offer-highlight.is-trial { border-color: #b9e8ef; background: linear-gradient(135deg, #effbfd, #f9feff); box-shadow: 0 8px 22px rgba(8, 145, 178, .08); }
+  .global-offer-highlight.is-trial .global-offer-badge { background: #0891b2; box-shadow-color: rgba(8, 145, 178, .2); }
+  .global-offer-highlight.is-trial strong { color: #155260; }
+
+  .global-offer-highlight.is-expired { border-color: #f0caca; background: linear-gradient(135deg, #fff5f5, #fffafa); box-shadow: 0 8px 22px rgba(196, 61, 61, .07); }
+  .global-offer-highlight.is-expired .global-offer-badge { background: #c43d3d; box-shadow-color: rgba(196, 61, 61, .2); }
+  .global-offer-highlight.is-expired strong { color: #7c2626; }
+
+  .global-offer-highlight.is-pending { border-color: #efdfb7; background: linear-gradient(135deg, #fffaf0, #fffdf8); box-shadow: 0 8px 22px rgba(183, 121, 0, .07); }
+  .global-offer-highlight.is-pending .global-offer-badge { background: #b77900; box-shadow-color: rgba(183, 121, 0, .2); }
+  .global-offer-highlight.is-pending strong { color: #6e4a00; }
+
+  .global-offer-highlight.is-deal { border-color: #d7d4ff; background: linear-gradient(135deg, #f6f5ff, #fbfaff); box-shadow: 0 8px 22px rgba(81, 71, 245, .07); }
+  .global-offer-highlight.is-deal .global-offer-badge { background: #5147f5; box-shadow-color: rgba(81, 71, 245, .2); }
+  .global-offer-highlight.is-deal strong { color: #3730a3; }
+
+  @media (max-width: 620px) {
+    .global-offer-highlight {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 18px;
+      padding: 14px;
+    }
+
+    .global-offer-badge {
+      width: fit-content;
+      min-width: 0;
+      min-height: 36px;
+      padding: 0 13px;
+      font-size: 14px;
+    }
   }
 </style>
