@@ -14,7 +14,7 @@ export async function getStaticPaths() {
 const { guide } = Astro.props;
 const requirements = guide.requirements.length
   ? guide.requirements
-  : guide.preparation.map((label) => ({ label, level: 'required' as const }));
+  : guide.preparation.map((label) => ({ label, level: 'required' as const, guide: undefined }));
 ---
 
 <BaseLayout
