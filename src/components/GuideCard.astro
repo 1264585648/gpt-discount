@@ -12,12 +12,13 @@ const { guide } = Astro.props;
   class="guide-card pro-guide-card"
   href={`/guides/${guide.slug}/`}
   data-guide-card
-  data-search-text={`${guide.title} ${guide.category} ${guide.summary} ${guide.audience} ${guide.dealType} ${guide.dealPrice} ${guide.difficulty} ${guide.region}`}
+  data-search-text={`${guide.title} ${guide.category} ${guide.summary} ${guide.audience} ${guide.dealType} ${guide.dealPrice} ${guide.difficulty} ${guide.region} ${guide.contentStatus}`}
 >
   <div class="card-top">
     <div class="badges">
       <span class="badge brand">{guide.category}</span>
       <span class="badge success">{guide.status}</span>
+      <span class={guide.contentStatus === '已完成' ? 'badge success' : 'badge warning'}>{guide.contentStatus}</span>
     </div>
     <span class="badge card-time">{guide.estimatedTime}</span>
   </div>
