@@ -1,73 +1,100 @@
 ---
-title: "Notion Education：学生邮箱免费升级 Plus 与 AI 响应"
+title: "Notion Education Plus 学生免费计划"
 category: "教育邮箱专题"
 categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "ai-tools"
   - "common-software"
-summary: "适合学生笔记、知识库、项目管理。重点写清楚教育 Plus 计划、学校邮箱要求、单人工作区限制和 AI 响应额度。"
+summary: "符合条件的高校学生和教师，可使用学校邮箱把单人 Notion 工作区免费升级为 Plus。教育计划包含 Plus 核心权益，但 Notion AI 目前仅提供有限试用，并非学生无限免费。"
 status: "可领取"
+contentStatus: "已完成"
 difficulty: "简单"
-estimatedTime: "5-10 分钟"
-audience: "学生 / 教师 / 学生组织"
-dealType: "教育计划 / 学生认证"
-lastVerified: "2026-07-08"
-originalPrice: "Notion Plus / Notion AI 以官方定价页为准"
-dealPrice: "教育 Plus 计划免费；AI 响应额度以账号页面为准"
+estimatedTime: "约 5–10 分钟"
+audience: "受认可高校的学生与教师"
+dealType: "教育邮箱 / 免费 Plus 计划"
+lastVerified: "2026-07-11"
+originalPrice: "Notion Plus 价格因地区和结算周期而异"
+dealPrice: "单人 Education Plus 免费"
 couponCode: "无需优惠码"
-region: "支持多地区学校邮箱，以 Notion 识别结果为准"
-warning: "Notion Education 通常要求使用学校邮箱、免费计划、单成员工作区。AI 响应不是无限量，具体额度以账号内提示为准。"
+region: "学校需被 WHED 收录，且学校邮箱域名需被 Notion 识别"
+warning: "免费教育计划只适用于单成员工作区。必须使用有效学校邮箱，Notion 当前不接受学生证或在读证明替代验证；Plus 计划仅包含 Notion AI 有限试用，不包含无限 AI。"
+officialUrl: "https://www.notion.com/help/notion-for-education"
+allBenefitsUrl: "https://www.notion.com/pricing"
+benefits:
+  - name: "Notion Plus"
+    value: "单人工作区免费"
+    type: "core"
+  - name: "文件上传"
+    value: "Plus 级无限上传"
+    type: "core"
+  - name: "页面历史"
+    value: "30 天"
+    type: "core"
+  - name: "访客协作"
+    value: "最多 100 位访客"
+    type: "core"
+  - name: "Notion AI"
+    value: "仅有限试用"
+    type: "limited"
+requirements:
+  - label: "受认可学院或大学的学生或教师"
+    level: "required"
+  - label: "学校被 World Higher Education Database 收录"
+    level: "required"
+  - label: "Notion 账号已绑定并主要使用有效学校邮箱"
+    level: "required"
+  - label: "目标工作区当前为 Free Plan，且只有 1 名成员"
+    level: "required"
+  - label: "使用网页版或桌面端操作，不能从手机端升级"
+    level: "required"
+verification:
+  label: "Notion Education"
+  guide: "/verification/#education-email"
 preparation:
-  - "一个可接收验证码的学校邮箱。"
-  - "确认当前 Notion 工作区是否只有一个成员。多人工作区可能不符合免费教育计划条件。"
-  - "确认账号当前处于 Free Plan，而不是已经在其他付费或团队计划中。"
-  - "如果学校邮箱不被识别，准备好学校官网、邮箱域名或学生证明材料作为排查依据。"
+  - "一个能正常收取验证码的学校官方邮箱"
+  - "确认学校属于受认可的高等教育机构"
+  - "确认目标工作区为 Free Plan"
+  - "移除除自己以外的工作区成员；需要协作的人可以后续作为访客邀请"
 steps:
-  - title: "使用学校邮箱登录 Notion"
-    description: "建议直接用学校邮箱注册或登录 Notion，减少后续切换邮箱导致的验证失败。"
-    imageLabel: "Notion 登录 / 账号邮箱截图"
-  - title: "进入升级或教育计划入口"
-    description: "在设置里找到 Upgrade plan、Education plan 或学生优惠入口，按页面提示验证学校邮箱。"
-    note: "不同版本界面位置可能不同，文章里应配最新截图。"
-    imageLabel: "Settings / Upgrade plan 截图"
-  - title: "确认 Plus 权益已生效"
-    description: "验证通过后，回到工作区设置或账单页，确认计划已经变为 Education / Plus。"
-    imageLabel: "Plan / Billing 页面截图"
-  - title: "检查 AI 响应提示"
-    description: "在 Notion AI 入口或 GitHub Student Pack 权益说明里确认可用 AI 响应数量，不要写成永久无限。"
-    imageLabel: "Notion AI 响应额度截图"
-  - title: "学生组织单独申请"
-    description: "如果是学生社团、课程小组或学生组织，按 Notion 教育页面申请学生组织计划，不要混用个人教育计划。"
-    imageLabel: "Student organizations 申请入口截图"
+  - title: "确认学校和身份符合条件"
+    description: "个人教育 Plus 面向受认可学院或大学的学生和教师。K-12 学生和教师不符合该计划；学校还需要被 World Higher Education Database 收录。"
+    note: "官方资格说明：[[Notion for education|https://www.notion.com/help/notion-for-education]] · [[查询 WHED|https://www.whed.net/]]"
+  - title: "把学校邮箱绑定到 Notion 账号"
+    description: "打开 Settings，进入个人账号设置，在 Account security 下选择 Manage emails，添加学校邮箱并完成验证码验证，再把学校邮箱设为主要邮箱。一个 Notion 账号目前可以绑定多个邮箱，因此通常不需要新建账号。"
+    note: "官方邮箱设置：[[Account settings & preferences|https://www.notion.com/help/account-settings]]"
+  - title: "把工作区调整为 Free Plan 和单成员"
+    description: "教育升级入口只会出现在 Free Plan。正在付费的工作区需要先在 Settings → Billing → Change plan 中降级，并等待降级正式生效；同时移除其他 workspace owners 和 members，只保留自己一名成员。访客不计为工作区成员，可在升级后按页面权限邀请。"
+    note: "官方排查：[[无法升级 Education Plus 的处理方法|https://www.notion.com/help/cant-upgrade-to-the-plus-plan-for-education]]"
+  - title: "在网页或桌面端领取 Education Plus"
+    description: "使用 Notion 网页版或桌面端打开目标工作区，进入 Settings → Upgrade plan，向下找到 Get free education plan。点击后由系统识别学校邮箱；识别成功会自动把该工作区升级为免费的 Education Plus。"
+    note: "官方步骤：[[Notion Education Plus 领取说明|https://www.notion.com/help/notion-for-education]]"
+  - title: "检查 Plus 权益是否生效"
+    description: "回到 Settings 和 Billing 页面，确认计划已显示为 Education 或 Plus，并检查文件上传、页面历史和访客数量等权益。个人教育计划仍限制工作区只有一名 member，但可以邀请最多 100 位 guests 访问指定页面。"
+    note: "权益对比：[[Notion 当前计划与功能|https://www.notion.com/pricing]]"
+  - title: "学校邮箱未识别时处理"
+    description: "如果满足条件但看不到 Get free education plan，先确认学校邮箱已经验证并设为主要邮箱、工作区已经完全降级到 Free、其他成员已经移除。仍失败时，按照官方说明联系 Notion 支持，请求核对学校域名。Notion 当前不接受学生证、在读证明或其他文件替代学校邮箱。"
+    note: "官方说明：[[教育计划常见问题|https://www.notion.com/help/notion-for-education]]"
+  - title: "单独判断 Notion AI 权益"
+    description: "Education Plus 等同于 Plus 的主要工作区权益。Notion 当前定价页显示 Free 和 Plus 仅提供 Notion AI 的有限试用；更完整的 Notion Agent、AI Meeting Notes 和 Enterprise Search 等能力主要属于 Business 或更高计划。不要把学生 Plus 写成无限 AI 免费。"
+    note: "AI 权益以当前定价页为准：[[Notion Pricing|https://www.notion.com/pricing]]"
+  - title: "学生组织使用单独申请入口"
+    description: "学校社团和志愿学生组织不要使用个人单成员计划硬塞成员。符合条件的学生组织可以单独申请免费的多成员 Plus 工作区；组织需要受到学校认可，成员通常应使用同一学校域名，且每个组织只会批准一份申请。"
+    note: "学生组织入口：[[Notion for Education|https://www.notion.com/product/notion-for-education]]"
 faq:
-  - question: "用 Gmail 注册的 Notion 能不能改成学校邮箱？"
-    answer: "可以尝试在账号设置里更换邮箱，但更稳妥的写法是先用学校邮箱注册或登录，再申请教育计划。"
-  - question: "为什么我的工作区不能免费升级？"
-    answer: "常见原因是工作区里有多个成员、学校邮箱不被识别、账号不在 Free Plan，或学校不在认可名单里。"
-  - question: "Notion AI 是不是免费无限用？"
-    answer: "不是。教育计划与 AI 响应额度要分开写，具体数量和是否可用以 Notion 页面显示为准。"
-editorNote: "这篇适合作为教育邮箱专题里的低门槛文章。标题不要只写 Notion 免费，要突出 AI 响应和知识库使用场景。"
+  - question: "Gmail 注册的 Notion 可以改用学校邮箱领取吗？"
+    answer: "可以。进入 Settings → 个人账号 → Manage emails，添加并验证学校邮箱，再将其设为主要邮箱。学校邮箱如果已绑定其他 Notion 账号，需要先处理那个账号的邮箱占用。"
+  - question: "可以上传学生证或在读证明申请吗？"
+    answer: "不可以。Notion 当前明确要求有效学校邮箱，不接受学生证或其他文件作为替代验证。"
+  - question: "为什么没有 Get free education plan？"
+    answer: "最常见原因是账号未把学校邮箱设为主要邮箱、工作区仍处于付费计划、工作区存在其他成员、使用手机端操作，或学校及其邮箱域名未被 Notion 识别。"
+  - question: "个人教育计划可以添加同学为成员吗？"
+    answer: "不可以。个人 Education Plus 只能有一名 member，但可以把同学作为 guest 邀请到指定页面。需要完整多成员工作区的学生社团，应申请学生组织计划。"
+  - question: "Notion AI 对学生无限免费吗？"
+    answer: "不是。当前 Plus 和教育 Plus 仅包含有限的 Notion AI 试用。具体剩余额度和可用功能应以工作区内提示以及 Notion 当前定价页为准。"
+  - question: "K-12 学生或教师可以领取吗？"
+    answer: "个人 Education Plus 当前面向受认可学院和大学的学生、教师；Notion 官方明确列出 K-12 学生和教师不符合该教育 Plus 计划，但仍可使用普通 Free Plan。"
+  - question: "毕业后教育计划会立刻消失吗？"
+    answer: "Notion 官方说明，只要免费 Education Plus 仍与教育邮箱关联，就可以继续使用。学校邮箱可能被学校停用，因此应定期检查账号邮箱和工作区计划状态，并提前导出重要资料。"
+editorNote: "只宣传免费的 Education Plus，不把 Notion AI 有限试用包装成学生无限 AI 权益。"
 order: 17
 ---
-
-## 为什么值得写
-
-Notion Education 是教育邮箱专题里比较稳定、门槛较低的一类。它适合学生笔记、课程资料整理、个人知识库、学生组织协作，也能顺带覆盖 Notion AI 的轻量使用场景。
-
-## 写作重点
-
-不要把它写成“所有学生都能免费用 Notion AI”。更准确的写法是：教育身份通过后，可以获得 Notion 教育 Plus 计划；部分渠道或权益页会提供额外 AI 响应，具体以账号内显示为准。
-
-## 适合配图的位置
-
-- 学校邮箱登录页
-- Settings / Upgrade plan 入口
-- Education plan 验证页面
-- Plan 生效截图
-- Notion AI 响应额度提示
-
-## 官方来源
-
-- Notion for education：https://www.notion.com/help/notion-for-education
-- Notion Education：https://www.notion.com/product/notion-for-education
-- GitHub Student Developer Pack Notion 权益：https://education.github.com/pack
