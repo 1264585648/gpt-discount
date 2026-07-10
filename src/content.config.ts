@@ -32,6 +32,7 @@ const guides = defineCollection({
     couponCode: z.string(),
     region: z.string(),
     warning: z.string(),
+    officialUrl: z.string().url().optional(),
     preparation: z.array(z.string()),
     steps: z.array(guideStepSchema),
     faq: z.array(guideFaqSchema),
