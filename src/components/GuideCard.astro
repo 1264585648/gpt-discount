@@ -6,6 +6,21 @@ interface Props {
 }
 
 const { guide } = Astro.props;
+const offerSource = `${guide.title} ${guide.summary} ${guide.dealType} ${guide.dealPrice}`.toLowerCase();
+
+const offer = guide.status === '已失效'
+  ? { kind: 'expired', label: '已失效', caption: '当前状态' }
+  : guide.status === '待验证'
+    ? { kind: 'pending', label: '待验证', caption: '当前状态' }
+    : /(免费试用|free trial|trial)/i.test(offerSource)
+      ? { kind: 'trial', label: '免费试用', caption: '优惠方式' }
+      : /(免费额度|赠金|credits?|云额度)/i.test(offerSource)
+        ? { kind: 'credit', label: '免费额度', caption: '优惠方式' }
+        : /(免费|零元|0\s*(元|美元|美金|usd|rmb))/i.test(offerSource)
+          ? { kind: 'free', label: '免费', caption: '优惠方式' }
+          : /(折扣|学生价|优惠价|首年|半价|减免|立减|优惠)/i.test(offerSource)
+            ? { kind: 'discount', label: '折扣', caption: '优惠方式' }
+            : { kind: 'deal', label: '优惠', caption: '优惠方式' };
 ---
 
 <a
@@ -16,6 +31,7 @@ const { guide } = Astro.props;
 >
   <div class="card-top">
     <div class="badges">
+      <span class={`offer-badge is-${offer.kind}`}>{offer.label}</span>
       <span class="badge brand">{guide.category}</span>
       <span class="badge success">{guide.status}</span>
       <span class={guide.contentStatus === '已完成' ? 'badge success' : 'badge warning'}>{guide.contentStatus}</span>
@@ -28,10 +44,18 @@ const { guide } = Astro.props;
     <p>{guide.summary}</p>
   </div>
 
+  <div class={`offer-summary is-${offer.kind}`} aria-label={`${offer.label}：${guide.dealPrice}`}>
+    <span class="offer-summary-label">{offer.label}</span>
+    <div>
+      <small>{offer.caption}</small>
+      <strong>{guide.dealPrice}</strong>
+    </div>
+  </div>
+
   <div class="meta-row compact-meta-row" aria-label="优惠关键信息">
     <div class="meta-item">
-      <span>优惠价</span>
-      <strong>{guide.dealPrice}</strong>
+      <span>优惠类型</span>
+      <strong>{guide.dealType}</strong>
     </div>
     <div class="meta-item">
       <span>适合人群</span>
@@ -48,3 +72,105 @@ const { guide } = Astro.props;
     <span class="text-link">查看领取步骤 →</span>
   </div>
 </a>
+
+<style>
+  .offer-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 11px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: .04em;
+    border-radius: 999px;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, .12);
+  }
+
+  .offer-summary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 14px;
+    align-items: center;
+    margin-top: 18px;
+    padding: 14px 16px;
+    border: 1px solid rgba(15, 159, 110, .2);
+    border-radius: 18px;
+    background: #effcf6;
+  }
+
+  .offer-summary-label {
+    min-width: 68px;
+    min-height: 42px;
+    display: grid;
+    place-items: center;
+    padding: 0 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 900;
+    border-radius: 12px;
+    background: #0f9f6e;
+  }
+
+  .offer-summary small,
+  .offer-summary strong {
+    display: block;
+  }
+
+  .offer-summary small {
+    color: #667085;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .offer-summary strong {
+    margin-top: 2px;
+    color: #173a2c;
+    font-size: 15px;
+    line-height: 1.35;
+    overflow-wrap: anywhere;
+  }
+
+  .offer-badge.is-free,
+  .offer-summary.is-free .offer-summary-label { background: #0f9f6e; }
+  .offer-badge.is-credit,
+  .offer-summary.is-credit .offer-summary-label { background: #2563eb; }
+  .offer-badge.is-discount,
+  .offer-summary.is-discount .offer-summary-label { background: #e9730c; }
+  .offer-badge.is-trial,
+  .offer-summary.is-trial .offer-summary-label { background: #0891b2; }
+  .offer-badge.is-expired,
+  .offer-summary.is-expired .offer-summary-label { background: #c43d3d; }
+  .offer-badge.is-pending,
+  .offer-summary.is-pending .offer-summary-label { background: #b77900; }
+  .offer-badge.is-deal,
+  .offer-summary.is-deal .offer-summary-label { background: #5147f5; }
+
+  .offer-summary.is-credit { border-color: #cbdcff; background: #f2f7ff; }
+  .offer-summary.is-credit strong { color: #173a73; }
+  .offer-summary.is-discount { border-color: #ffd7ad; background: #fff8ef; }
+  .offer-summary.is-discount strong { color: #71350d; }
+  .offer-summary.is-trial { border-color: #b9e8ef; background: #f0fbfd; }
+  .offer-summary.is-trial strong { color: #155260; }
+  .offer-summary.is-expired { border-color: #f0caca; background: #fff5f5; }
+  .offer-summary.is-expired strong { color: #7c2626; }
+  .offer-summary.is-pending { border-color: #efdfb7; background: #fffaf0; }
+  .offer-summary.is-pending strong { color: #6e4a00; }
+  .offer-summary.is-deal { border-color: #d7d4ff; background: #f6f5ff; }
+  .offer-summary.is-deal strong { color: #3730a3; }
+
+  @media (max-width: 560px) {
+    .offer-summary {
+      grid-template-columns: 1fr;
+      gap: 9px;
+    }
+
+    .offer-summary-label {
+      width: fit-content;
+      min-width: 0;
+      min-height: 32px;
+      padding: 0 12px;
+    }
+  }
+</style>
