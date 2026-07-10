@@ -18,50 +18,68 @@ const icon = (name:string) => ({
 }[name] || '');
 
 const routes = [
-  {icon:'graduation', cls:'purple', title:'学生与教育优惠', desc:'GitHub、JetBrains、Notion', href:'#edu-ai-discounts'},
-  {icon:'spark', cls:'violet', title:'AI 工具订阅', desc:'ChatGPT、Claude、Cursor', href:'#ai-tools'},
-  {icon:'grid', cls:'orange', title:'常用软件低价', desc:'设计、办公、效率工具', href:'#common-software'},
-  {icon:'cloud', cls:'green', title:'云服务赠金', desc:'Google Cloud、VPS', href:'#cloud-credit'}
+  {icon:'graduation', cls:'purple', title:'学生与教育优惠', desc:'GitHub、JetBrains、Notion', detail:'学生身份与教育邮箱路径', href:'#edu-ai-discounts'},
+  {icon:'spark', cls:'violet', title:'AI 工具订阅', desc:'ChatGPT、Claude、Cursor', detail:'订阅前先判断资格和地区', href:'#ai-tools'},
+  {icon:'grid', cls:'orange', title:'常用软件低价', desc:'设计、办公、效率工具', detail:'长期续费前比较方案', href:'#common-software'},
+  {icon:'cloud', cls:'green', title:'云服务赠金', desc:'Google Cloud、VPS', detail:'重点确认账单和防扣费', href:'#cloud-credit'}
 ];
 ---
 <BaseLayout title="GPT Discount｜AI 工具与软件优惠领取导航" description="按身份和目标查找 AI 工具、学生教育优惠、软件折扣和云服务赠金。">
   <main class="mobile-home">
-    <section class="hero-card">
-      <div class="hero-art" aria-hidden="true">
-        <svg viewBox="0 0 220 160"><path d="M36 58c19 0 35-15 35-34h79c0 19 16 34 35 34v44c-19 0-35 15-35 34H71c0-19-16-34-35-34Z"/><circle cx="111" cy="80" r="25"/><path d="m100 81 8 8 16-19"/><path d="M66 59v43" stroke-dasharray="5 8"/></svg>
+    <section class="hero-layout">
+      <div class="hero-card">
+        <div class="hero-art" aria-hidden="true">
+          <svg viewBox="0 0 220 160"><path d="M36 58c19 0 35-15 35-34h79c0 19 16 34 35 34v44c-19 0-35 15-35 34H71c0-19-16-34-35-34Z"/><circle cx="111" cy="80" r="25"/><path d="m100 81 8 8 16-19"/><path d="M66 59v43" stroke-dasharray="5 8"/></svg>
+        </div>
+        <span class="hero-pill">公开入口 · 可复查路径<span class="desktop-only"> · 先判断再操作</span></span>
+        <h1>先确认能不能领，<span>再去拿优惠</span></h1>
+        <p>按身份和目标找到适合你的优惠，先看资格、地区<span class="desktop-only">、付款方式</span>和续费规则，再按步骤领取。</p>
+        <div class="search-box" role="search">
+          <svg viewBox="0 0 24 24" set:html={icon('search')} />
+          <input data-search type="search" placeholder="搜索 ChatGPT、Claude、学生包……" aria-label="搜索优惠" />
+          <button type="button" data-search-submit aria-label="提交搜索"><svg viewBox="0 0 24 24" set:html={icon('search')} /><span>搜索优惠</span></button>
+        </div>
+        <div class="hot-tags" aria-label="热门搜索">
+          {['教育邮箱','GitHub 学生包','ChatGPT','Claude','云服务赠金'].map((item)=><button data-search-preset={item}>{item}</button>)}
+        </div>
+        <div class="trust-strip mobile-only">
+          <div><strong>4</strong><span>类优惠</span></div>
+          <div><strong>{allGuides.length}</strong><span>篇教程</span></div>
+          <div><strong>公开可核验</strong></div>
+        </div>
       </div>
-      <span class="hero-pill">公开入口 · 可复查路径</span>
-      <h1>先确认能不能领，<span>再去拿优惠</span></h1>
-      <p>按身份和目标找到适合你的优惠，先看资格、地区和续费规则，再按步骤领取。</p>
-      <div class="search-box" role="search">
-        <svg viewBox="0 0 24 24" set:html={icon('search')} />
-        <input data-search type="search" placeholder="搜索 ChatGPT、Claude、学生包……" aria-label="搜索优惠" />
-        <button type="button" data-search-submit aria-label="提交搜索"><svg viewBox="0 0 24 24" set:html={icon('search')} /></button>
-      </div>
-      <div class="hot-tags" aria-label="热门搜索">
-        {['教育邮箱','GitHub 学生包','ChatGPT','Claude','云服务赠金'].map((item)=><button data-search-preset={item}>{item}</button>)}
-      </div>
-      <div class="trust-strip">
-        <div><strong>4</strong><span>类优惠</span></div>
-        <div><strong>{allGuides.length}</strong><span>篇教程</span></div>
-        <div><strong>公开可核验</strong></div>
-      </div>
+
+      <aside class="desktop-quick" aria-label="快速开始">
+        <span class="quick-label">快速开始</span>
+        <h2>3 步找到适合你的优惠</h2>
+        <p>先找路线，再看资格，最后按步骤领取。</p>
+        <div class="quick-steps">
+          <div><b>01</b><span><strong>先选路线</strong><small>先按身份和目标进入对应专题</small></span></div>
+          <div><b>02</b><span><strong>再看资格</strong><small>重点看邮箱、地区和付款方式</small></span></div>
+          <div><b>03</b><span><strong>最后看步骤</strong><small>符合条件后再操作并查看排查</small></span></div>
+        </div>
+      </aside>
     </section>
 
     <section class="route-section">
-      <h2>从你的需求开始</h2>
-      <p>选择最接近你的身份或目标</p>
+      <h2><span class="mobile-only">从你的需求开始</span><span class="desktop-only">从这 4 条路线开始</span></h2>
+      <p><span class="mobile-only">选择最接近你的身份或目标</span><span class="desktop-only">如果你不知道先看什么，就从最接近自己需求的一条路线进入。</span></p>
       <div class="route-grid">
         {routes.map((r)=><a class="route-card" href={r.href}>
           <span class={`route-icon ${r.cls}`}><svg viewBox="0 0 24 24" set:html={icon(r.icon)} /></span>
-          <span class="route-copy"><strong>{r.title}</strong><small>{r.desc}</small></span>
+          <span class="route-copy"><strong>{r.title}</strong><small>{r.desc}</small><em class="desktop-only">{r.detail}</em></span>
           <span class="route-arrow">›</span>
         </a>)}
+      </div>
+      <div class="principle-strip desktop-only" aria-label="领取原则">
+        <div><strong>先看资格</strong><span>邮箱、地区、身份和付款方式先确认清楚</span></div>
+        <div><strong>再看验证</strong><span>优先参考最后验证时间与公开成功条件</span></div>
+        <div><strong>最后再操作</strong><span>确认值得领取后再按步骤执行并查看排查</span></div>
       </div>
     </section>
 
     <section class="verified-section" id="latest">
-      <div class="section-heading"><h2>最近核验</h2><a href="#all-guides">查看全部 <span>›</span></a></div>
+      <div class="section-heading"><div><h2><span class="mobile-only">最近核验</span><span class="desktop-only">最近值得先看的优惠</span></h2><p class="desktop-only">优先查看需求高、资格复杂或容易踩坑的内容。</p></div><a href="#all-guides">查看全部 <span>›</span></a></div>
       <div class="verified-list">
         {latestGuides.map((g, index)=><a class={`verified-card ${index===1?'partial':''}`} href={`/guides/${g.slug}/`} data-guide-card data-search-text={`${g.title} ${g.summary} ${g.audience} ${g.category}`}>
           <div class={`brand-mark ${g.slug.includes('github')?'github':'jetbrains'}`}>{g.slug.includes('github')?'GH':'JB'}</div>
