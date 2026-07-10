@@ -1,219 +1,81 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import GuideCard from '../components/GuideCard.astro';
 import { categories, getGuides, guideMatchesCategory } from '../data/guides';
-import '../styles/home-mobile.css';
+import '../styles/home-desktop.css';
 
 const allGuides = await getGuides();
-const guideGroups = categories.map((category) => ({
-  category,
-  guides: allGuides.filter((guide) => guideMatchesCategory(guide, category.slug)),
-}));
-
-const preferredLatest = [
-  'github-student-pack-copilot',
-  'jetbrains-idea-student-pack',
-];
-const latestGuides = preferredLatest
-  .map((slug) => allGuides.find((guide) => guide.slug === slug))
-  .filter(Boolean);
-
-const routeCards = [
-  {
-    title: '学生与教育优惠',
-    summary: 'GitHub、JetBrains、Notion',
-    href: '#edu-ai-discounts',
-    tone: 'purple',
-    icon: 'graduation',
-  },
-  {
-    title: 'AI 工具订阅',
-    summary: 'ChatGPT、Claude、Cursor',
-    href: '#ai-tools',
-    tone: 'blue',
-    icon: 'spark',
-  },
-  {
-    title: '常用软件低价',
-    summary: '设计、办公、效率工具',
-    href: '#common-software',
-    tone: 'orange',
-    icon: 'toolbox',
-  },
-  {
-    title: '云服务赠金',
-    summary: 'Google Cloud、VPS',
-    href: '#cloud-credit',
-    tone: 'green',
-    icon: 'cloud',
-  },
-];
-
-const iconPaths = {
-  graduation: '<path d="m3 10 9-5 9 5-9 5-9-5Z"/><path d="M7 12v5c3.2 2.2 6.8 2.2 10 0v-5"/><path d="M21 10v6"/>',
-  spark: '<path d="m12 3 2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2L12 3Z"/><path d="m19 3 .7 2.3L22 6l-2.3.7L19 9l-.7-2.3L16 6l2.3-.7L19 3Z"/>',
-  toolbox: '<rect x="3" y="8" width="18" height="11" rx="2"/><path d="M8 8V5h8v3M3 13h18M10 13v2h4v-2"/>',
-  cloud: '<path d="M17.5 19H7a5 5 0 1 1 1-9.9A6.5 6.5 0 0 1 20.3 12"/><circle cx="18" cy="17" r="4"/><path d="M18 14.8v4.4M16.7 16.1h2.1c.8 0 .8 1.2 0 1.2h-1.6c-.8 0-.8 1.2 0 1.2h2.1"/>',
+const guideGroups = categories.map((category) => ({ category, guides: allGuides.filter((guide) => guideMatchesCategory(guide, category.slug)).slice(0, 2) }));
+const latestSlugs = ['github-student-pack-copilot','jetbrains-idea-student-pack','claude-pro-discount','google-cloud-credit'];
+const latestGuides = latestSlugs.map((slug) => allGuides.find((guide) => guide.slug === slug)).filter(Boolean);
+const studentCount = allGuides.filter((guide) => /学生|教育|邮箱/.test(`${guide.title} ${guide.category} ${guide.audience}`)).length;
+const icons = {
+  graduation:'<path d="m3 10 9-5 9 5-9 5-9-5Z"/><path d="M7 12v5c3.2 2.2 6.8 2.2 10 0v-5"/><path d="M21 10v6"/>',
+  spark:'<path d="m12 3 2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2L12 3Z"/><path d="m19 3 .7 2.3L22 6l-2.3.7L19 9l-.7-2.3L16 6l2.3-.7L19 3Z"/>',
+  grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  cloud:'<path d="M17.5 19H7a5 5 0 1 1 1-9.9A6.5 6.5 0 0 1 20.3 12"/><circle cx="18" cy="17" r="4"/><path d="M18 14.8v4.4M16.7 16.1h2.1c.8 0 .8 1.2 0 1.2h-1.6c-.8 0-.8 1.2 0 1.2h2.1"/>',
+  shield:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/>',
+  file:'<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6M8 13h8M8 17h6"/>',
+  check:'<rect x="3" y="3" width="18" height="18" rx="4"/><path d="m8 12 2.5 2.5L16 9"/>'
 };
+const routes = [
+  {icon:'graduation', tag:'学生最常用', tone:'green', title:'教育邮箱 / 学生认证', desc:'如果你有学校邮箱或学生身份，优先从这里开始。', examples:'JetBrains · GitHub Student Pack · Notion', href:'#edu-ai-discounts'},
+  {icon:'spark', tag:'订阅前先看', tone:'orange', title:'AI 工具订阅优惠', desc:'适合想低价订阅 ChatGPT、Claude、Cursor、Perplexity 的用户。', examples:'ChatGPT · Claude · Cursor · Perplexity', href:'#ai-tools'},
+  {icon:'grid', tag:'长期续费前比价', tone:'blue', title:'常用软件低价方案', desc:'适合设计、办公和效率软件的长期使用者。', examples:'1Password · Notion · 设计办公软件', href:'#common-software'},
+  {icon:'cloud', tag:'防扣费重点看', tone:'orange', title:'云服务赠金 / 免费额度', desc:'适合领取 Google Cloud、Oracle Cloud 或 VPS 免费额度。', examples:'Google Cloud · Oracle Cloud · VPS', href:'#cloud-credit'}
+];
+const principles = [
+  {icon:'shield',title:'先看资格',desc:'邮箱、地区、身份、付款方式和自动续费规则先看清。'},
+  {icon:'file',title:'再看验证',desc:'优先保留最后验证时间、成功条件和失败原因，不靠传闻判断。'},
+  {icon:'check',title:'最后再操作',desc:'确认值得领以后再按步骤做，避免做到一半才发现不符合条件。'}
+];
 ---
-
-<BaseLayout
-  title="GPT Discount｜AI 工具与软件优惠领取导航"
-  description="按身份和目标查找 AI 工具、学生教育优惠、软件折扣和云服务赠金。先判断资格，再看领取步骤、风险提醒和失败排查。"
->
-  <main class="home-mobile">
-    <section class="shell mobile-hero" aria-labelledby="hero-title">
-      <div class="hero-art" aria-hidden="true">
-        <span class="hero-ticket"></span>
-        <span class="hero-check"></span>
-        <span class="hero-spark one"></span>
-        <span class="hero-spark two"></span>
+<BaseLayout title="GPT Discount｜AI 工具与软件优惠领取导航" description="按身份和目标查找 AI 工具、学生教育优惠、软件折扣和云服务赠金。先判断资格，再看领取步骤、风险提醒和失败排查。">
+  <main class="desktop-home">
+    <section class="shell hero-grid">
+      <div class="hero-card">
+        <span class="eyebrow">公开入口 · 可复查路径 · 先判断再操作</span>
+        <h1>先确认能不能领，<span>再去拿优惠</span></h1>
+        <p>按身份和目标找到适合你的优惠，先看资格、地区、付款方式和续费规则，再按步骤领取。</p>
+        <div class="search-box" role="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+          <input data-search type="search" placeholder="搜索 ChatGPT、Claude、JetBrains、GitHub 学生包、Google Cloud……" />
+          <button data-search-submit type="button">搜索优惠</button>
+        </div>
+        <div class="hot-tags">{['教育邮箱','GitHub 学生包','ChatGPT','Claude','云服务赠金'].map((item)=><button data-search-preset={item}>{item}</button>)}</div>
+        <div class="category-jumps"><a href="#ai-tools">AI 工具优惠</a><a href="#edu-ai-discounts">教育学生包</a><a href="#common-software">常用软件优惠</a><a href="#cloud-credit">云服务 / 免费额度</a><a href="#latest">最近更新</a></div>
       </div>
-
-      <div class="hero-inner">
-        <span class="hero-eyebrow">公开入口 · 可复查路径</span>
-        <h1 id="hero-title">先确认能不能领，<span>再去拿优惠</span></h1>
-        <p class="hero-copy">按身份和目标找到适合你的优惠，先看资格、地区和续费规则，再按步骤领取。</p>
-
-        <div class="hero-search" role="search">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-          <input data-search type="search" placeholder="搜索 ChatGPT、Claude、学生包……" aria-label="搜索优惠教程" />
-          <button type="button" data-search-submit aria-label="搜索">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-          </button>
+      <aside class="quick-card">
+        <span class="quick-label">快速开始</span>
+        <h2>3 步找到适合你的优惠</h2>
+        <p>先找路线，再看资格，最后按步骤领取。</p>
+        <div class="steps">
+          {[['01','先选路线','先按你的身份和目标进入对应专题，不用一上来通读全站。'],['02','再看资格','重点看邮箱、地区、身份、付款方式和自动续费。'],['03','最后看步骤','确认符合条件后再操作，遇到问题直接查看失败排查。']].map(([n,t,d])=><div class="step"><b>{n}</b><span><strong>{t}</strong><small>{d}</small></span></div>)}
         </div>
-
-        <div class="hot-scroll" aria-label="热门搜索">
-          {['教育邮箱','GitHub 学生包','ChatGPT','Claude','云服务赠金'].map((item) => (
-            <button type="button" data-search-preset={item}>{item}</button>
-          ))}
-        </div>
-
-        <div class="hero-trust" aria-label="可信数据">
-          <div><strong>{categories.length}</strong><span>类优惠</span></div>
-          <div><strong>{allGuides.length}</strong><span>篇教程</span></div>
-          <div><strong>公开</strong><span>可核验</span></div>
-        </div>
-      </div>
+        <div class="quick-stats"><div><strong>{categories.length}</strong><span>类优惠</span></div><div><strong>{allGuides.length}</strong><span>篇教程</span></div><div><strong>{studentCount}</strong><span>篇学生相关</span></div><div><strong>公开</strong><span>可核验</span></div></div>
+      </aside>
     </section>
 
-    <section class="shell home-section" aria-labelledby="route-title">
-      <div class="section-heading">
-        <div>
-          <h2 id="route-title">从你的需求开始</h2>
-          <p>选择最接近你的身份或目标</p>
-        </div>
-      </div>
-
-      <div class="route-grid">
-        {routeCards.map((route) => (
-          <a class={`route-card tone-${route.tone}`} href={route.href}>
-            <span class="route-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" set:html={iconPaths[route.icon]} />
-            </span>
-            <h3>{route.title}</h3>
-            <p>{route.summary}</p>
-            <span class="route-arrow" aria-hidden="true">›</span>
-          </a>
-        ))}
-      </div>
+    <section class="shell section-block">
+      <div class="section-head"><div><h2>从这 4 条路线开始</h2><p>如果你不知道先看什么，就从最接近自己需求的一条路线进入。</p></div></div>
+      <div class="route-grid">{routes.map((r)=><a class="route-card" href={r.href}><div class="route-top"><span class="line-icon"><svg viewBox="0 0 24 24" set:html={icons[r.icon]} /></span><span class={`mini-tag ${r.tone}`}>{r.tag}</span></div><h3>{r.title}</h3><p>{r.desc}</p><small>{r.examples}</small><b>进入专题 →</b></a>)}</div>
+      <div class="principles">{principles.map((p)=><div><span class="line-icon"><svg viewBox="0 0 24 24" set:html={icons[p.icon]} /></span><span><strong>{p.title}</strong><small>{p.desc}</small></span></div>)}</div>
     </section>
 
-    <section class="shell home-section" id="latest" aria-labelledby="latest-title">
-      <div class="section-heading">
-        <div><h2 id="latest-title">最近核验</h2></div>
-        <a class="section-link" href="#all-guides">查看全部 →</a>
-      </div>
-
-      <div class="verified-list">
-        {latestGuides.map((guide) => (
-          <a class="verified-card" href={`/guides/${guide.slug}/`} data-guide-card data-search-text={`${guide.title} ${guide.summary} ${guide.audience} ${guide.category}`}>
-            <span class={`brand-badge ${guide.slug.includes('jetbrains') ? 'jetbrains' : ''}`}>
-              {guide.slug.includes('jetbrains') ? <span>JET<br/>BRAINS</span> : <span>GH</span>}
-            </span>
-            <span class="verified-main">
-              <span class="verified-top">
-                <span class="status-pill">{guide.status}</span>
-                <span class="time-hint">预计 {guide.estimatedTime}</span>
-              </span>
-              <h3>{guide.title}</h3>
-              <span class="verified-meta">
-                <span class="price">{guide.dealPrice}</span>
-                <span class="audience">适合：{guide.audience}</span>
-                <span class="verified-date">{guide.lastVerified} 验证</span>
-              </span>
-            </span>
-            <span class="enter-button" aria-hidden="true">→</span>
-          </a>
-        ))}
-      </div>
+    <section class="shell section-block" id="latest">
+      <div class="section-head"><div><h2>最近值得先看的优惠</h2><p>这些内容更适合优先浏览：要么用户需求高，要么最容易因为资格、地区、付款或验证方式踩坑。</p></div><a href="#all-guides">查看全部 →</a></div>
+      <div class="deal-grid">{latestGuides.map((g)=><a class="deal-card" href={`/guides/${g.slug}/`} data-guide-card data-search-text={`${g.title} ${g.summary} ${g.audience} ${g.category}`}><div class="deal-tags"><span>{g.category}</span><span class={g.status.includes('可')?'ok':'warn'}>{g.status}</span><small>{g.estimatedTime}</small></div><h3>{g.title}</h3><p>{g.summary}</p><dl><div><dt>优惠价</dt><dd>{g.dealPrice}</dd></div><div><dt>适合人群</dt><dd>{g.audience}</dd></div><div><dt>最后验证</dt><dd>{g.lastVerified}</dd></div></dl><footer><span>先看资格与风险</span><b>查看领取步骤 →</b></footer></a>)}</div>
     </section>
 
-    <section class="shell all-content" id="all-guides">
-      <div class="section-heading">
-        <div>
-          <h2>继续浏览全部优惠</h2>
-          <p>每篇教程都包含资格判断、领取步骤、风险提醒和失败排查。</p>
-        </div>
-      </div>
-
-      <div class="category-stack">
-        {guideGroups.map(({ category, guides }) => (
-          <section class="category-surface" id={category.slug} data-category-block>
-            <div class="category-surface-head">
-              <div>
-                <h2>{category.name}</h2>
-                <p>{category.description}</p>
-              </div>
-              <span class="category-count">{guides.length} 篇教程</span>
-            </div>
-            <div class="home-guide-grid">
-              {guides.map((guide) => <GuideCard guide={guide} />)}
-            </div>
-          </section>
-        ))}
-      </div>
-
+    <section class="shell section-block" id="all-guides">
+      <div class="section-head"><div><h2>按优惠类型继续找</h2><p>每个专题都按统一结构整理：适合谁、怎么领、容易失败在哪里、有哪些风险提醒。</p></div></div>
+      <div class="category-grid">{guideGroups.map(({category,guides},i)=><section class="category-card" id={category.slug} data-category-block><header><span class="line-icon"><svg viewBox="0 0 24 24" set:html={icons[['spark','graduation','grid','cloud'][i] || 'grid']} /></span><div><h3>{category.name}</h3><p>{category.description}</p></div><b>{allGuides.filter((g)=>guideMatchesCategory(g,category.slug)).length} 篇教程</b></header><div class="mini-guide-list">{guides.map((g)=><a href={`/guides/${g.slug}/`} data-guide-card data-search-text={`${g.title} ${g.summary} ${g.audience} ${g.category}`}><span><strong>{g.title}</strong><small>{g.summary}</small></span><b>查看步骤 →</b></a>)}</div></section>)}</div>
       <div class="empty-state" data-empty-state>没有找到匹配的优惠，可以尝试搜索「教育邮箱」「GitHub」「Claude」或「云服务」。</div>
     </section>
   </main>
-
   <script is:inline>
-    const searchInput = document.querySelector('[data-search]');
-    const searchSubmit = document.querySelector('[data-search-submit]');
-    const guideCards = Array.from(document.querySelectorAll('[data-guide-card]'));
-    const categoryBlocks = Array.from(document.querySelectorAll('[data-category-block]'));
-    const emptyState = document.querySelector('[data-empty-state]');
-    const presets = Array.from(document.querySelectorAll('[data-search-preset]'));
-    const normalize = (text) => (text || '').toLowerCase().trim();
-
-    function applySearch(value) {
-      const keyword = normalize(value);
-      let visible = 0;
-      guideCards.forEach((card) => {
-        const matched = !keyword || normalize(card.dataset.searchText || card.textContent).includes(keyword);
-        card.style.display = matched ? '' : 'none';
-        if (matched) visible += 1;
-      });
-      categoryBlocks.forEach((block) => {
-        const shown = Array.from(block.querySelectorAll('[data-guide-card]')).some((card) => card.style.display !== 'none');
-        block.style.display = shown ? '' : 'none';
-      });
-      if (emptyState) emptyState.style.display = visible ? 'none' : 'block';
-    }
-
-    function submitSearch() {
-      applySearch(searchInput?.value || '');
-      document.querySelector('#all-guides')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    searchInput?.addEventListener('input', (event) => applySearch(event.target.value));
-    searchInput?.addEventListener('keydown', (event) => event.key === 'Enter' && submitSearch());
-    searchSubmit?.addEventListener('click', submitSearch);
-    presets.forEach((button) => button.addEventListener('click', () => {
-      if (!searchInput) return;
-      searchInput.value = button.dataset.searchPreset || '';
-      submitSearch();
-    }));
+    const input=document.querySelector('[data-search]'); const cards=[...document.querySelectorAll('[data-guide-card]')]; const blocks=[...document.querySelectorAll('[data-category-block]')]; const empty=document.querySelector('[data-empty-state]');
+    const apply=(v='')=>{const k=v.toLowerCase().trim();let n=0;cards.forEach(c=>{const ok=!k||(c.dataset.searchText||c.textContent).toLowerCase().includes(k);c.style.display=ok?'':'none';if(ok)n++});blocks.forEach(b=>b.style.display=[...b.querySelectorAll('[data-guide-card]')].some(c=>c.style.display!=='none')?'':'none');if(empty)empty.style.display=n?'none':'block'};
+    const submit=()=>{apply(input?.value||'');document.querySelector('#all-guides')?.scrollIntoView({behavior:'smooth'})};
+    input?.addEventListener('input',e=>apply(e.target.value)); input?.addEventListener('keydown',e=>e.key==='Enter'&&submit()); document.querySelector('[data-search-submit]')?.addEventListener('click',submit); document.querySelectorAll('[data-search-preset]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.searchPreset;submit()}));
   </script>
 </BaseLayout>
