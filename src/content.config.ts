@@ -21,6 +21,7 @@ const guides = defineCollection({
     relatedCategorySlugs: z.array(z.string()).optional(),
     summary: z.string(),
     status: z.enum(['可领取', '待验证', '已失效']),
+    contentStatus: z.enum(['已完成', '待完善']).default('待完善'),
     difficulty: z.string(),
     estimatedTime: z.string(),
     audience: z.string(),
