@@ -5,7 +5,7 @@ categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "ai-tools"
   - "cloud-credit"
-summary: "GitHub Education 学生认证与权益领取步骤。"
+summary: "学生认证通过后，可领取 GitHub Pro 和 Student Developer Pack 权益。"
 status: "可领取"
 contentStatus: "已完成"
 difficulty: "中等"
