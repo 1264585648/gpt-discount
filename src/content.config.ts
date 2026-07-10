@@ -12,6 +12,23 @@ const guideFaqSchema = z.object({
   answer: z.string(),
 });
 
+const guideBenefitSchema = z.object({
+  name: z.string(),
+  value: z.string(),
+  type: z.enum(['core', 'limited']).default('core'),
+});
+
+const guideRequirementSchema = z.object({
+  label: z.string(),
+  level: z.enum(['required', 'recommended']).default('required'),
+  guide: z.string().optional(),
+});
+
+const guideVerificationSchema = z.object({
+  label: z.string(),
+  guide: z.string(),
+});
+
 const guides = defineCollection({
   type: 'content',
   schema: z.object({
@@ -33,6 +50,10 @@ const guides = defineCollection({
     region: z.string(),
     warning: z.string(),
     officialUrl: z.string().url().optional(),
+    allBenefitsUrl: z.string().url().optional(),
+    benefits: z.array(guideBenefitSchema).default([]),
+    requirements: z.array(guideRequirementSchema).default([]),
+    verification: guideVerificationSchema.optional(),
     preparation: z.array(z.string()),
     steps: z.array(guideStepSchema),
     faq: z.array(guideFaqSchema),
