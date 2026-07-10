@@ -1,118 +1,101 @@
 ---
-title: "JetBrains IDEA 全家桶学生授权领取教程"
+title: "JetBrains 学生授权"
 category: "教育邮箱专题"
 categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "ai-tools"
   - "common-software"
-summary: "教育邮箱最实用的开发工具优惠之一。本文讲清楚 JetBrains 学生授权、IDEA Ultimate、PyCharm、WebStorm、GoLand、Rider、DataGrip 等全家桶怎么申请、怎么激活，以及 AI 功能不要误写成默认包含。"
+summary: "通过学校邮箱、ISIC/ITIC 或 GitHub Student Developer Pack 完成教育身份验证后，可免费使用 IntelliJ IDEA Ultimate、PyCharm、WebStorm、Rider 等 JetBrains IDE 和 .NET 工具。"
 status: "可领取"
-difficulty: "中等"
-estimatedTime: "10-20 分钟"
-audience: "学生开发者 / Java、Python、前端、Go、C#、数据库学习者"
-dealType: "教育授权 / 开发工具全家桶"
-lastVerified: "2026-07-08"
-originalPrice: "JetBrains All Products Pack / 单 IDE 价格以官方定价页为准"
-dealPrice: "学生和教师教育授权通常免费，最终以 JetBrains Account 许可证页为准"
+contentStatus: "已完成"
+difficulty: "简单"
+estimatedTime: "约 5–15 分钟"
+audience: "符合条件的在读学生与教师"
+dealType: "学生认证 / 教育授权"
+lastVerified: "2026-07-11"
+originalPrice: "单个产品或 All Products Pack 价格以 JetBrains 官方定价页为准"
+dealPrice: "教育授权免费，有效期 1 年"
 couponCode: "无需优惠码"
-region: "多地区可申请，需通过 JetBrains 学生/教师身份验证"
-warning: "JetBrains 教育授权只能用于学习、教学、学术和非商业用途。不要购买二手教育邮箱，不要把教育授权用于企业商业开发；AI Assistant、Junie 等 AI 权益是否包含要以账号内显示为准。"
+region: "支持 JetBrains 教育认证的地区和学校"
+warning: "教育授权只能用于非商业的学习、教学和学术用途，不能用于公司、实习、兼职或自由职业项目；免费教育版 All Products Pack 不包含 JetBrains AI Pro。"
+officialUrl: "https://www.jetbrains.com/shop/eform/students"
+allBenefitsUrl: "https://www.jetbrains.com/academy/student-pack/"
+benefits:
+  - name: "IntelliJ IDEA Ultimate"
+    value: "教育授权免费"
+    type: "core"
+  - name: "PyCharm Professional"
+    value: "教育授权免费"
+    type: "core"
+  - name: "WebStorm / GoLand / CLion"
+    value: "教育授权免费"
+    type: "core"
+  - name: "Rider / ReSharper"
+    value: "教育授权免费"
+    type: "core"
+  - name: "其他 JetBrains IDE 与 .NET 工具"
+    value: "教育授权内可用"
+    type: "core"
+  - name: "毕业生优惠"
+    value: "教育授权到期后 2 年内购买个人年订阅减 40%"
+    type: "limited"
+requirements:
+  - label: "在受认可的高中、学院或大学就读，或为该机构教师"
+    level: "required"
+  - label: "学生所读全日制课程通常需要至少 1 年才能完成"
+    level: "required"
+  - label: "学校邮箱、ISIC/ITIC 或已通过认证的 GitHub Student Developer Pack 三选一"
+    level: "required"
+  - label: "本人 JetBrains Account"
+    level: "required"
+verification:
+  label: "JetBrains Education"
+  guide: "/verification/#education-email"
 preparation:
-  - "一个 JetBrains Account。建议使用常用邮箱注册，再在申请时绑定学校邮箱。"
-  - "一个可正常收验证码的学校邮箱。"
-  - "学生证、在读证明、课程表、录取通知或学校系统截图，方便邮箱无法自动验证时人工审核。"
-  - "确认自己申请的是个人教育授权，不是学校/机构批量授权。"
-  - "安装 JetBrains Toolbox App，方便统一安装 IDEA、PyCharm、WebStorm、GoLand、Rider、CLion、DataGrip 等 IDE。"
+  - "本人 JetBrains Account；没有账号可在申请过程中创建"
+  - "优先准备已通过认证的 GitHub Student Developer Pack"
+  - "或准备学校官方邮箱、有效的 ISIC/ITIC 会员信息"
+  - "确认申请和激活时使用的是同一个 JetBrains Account"
 steps:
-  - title: "进入 JetBrains 学生授权入口"
-    description: "打开 JetBrains Student Pack / Education 页面，选择学生或教师申请入口。页面可能会跳转到 Products for Learning 或 JetBrains Account 申请表。"
-    note: "建议教程里同时放官方教育页和申请表入口，避免用户只看到宣传页找不到申请按钮。"
-    imageLabel: "JetBrains Student Pack / Education 入口截图"
-  - title: "登录或创建 JetBrains Account"
-    description: "使用 JetBrains Account 登录。如果没有账号，先创建账号并完成邮箱验证。"
-    imageLabel: "JetBrains Account 登录 / 注册截图"
-  - title: "选择通过学校邮箱验证"
-    description: "在申请表里填写学校邮箱、学校名称、所在国家或地区等信息，优先尝试学校邮箱自动验证。"
-    note: "如果学校邮箱不是 .edu，也可以尝试申请；关键是 JetBrains 是否认可学校和材料。"
-    imageLabel: "学生申请表 / 学校邮箱验证截图"
-  - title: "邮箱不可用时提交证明材料"
-    description: "如果邮箱无法自动通过，按页面提示上传学生证、在读证明或学校系统截图。材料最好能显示姓名、学校、当前学年或有效日期。"
-    imageLabel: "证明材料上传截图"
-  - title: "查看许可证是否到账"
-    description: "审核通过后进入 JetBrains Account 的 Licenses 页面，确认是否出现 Educational Pack / All Products Pack 相关许可证，并记录有效期。"
-    imageLabel: "JetBrains Account Licenses 页面截图"
-  - title: "安装 Toolbox 并激活 IDEA 全家桶"
-    description: "下载安装 JetBrains Toolbox App，在里面安装 IntelliJ IDEA Ultimate、PyCharm Professional、WebStorm、GoLand、Rider、CLion、DataGrip、DataSpell、PhpStorm 等需要的 IDE。打开 IDE 后用同一个 JetBrains Account 登录激活。"
-    imageLabel: "Toolbox App / IDE 激活截图"
-  - title: "单独核对 AI Assistant 和 Junie"
-    description: "进入 IDE 的 AI Assistant、Junie 或 JetBrains AI 入口，查看当前账号是否有可用额度、试用或订阅提示。不要把教育授权默认写成 AI Pro 免费。"
-    note: "这一步是 AI 优惠站的关键：IDE 免费和 AI 权益要分开写。"
-    imageLabel: "JetBrains AI / Junie 账号权益截图"
+  - title: "确认自己符合教育授权条件"
+    description: "学生需要在受认可的高中、学院或大学就读，所读全日制教育项目通常需要至少 1 年才能完成；教师也可以申请。在线短课、普通训练营或自学身份不等同于合格的学校在读身份。"
+    note: "官方资格说明：[[谁可以申请免费个人教育授权|https://sales.jetbrains.com/hc/en-gb/articles/11557849416594-Who-is-eligible-for-free-individual-educational-licenses]]"
+  - title: "打开学生申请表并登录 JetBrains Account"
+    description: "进入 JetBrains Products for Learning 申请表，点击登录或创建 JetBrains Account。后续许可证会绑定到这个账号，建议使用长期保留的个人邮箱作为账号主邮箱。"
+    note: "申请入口：[[JetBrains 学生授权申请表|https://www.jetbrains.com/shop/eform/students]]"
+  - title: "选择身份验证方式"
+    description: "申请表支持三种主要方式：学校官方邮箱、ISIC/ITIC 会员信息，或 GitHub Student Developer Pack。你已经完成 GitHub 学生包时，优先选择 Authorize with GitHub，并登录已通过 GitHub Education 认证的同一个 GitHub 账号授权。"
+    note: "官方申请方式：[[如何申请免费教育授权|https://sales.jetbrains.com/hc/en-gb/articles/11558649766674-How-do-I-apply-for-a-free-educational-license]]"
+  - title: "完成授权并确认申请结果"
+    description: "按页面要求验证学校邮箱、填写 ISIC/ITIC 信息，或完成 GitHub 授权。提交后留意页面提示和 JetBrains 邮件；学校邮箱域名不被识别时，可向 JetBrains 使用的 swot 学校域名库提交学校域名，或改用 GitHub Student Developer Pack、ISIC/ITIC。"
+    note: "学校邮箱不被接受：[[官方处理说明|https://sales.jetbrains.com/hc/en-gb/articles/11559296363282-My-institutional-email-address-is-not-accepted-Can-I-still-apply]]"
+  - title: "在 JetBrains Account 检查许可证"
+    description: "申请成功后打开 JetBrains Account 的 Licenses 页面，确认出现有效的 Educational Pack 或学生教育许可证，并查看到期日期。如果页面显示没有许可证，先检查申请时使用的邮箱或 GitHub 授权是否绑定到了当前 JetBrains Account。"
+    note: "许可证页面：[[JetBrains Account Licenses|https://account.jetbrains.com/licenses]] · [[账号里看不到许可证的排查|https://sales.jetbrains.com/hc/en-gb/articles/11564793692050-My-account-page-states-that-I-don-t-have-a-license-available-What-could-be-wrong]]"
+  - title: "安装 Toolbox 和需要的 IDE"
+    description: "下载安装 JetBrains Toolbox App，再安装 IntelliJ IDEA、PyCharm、WebStorm、GoLand、Rider、CLion、DataGrip 等工具。首次启动 IDE 时选择使用 JetBrains Account 登录，并用刚才获得教育授权的同一个账号激活。"
+    note: "官方激活说明：[[如何激活教育许可证|https://sales.jetbrains.com/hc/en-gb/articles/11564724723474-How-do-I-activate-my-license-and-start-using-the-software]] · [[下载 Toolbox App|https://www.jetbrains.com/toolbox-app/]]"
+  - title: "记录到期时间并按年续期"
+    description: "教育授权有效期为 1 年，不提供永久回退许可证。仍符合全日制学生或教师条件时，可以在 JetBrains Account 中使用续期入口；JetBrains 通常会在到期前约 2 周发送提醒邮件。"
+    note: "续期说明：[[如何续期教育授权|https://sales.jetbrains.com/hc/en-gb/articles/11564534574994-How-can-I-renew-my-free-educational-license-for-another-year]]"
+  - title: "单独检查 JetBrains AI 权益"
+    description: "免费学生教育授权包含 IDE 和 .NET 工具，但不包含 JetBrains AI Pro。需要 AI Assistant 或 Junie 时，在 IDE 的 AI Chat 或 JetBrains AI 设置中查看当前可用计划；部分受支持的 IDE、版本和地区可能提供 AI Free，但其额度和地区限制以账号实际显示为准。"
+    note: "AI 说明：[[教育授权不包含 AI Pro|https://sales.jetbrains.com/hc/en-gb/articles/16544922728466-Is-JetBrains-AI-subscription-included-in-All-Products-Pack-or-dotUltimate]] · [[JetBrains AI 计划和额度|https://www.jetbrains.com/help/ai-assistant/licensing-and-subscriptions.html]]"
 faq:
-  - question: "JetBrains 学生授权是不是 IDEA 全家桶免费？"
-    answer: "通常学生/教师教育授权可以免费使用 JetBrains 专业 IDE。具体包含哪些产品、有效期和是否需要续期，以 JetBrains Account 的许可证页为准。"
-  - question: "教育邮箱激活后能在公司里用吗？"
-    answer: "不建议，也不要写成可以。教育授权应只用于学习、教学、学术和非商业用途；公司商业项目应使用个人商业授权或企业授权。"
-  - question: "JetBrains AI Assistant 也免费吗？"
-    answer: "不一定。IDE 教育授权和 JetBrains AI / Junie 权益需要分开核对。文章里应写成：进入账号或 IDE 内查看是否有 AI 额度、试用或订阅。"
-  - question: "学校邮箱不是 .edu 可以申请吗？"
-    answer: "可以尝试。国内高校、国际学校或其他地区学校邮箱不一定是 .edu，关键看 JetBrains 是否能识别学校，或你是否能提交有效证明材料。"
-  - question: "毕业后还能用吗？"
-    answer: "通常需要仍符合教育资格才能续期。毕业后可以关注 JetBrains 对毕业生的续费折扣，但不要继续用已不符合条件的教育授权。"
-editorNote: "这篇适合放在教育邮箱专题靠前位置。它是开发者最刚需的学生优惠之一，但一定要把“可免费用 IDE”和“不能商用 / AI 功能另算”写清楚。"
+  - question: "我已经完成 GitHub 学生包，还需要学校邮箱吗？"
+    answer: "通常不需要。进入 JetBrains 学生申请表后选择 Authorize with GitHub，使用已经获得 GitHub Student Developer Pack 的账号授权即可；最终仍以申请页面返回的验证结果为准。"
+  - question: "可以只上传学生证或在读证明申请吗？"
+    answer: "不可以。JetBrains 官方说明，自 2024 年 7 月起不再接受仅凭学校官方文件申请；当前应使用学校官方邮箱、ISIC/ITIC 或 GitHub Student Developer Pack。"
+  - question: "教育授权可以用于实习、兼职或公司的项目吗？"
+    answer: "不可以。免费教育授权仅限非商业教育用途。公司项目应由雇主购买商业订阅，自由职业或个人商业项目应购买可用于商业开发的个人订阅。"
+  - question: "JetBrains AI Assistant 或 Junie 也免费吗？"
+    answer: "教育版 All Products Pack 不包含 AI Pro。部分 IDE、版本和服务地区可能提供额度较小的 AI Free，但不要把它写成学生专属 AI Pro 免费，具体以 IDE 和 JetBrains Account 显示为准。"
+  - question: "学校邮箱不是 .edu 能申请吗？"
+    answer: "可以尝试，关键是学校域名是否被 JetBrains 识别，而不是必须以 .edu 结尾。域名未被接受时，可提交到 JetBrains 使用的 swot 学校域名库，或改用 GitHub Student Developer Pack、ISIC/ITIC。"
+  - question: "可以在多台电脑上使用吗？"
+    answer: "可以。官方允许同一教育许可证在多台电脑上使用，但账号和许可证只能由本人使用；在共享电脑上不要让其他人接触你的许可证信息。"
+  - question: "毕业后还有优惠吗？"
+    answer: "有。教育授权到期后的 2 年内，使用同一个 JetBrains Account 购买单个 JetBrains 产品或 All Products Pack 的 1 年个人订阅，可获得 40% 的毕业生优惠，是否自动显示以结算页为准。"
+editorNote: "只使用本人真实教育身份申请；不要购买、共享或出租学校邮箱和教育许可证。"
 order: 18
 ---
-
-## 为什么值得单独写
-
-JetBrains 学生授权是教育邮箱里最实用的一类：它不是一个单独的 IDEA 优惠，而是覆盖 Java、Python、前端、Go、C#、C/C++、数据库、数据科学等多个方向的开发工具组合。
-
-适合重点提到的产品：
-
-- IntelliJ IDEA Ultimate：Java、Kotlin、Spring、后端开发。
-- PyCharm Professional：Python、Django、数据分析。
-- WebStorm：前端、JavaScript、TypeScript、React、Vue。
-- GoLand：Go 语言开发。
-- Rider：C#、.NET、Unity 开发。
-- CLion：C/C++、CMake。
-- DataGrip：数据库和 SQL。
-- DataSpell：数据科学、Notebook。
-- PhpStorm、RubyMine、RustRover 等其他 IDE。
-
-## 教程重点
-
-这篇文章要把申请和激活拆开写：
-
-1. 申请教育授权。
-2. 等待审核。
-3. 在 JetBrains Account 查看许可证。
-4. 用 Toolbox 安装 IDE。
-5. 在 IDE 里登录账号激活。
-6. 单独检查 JetBrains AI / Junie 是否可用。
-
-## 失败原因
-
-- 学校邮箱不能收验证码。
-- 学校域名无法被自动识别。
-- 上传材料不清晰，没有显示当前在读状态。
-- 使用了二手或共享教育邮箱，导致风控。
-- JetBrains Account 登录邮箱和申请邮箱混乱。
-- 把教育授权用于企业项目，违反授权用途。
-
-## 发布前建议补截图
-
-- JetBrains Student Pack 首页
-- Products for Learning / Students 申请页
-- 学校邮箱验证页
-- 材料上传页
-- JetBrains Account Licenses 页
-- Toolbox 安装页
-- IDEA Ultimate 登录激活页
-- AI Assistant / Junie 权益检查页
-
-## 官方入口
-
-- JetBrains Student Pack：https://www.jetbrains.com/academy/student-pack/
-- JetBrains 学生申请表：https://www.jetbrains.com/shop/eform/students
-- JetBrains Account 许可证页：https://account.jetbrains.com/licenses
-- JetBrains AI：https://www.jetbrains.com/ai/
