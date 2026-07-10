@@ -38,6 +38,7 @@ const { Content } = await render(guide.entry);
           <div class="badges">
             <span class="badge brand">{guide.category}</span>
             <span class="badge success">{guide.status}</span>
+            <span class={guide.contentStatus === '已完成' ? 'badge success' : 'badge warning'}>{guide.contentStatus}</span>
             <span class="badge">{guide.estimatedTime}</span>
           </div>
           <h1>{guide.title}</h1>
