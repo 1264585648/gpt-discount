@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { verificationItems } from '../../data/verification';
+
+const materials = verificationItems.filter((item) => item.type === 'material');
+const platforms = verificationItems.filter((item) => item.type === 'platform');
+---
+
+<BaseLayout
+  navMode="article"
+  title="学生认证指南｜GPT Discount"
+  description="教育邮箱、在读证明和常见学生认证平台的准备清单。"
+>
+  <main class="verification-page">
+    <div class="shell verification-shell">
+      <a class="back" href="/">← 返回</a>
+
+      <header>
+        <h1>学生认证指南</h1>
+        <p>先准备资料，再按优惠页面显示的认证方式操作。</p>
+      </header>
+
+      <section>
+        <h2>先准备</h2>
+        <div class="guide-grid material-grid">
+          {materials.map((item) => (
+            <article id={item.slug} class="guide-card">
+              <h3>{item.name}</h3>
+              <p>{item.summary}</p>
+              <ul>
+                {item.items.map((text) => <li>{text}</li>)}
+              </ul>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <h2>认证方式</h2>
+        <div class="guide-grid platform-grid">
+          {platforms.map((item) => (
+            <article id={item.slug} class="guide-card">
+              <div class="card-head">
+                <h3>{item.name}</h3>
+                {item.officialUrl && (
+                  <a href={item.officialUrl} target="_blank" rel="noreferrer">官方入口 →</a>
+                )}
+              </div>
+              <p>{item.summary}</p>
+              <ol>
+                {item.items.map((text) => <li>{text}</li>)}
+              </ol>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <style>
+    .verification-page { padding: 18px 0 42px; }
+    .verification-shell { max-width: 1040px; }
+    .back { display: inline-block; margin-bottom: 12px; color: var(--muted); font-size: 13px; }
+    header { padding: 20px 22px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,.95); box-shadow: 0 8px 22px rgba(15,23,42,.05); }
+    h1 { margin: 0; font-size: clamp(30px, 4.6vw, 46px); line-height: 1.05; letter-spacing: -.055em; }
+    header p { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+    section { margin-top: 18px; }
+    section > h2 { margin: 0 0 10px; font-size: 20px; letter-spacing: -.035em; }
+    .guide-grid { display: grid; gap: 10px; }
+    .material-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .platform-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .guide-card { scroll-margin-top: 90px; padding: 15px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.95); box-shadow: 0 8px 20px rgba(15,23,42,.04); }
+    .guide-card:target { border-color: rgba(79,70,229,.45); box-shadow: 0 0 0 3px rgba(79,70,229,.1); }
+    .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .guide-card h3 { margin: 0; font-size: 16px; }
+    .card-head a { color: var(--brand); font-size: 12px; font-weight: 750; white-space: nowrap; }
+    .guide-card p { margin: 6px 0 10px; color: var(--muted); font-size: 12px; line-height: 1.45; }
+    .guide-card ul, .guide-card ol { margin: 0; padding-left: 20px; color: #344054; font-size: 12px; line-height: 1.55; }
+    .guide-card li + li { margin-top: 4px; }
+    @media (max-width: 820px) { .platform-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) { .material-grid, .platform-grid { grid-template-columns: 1fr; } }
+  </style>
+</BaseLayout>
