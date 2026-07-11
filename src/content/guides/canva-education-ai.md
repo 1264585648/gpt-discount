@@ -1,77 +1,109 @@
 ---
-title: "Canva Education / Campus：学生设计、绘图和视频 AI"
+title: "Canva Education：K-12 免费，高校需 Campus"
 category: "教育邮箱专题"
 categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "ai-tools"
   - "common-software"
-summary: "Canva 适合做海报、演示、短视频和 AI 图片。本文写清楚 K-12 教育版、高校 Campus、学生个人账号之间的区别。"
-status: "待验证"
+summary: "符合条件的 K-12 教师、学生和学校可免费使用 Canva Education，获得大部分高级设计、课堂协作和教育 AI 功能；大学生不能只凭学校邮箱领取 Canva Pro，需由学校开通 Canva for Campus。"
+status: "可领取"
+contentStatus: "已完成"
 difficulty: "简单"
-estimatedTime: "5-15 分钟"
-audience: "学生 / 教师 / 学校团队 / 需要做演示和视频的人"
-dealType: "教育授权 / 校园计划"
-lastVerified: "2026-07-08"
-originalPrice: "Canva Pro / Teams 以官方地区定价为准"
-dealPrice: "学生可免费使用 Canva Free；Pro 或高级权益取决于学校是否开通教育或 Campus 计划"
+estimatedTime: "约 5–15 分钟"
+audience: "K-12 教师与学生、高校学生、学校管理员"
+dealType: "免费教育计划 / 学校 Campus 授权"
+lastVerified: "2026-07-11"
+originalPrice: "Canva Pro 和机构版价格因地区与采购方案而异"
+dealPrice: "K-12 Canva Education 100% 免费；高校学生仅在学校开通 Canva for Campus 时可免费获得高级权益"
 couponCode: "无需优惠码"
-region: "全球多地区可用，但学校授权范围不同"
-warning: "Canva for Education、Canva for Campus 和普通学生个人账号不是同一件事。不要写成所有教育邮箱都能白嫖 Canva Pro。"
+region: "Canva Education 面向全球符合资格的 K-12 教育用户；Campus 是否可用取决于高校采购"
+warning: "不要把普通大学教育邮箱写成 Canva Pro 免费兑换码。Canva Education 仅面向符合资格的 K-12 教师、学生和学校；高校使用的是由学校付费采购的 Canva for Campus。AI、素材和高级功能还可能受年龄、地区及学校管理员设置限制。"
+officialUrl: "https://www.canva.com/education/"
+allBenefitsUrl: "https://www.canva.com/education/students/"
+benefits:
+  - name: "K-12 Canva Education"
+    value: "符合资格时 100% 免费"
+    type: "core"
+  - name: "高级设计功能"
+    value: "包含大部分 Canva 高级功能"
+    type: "core"
+  - name: "教育模板与课堂工具"
+    value: "作业、班级和 LMS 协作"
+    type: "core"
+  - name: "Canva AI"
+    value: "教育账号可用功能以年龄和管理员设置为准"
+    type: "limited"
+  - name: "高校学生"
+    value: "学校开通 Campus 后才可能免费使用高级权益"
+    type: "limited"
+  - name: "资格有效期"
+    value: "符合资格期间可用，通常每 3 年重新验证"
+    type: "limited"
+requirements:
+  - label: "K-12 教师需在受认可的中小学任职，并具有符合要求的教师身份"
+    level: "required"
+  - label: "K-12 学生需由教师或学校邀请加入 Canva Education"
+    level: "required"
+  - label: "高校学生需确认学校是否购买 Canva for Campus"
+    level: "required"
+  - label: "教师申请时准备学校邮箱，或当前教师资格与任职证明"
+    level: "required"
+  - label: "重要作品不要只保存在学校团队，毕业或离校前应转移"
+    level: "recommended"
+verification:
+  label: "Canva Education"
+  guide: "/verification/#education-email"
 preparation:
-  - "学校邮箱或学校邀请链接。"
-  - "确认自己是 K-12 教师/学生，还是高校学生。不同入口和权益不同。"
-  - "如果是高校，确认学校是否购买或开通 Canva for Campus。"
-  - "准备好课程、班级或组织用途说明，方便区分个人账号和学校账号。"
+  - "先确认自己属于 K-12 教师、K-12 学生，还是高校学生"
+  - "K-12 教师准备学校官方邮箱，或教师证、学校员工证、任职证明等材料"
+  - "K-12 学生向教师索取班级或 Canva Education 邀请"
+  - "高校学生准备学校邮箱，并向 IT、学生服务或图书馆确认 Campus 授权"
+  - "已有 Canva 账号可以继续使用，不必为了教育计划重新创建账号"
 steps:
-  - title: "先确认所属教育类型"
-    description: "判断自己属于 K-12 教育场景、高校学生，还是普通个人学生账号。不同身份对应不同入口。"
-    imageLabel: "Canva Education / Campus 入口对比截图"
-  - title: "使用学校邮箱注册或登录"
-    description: "用学校邮箱登录 Canva，查看是否自动识别学校，或是否需要学校管理员邀请。"
-    imageLabel: "学校邮箱登录截图"
-  - title: "检查是否有学校授权"
-    description: "高校学生通常需要学校开通 Canva for Campus，才能获得更完整的高级功能。"
-    note: "如果没有学校授权，个人账号可能仍是 Canva Free。"
-    imageLabel: "Campus 授权 / 账号计划截图"
-  - title: "查看 AI 图片和视频工具"
-    description: "进入 Canva AI、Magic Studio、图片生成、视频生成、演示文稿等入口，确认当前账号可用功能和额度。"
-    imageLabel: "Canva AI / Magic Studio 工具截图"
-  - title: "保存重要作品并注意毕业后权限"
-    description: "如果账号依赖学校授权，毕业、离校或学校取消授权后，部分高级功能和团队资源可能变化。"
-    imageLabel: "账号计划 / 团队资源截图"
+  - title: "先判断自己属于哪一种教育身份"
+    description: "Canva Education 和 Canva for Campus 不是同一个计划。Canva Education 免费面向 K-12 小学和中学教师、学生及符合条件的学校；大学、学院、高校教师和大学生不属于 Canva Education 的直接资格范围，高校应使用 Canva for Campus。"
+    note: "官方资格：[[Canva Education Eligibility Guidelines|https://www.canva.com/education/eligibility-guidelines/]] · [[Canva for Students|https://www.canva.com/education/students/]]"
+  - title: "K-12 教师进入验证入口"
+    description: "符合条件的教师打开 Canva Education 页面并点击 Get verified。已有 Canva 账号可以直接登录后验证，原有设计会保留；没有账号再创建个人 Canva 账号。不要从第三方购买所谓教育团队邀请。"
+    note: "教师入口：[[Canva Education|https://www.canva.com/education/]] · [[教育验证入口|https://www.canva.com/edu-signup/]]"
+  - title: "使用学校邮箱或教师材料完成验证"
+    description: "使用 Canva 已识别的教育邮箱域名申请时，可能即时获得访问权限。邮箱无法识别时，可按页面要求上传当前教师资格证、学校任职证明、显示教师身份的学校证件，或学校机构资质材料。Canva 官方说明材料审核通常在 48 小时内完成。"
+    note: "可接受材料：[[Canva Education 资格与材料说明|https://www.canva.com/education/eligibility-guidelines/]]"
+  - title: "K-12 学生通过教师或学校加入"
+    description: "中小学生不能像教师一样单独上传学生证领取。通常需要教师从 Canva Education 班级中发出邀请；也可以先用学校邮箱登录，检查邮箱是否匹配已接入的学校或学区。成功加入后，学生会进入学校或教师管理的教育环境。"
+    note: "学生说明：[[Canva for Students|https://www.canva.com/education/students/]]"
+  - title: "高校学生检查学校是否开通 Campus"
+    description: "大学生和高校教师不要进入 K-12 教师验证入口。先使用学校邮箱尝试登录 Canva，再询问学校 IT、图书馆、学生服务或品牌传播部门是否提供 Canva for Campus。学校已采购时，通常会通过学校登录、单点登录或邀请方式开放 Pro 和高级权益；学校未采购时，个人账号仍是 Canva Free，或自行购买 Canva Pro。"
+    note: "高校方案：[[Canva for Higher Education|https://www.canva.com/for-campus/]]"
+  - title: "确认账号实际获得的计划和高级功能"
+    description: "进入 Canva 的账号和团队设置，确认自己处于 Canva Education、学校 Campus 团队还是普通 Canva Free。Canva Education 官方称包含大部分高级功能，以及教育模板、课堂作业、班级管理和 LMS 集成；具体素材、应用和学校品牌资源以账号实际页面为准。"
+    note: "不要只看学校邮箱是否登录成功，应检查当前团队和计划名称。"
+  - title: "单独检查 Canva AI 和 Magic Studio"
+    description: "打开 Canva AI、Magic Write、图片生成、AI 照片编辑、视频生成等入口，查看当前账号是否可用。教育页面提供面向课堂的 AI 功能，但学生年龄、所在地区、学校管理员策略和单项功能发布范围都可能影响可用性；不要把 Canva Education 写成所有 AI 工具无限使用。"
+    note: "AI 功能入口：[[Canva AI|https://www.canva.com/canva-ai/]] · [[Canva Shield 安全与隐私|https://www.canva.com/safe-ai-canva-shield/]]"
+  - title: "处理 AI 隐私和未成年学生数据"
+    description: "教师在让学生使用 AI 前，应遵守学校政策，不要把学生隐私、成绩、健康信息或未公开作业直接输入生成式工具。Canva 教育页面说明不会使用学生数据训练 AI 模型；学校管理员仍应核对本校数据处理协议、年龄设置和已启用应用。"
+    note: "课堂安全说明：[[Canva Education|https://www.canva.com/education/]]"
+  - title: "记录重新验证和毕业离校安排"
+    description: "教师和机构可以在持续符合资格时使用 Canva Education，Canva 官方说明教育用户通常每 3 年需要重新验证。学生毕业、教师离职或学校取消 Campus 后，学校团队和高级功能可能无法继续访问；提前把个人作品复制到自己的个人 Canva 账号，并导出重要文件。"
+    note: "不要等学校邮箱停用后再迁移作品。"
 faq:
-  - question: "学生邮箱能直接领取 Canva Pro 吗？"
-    answer: "不一定。Canva 学生个人账号、K-12 教育版和高校 Campus 授权不同，具体要看账号页面和学校是否开通。"
-  - question: "Canva 的 AI 工具有哪些？"
-    answer: "常见包括 AI 设计、图片生成、视频生成、演示文稿、文案和素材编辑等，但功能和额度会按账号计划变化。"
-  - question: "学校账号里的作品安全吗？"
-    answer: "建议重要作品另存或导出。学校授权变化、毕业或离校后，账号权限可能发生变化。"
-editorNote: "这篇适合面向非技术学生，强调海报、PPT、短视频、社媒图和课程展示。不要把 Canva Pro 与 Canva for Education 混写。"
+  - question: "大学教育邮箱能直接免费领取 Canva Pro 吗？"
+    answer: "不能据此直接领取。大学生可以免费使用 Canva Free；只有学校已经购买并开放 Canva for Campus 时，学生才可能通过学校登录免费获得 Pro 和高级权益。"
+  - question: "Canva Education 到底是不是免费？"
+    answer: "是。Canva 官方当前说明，符合条件的 K-12 教师、学生、学校和学区可 100% 免费使用 Canva Education；但大学和学院不属于这个免费 K-12 计划。"
+  - question: "K-12 学生可以自己申请吗？"
+    answer: "通常不能像教师一样自行提交身份材料。学生需要由教师或学校邀请加入 Canva Education，或使用已接入学校或学区的学校邮箱登录。"
+  - question: "没有可识别的学校邮箱，教师还能申请吗？"
+    answer: "可以尝试上传官方教师资格证、当前学校任职证明、显示教师身份的学校证件等材料。Canva 官方称通常会在 48 小时内审核。"
+  - question: "高校教师可以申请免费的 Canva Education 吗？"
+    answer: "不可以按 K-12 Canva Education 资格申请。Canva 当前明确把大学、学院及其教师和学生排除在 K-12 Education 计划之外，高校应咨询 Canva for Campus。"
+  - question: "Canva Education 包含全部 Canva AI 吗？"
+    answer: "不能这样承诺。Canva Education 提供教育和课堂 AI 能力，但具体 Canva AI、Magic Studio、视频生成及第三方应用是否可用，会受年龄、地区、管理员设置和功能发布状态影响，应以当前账号为准。"
+  - question: "学生作品会被拿去训练 AI 吗？"
+    answer: "Canva 教育官方页面当前表示不会使用学生数据训练 AI 模型。实际使用时仍应避免输入敏感学生信息，并遵守学校的数据和 AI 使用政策。"
+  - question: "毕业或离校后作品怎么办？"
+    answer: "学校邮箱和 Education/Campus 团队访问可能被关闭。毕业或离校前，把个人设计复制到自己的个人 Canva 账号，并导出重要的图片、PDF、演示和视频文件。"
+editorNote: "首页必须醒目标注：K-12 免费；高校不是教育邮箱直领 Pro，而是学校采购 Campus 后提供。"
 order: 20
 ---
-
-## 为什么值得写
-
-Canva 覆盖的是非技术用户最常见的 AI 创作场景：海报、PPT、短视频、活动宣传图、课程作业和社媒内容。它比纯聊天工具更容易让普通学生马上用起来。
-
-## 最容易写错的地方
-
-Canva 的教育体系要拆开讲：
-
-- K-12 教育版：通常面向教师和课堂。
-- Canva for Campus：通常面向高校机构购买或统一开通。
-- 学生个人账号：可以免费使用 Canva Free，但不等于自动拥有完整 Pro 权益。
-
-## 建议截图
-
-- Canva 学生页面
-- Canva for Education 页面
-- Canva for Campus 页面
-- Magic Studio / Canva AI 工具页
-- 当前账号计划页
-
-## 官方来源
-
-- Canva for students：https://www.canva.com/students/
-- Canva for Education：https://www.canva.com/education/
-- Canva for Campus：https://www.canva.com/education/campus/
