@@ -1,117 +1,285 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { categories, getGuides, guideMatchesCategory } from '../data/guides';
+import { categories, getGuides, guideMatchesCategory, type Guide } from '../data/guides';
 import '../styles/home-desktop.css';
 
 const allGuides = await getGuides();
-const latestSlugs = ['github-student-pack-copilot','jetbrains-idea-student-pack'];
-const latestGuides = latestSlugs.map((slug) => allGuides.find((guide) => guide.slug === slug)).filter(Boolean);
-const guideGroups = categories.map((category) => ({ category, guides: allGuides.filter((guide) => guideMatchesCategory(guide, category.slug)) }));
-const icon = (name:string) => ({
-  graduation:'<path d="m3 10 9-5 9 5-9 5-9-5Z"/><path d="M7 12v5c3.2 2.2 6.8 2.2 10 0v-5"/><path d="M21 10v6"/>',
-  spark:'<path d="m12 3 2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2L12 3Z"/><path d="m19 3 .7 2.3L22 6l-2.3.7L19 9l-.7-2.3L16 6l2.3-.7L19 3Z"/>',
-  grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
-  cloud:'<path d="M17.5 19H7a5 5 0 1 1 1-9.9A6.5 6.5 0 0 1 20.3 12"/><circle cx="18" cy="17" r="4"/><path d="M18 14.8v4.4M16.7 16.1h2.1c.8 0 .8 1.2 0 1.2h-1.6c-.8 0-.8 1.2 0 1.2h2.1"/>',
-  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
-  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
+const statusRank: Record<string, number> = { 可领取: 1, 待验证: 5, 已失效: 9 };
+const sortedGuides = [...allGuides].sort((a, b) => {
+  const statusDiff = (statusRank[a.status] ?? 4) - (statusRank[b.status] ?? 4);
+  if (statusDiff !== 0) return statusDiff;
+  const verifiedDiff = (b.lastVerified || '').localeCompare(a.lastVerified || '');
+  if (verifiedDiff !== 0) return verifiedDiff;
+  return (a.order ?? 999) - (b.order ?? 999);
+});
+const latestGuides = [...allGuides]
+  .filter((guide) => guide.status !== '已失效')
+  .sort((a, b) => (b.lastVerified || '').localeCompare(a.lastVerified || ''))
+  .slice(0, 4);
+
+const icon = (name: string) => ({
+  graduation: '<path d="m3 10 9-5 9 5-9 5-9-5Z"/><path d="M7 12v5c3.2 2.2 6.8 2.2 10 0v-5"/><path d="M21 10v6"/>',
+  spark: '<path d="m12 3 2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2L12 3Z"/><path d="m19 3 .7 2.3L22 6l-2.3.7L19 9l-.7-2.3L16 6l2.3-.7L19 3Z"/>',
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  cloud: '<path d="M17.5 19H7a5 5 0 1 1 1-9.9A6.5 6.5 0 0 1 20.3 12"/><circle cx="18" cy="17" r="4"/><path d="M18 14.8v4.4M16.7 16.1h2.1c.8 0 .8 1.2 0 1.2h-1.6c-.8 0-.8 1.2 0 1.2h2.1"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  shield: '<path d="M12 3 20 6v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>'
 }[name] || '');
 
 const routes = [
-  {icon:'graduation', cls:'purple', title:'学生与教育优惠', desc:'GitHub、JetBrains、Notion', detail:'学生身份与教育邮箱路径', href:'/topics/student-education/'},
-  {icon:'spark', cls:'violet', title:'AI 工具订阅', desc:'ChatGPT、Claude、Cursor', detail:'订阅前先判断资格和地区', href:'/topics/ai-tools/'},
-  {icon:'grid', cls:'orange', title:'常用软件低价', desc:'设计、办公、效率工具', detail:'长期续费前比较方案', href:'/topics/common-software/'},
-  {icon:'cloud', cls:'green', title:'云服务赠金', desc:'Google Cloud、VPS', detail:'重点确认账单和防扣费', href:'/topics/cloud-credit/'}
-];
+  { categorySlug: 'edu-ai-discounts', icon: 'graduation', cls: 'education', title: '学生与教育优惠', desc: '学生认证、教育邮箱与学校授权', href: '/topics/student-education/' },
+  { categorySlug: 'ai-tools', icon: 'spark', cls: 'ai', title: 'AI 工具优惠', desc: '主流 AI 工具试用、折扣与免费权益', href: '/topics/ai-tools/' },
+  { categorySlug: 'common-software', icon: 'grid', cls: 'software', title: '常用软件优惠', desc: '设计、办公、开发与效率工具', href: '/topics/common-software/' },
+  { categorySlug: 'cloud-credit', icon: 'cloud', cls: 'cloud', title: '云服务赠金', desc: '免费额度、试用资源与账单提醒', href: '/topics/cloud-credit/' }
+].map((route) => ({
+  ...route,
+  count: allGuides.filter((guide) => guideMatchesCategory(guide, route.categorySlug)).length,
+}));
+
+const searchable = (guide: Guide) => [
+  guide.title,
+  guide.summary,
+  guide.category,
+  guide.dealType,
+  guide.dealPrice,
+  guide.audience,
+  guide.region,
+  guide.warning,
+].filter(Boolean).join(' ');
+
+const presentationStatus = (guide: Guide) => {
+  const text = searchable(guide);
+  if (guide.status === '已失效') return { label: '已结束', className: 'expired' };
+  if (guide.status === '待验证') return { label: '待验证', className: 'pending' };
+  if (/学校授权|学校统一|教师身份|教育机构/.test(text)) return { label: '学校授权', className: 'school' };
+  if (/限时|活动|首年/.test(text)) return { label: '限时活动', className: 'limited' };
+  if (/部分地区|指定地区|地区限制/.test(text)) return { label: '部分地区', className: 'regional' };
+  if (/学生认证|教育邮箱|在校学生|学生身份/.test(text)) return { label: '需学生认证', className: 'student' };
+  return { label: '可领取', className: 'available' };
+};
+
+const initials = (title: string) => {
+  const latin = title.match(/[A-Za-z0-9]+/g)?.join(' ') ?? '';
+  if (latin) return latin.split(/\s+/).slice(0, 2).map((part) => part[0]).join('').toUpperCase();
+  return title.replace(/[\s·/]/g, '').slice(0, 2);
+};
+
+const brandClass = (title: string) => {
+  const value = title.toLowerCase();
+  if (value.includes('github')) return 'github';
+  if (value.includes('jetbrains')) return 'jetbrains';
+  if (value.includes('notion')) return 'notion';
+  if (value.includes('google')) return 'google';
+  if (value.includes('adobe')) return 'adobe';
+  if (value.includes('figma')) return 'figma';
+  if (value.includes('canva')) return 'canva';
+  if (value.includes('microsoft')) return 'microsoft';
+  if (value.includes('openai') || value.includes('chatgpt')) return 'openai';
+  return 'default';
+};
+
+const initialVisible = 8;
 ---
-<BaseLayout title="GPT Discount｜AI 工具与软件优惠领取导航" description="按身份和目标查找 AI 工具、学生教育优惠、软件折扣和云服务赠金。">
-  <main class="mobile-home">
-    <section class="hero-layout">
-      <div class="hero-card">
-        <div class="hero-art" aria-hidden="true">
-          <svg viewBox="0 0 220 160"><path d="M36 58c19 0 35-15 35-34h79c0 19 16 34 35 34v44c-19 0-35 15-35 34H71c0-19-16-34-35-34Z"/><circle cx="111" cy="80" r="25"/><path d="m100 81 8 8 16-19"/><path d="M66 59v43" stroke-dasharray="5 8"/></svg>
-        </div>
-        <span class="hero-pill">公开入口 · 可复查路径<span class="desktop-only"> · 先判断再操作</span></span>
-        <h1>一站式<span>优惠聚合服务</span></h1>
-        <p>按身份和目标找到适合你的优惠，先看资格、地区<span class="desktop-only">、付款方式</span>和续费规则，再按步骤领取。</p>
-        <div class="search-box" role="search">
+<BaseLayout title="GPT Discount｜AI 工具与软件优惠领取导航" description="查找仍可领取的 AI 工具、学生教育优惠、软件折扣和云服务赠金，并查看完整申请步骤。">
+  <main class="home-page">
+    <section class="home-shell home-hero" aria-labelledby="home-title">
+      <div class="home-hero-copy">
+        <span class="home-eyebrow"><svg viewBox="0 0 24 24" set:html={icon('shield')} />公开入口 · 持续核验</span>
+        <h1 id="home-title">找到真正能领取的优惠</h1>
+        <p>不只提供一个链接。先看核心权益、领取条件和当前状态，再进入完整教程按步骤操作。</p>
+
+        <div class="home-search" role="search">
           <svg viewBox="0 0 24 24" set:html={icon('search')} />
-          <input data-search type="search" placeholder="搜索 ChatGPT、Claude、学生包……" aria-label="搜索优惠" />
-          <button type="button" data-search-submit aria-label="提交搜索"><svg viewBox="0 0 24 24" set:html={icon('search')} /><span>搜索优惠</span></button>
+          <input data-search type="search" placeholder="搜索 ChatGPT、Claude、学生包、云服务赠金……" aria-label="搜索全部优惠" autocomplete="off" />
+          <button type="button" data-search-submit>搜索优惠</button>
         </div>
-        <div class="hot-tags" aria-label="热门搜索">
-          {['教育邮箱','GitHub 学生包','ChatGPT','Claude','云服务赠金'].map((item)=><button data-search-preset={item}>{item}</button>)}
+        <div class="home-hot-tags" aria-label="热门搜索">
+          <span>热门：</span>
+          {['GitHub 学生包', 'ChatGPT', 'Claude', '教育邮箱', '云服务赠金'].map((item) => <button type="button" data-search-preset={item}>{item}</button>)}
         </div>
-        <div class="trust-strip mobile-only">
-          <div><strong>4</strong><span>类优惠</span></div>
-          <div><strong>{allGuides.length}</strong><span>篇教程</span></div>
-          <div><strong>公开可核验</strong></div>
+        <div class="home-trust-row" aria-label="内容原则">
+          <span><i></i>公开入口</span>
+          <span><i></i>状态标记</span>
+          <span><i></i>完整步骤</span>
+          <span><i></i>失败排查</span>
         </div>
       </div>
 
-      <aside class="desktop-quick" aria-label="快速开始">
-        <span class="quick-label">快速开始</span>
-        <h2>3 步找到适合你的优惠</h2>
-        <p>先找路线，再看资格，最后按步骤领取。</p>
-        <div class="quick-steps">
-          <div><b>01</b><span><strong>先选路线</strong><small>先按身份和目标进入对应专题</small></span></div>
-          <div><b>02</b><span><strong>再看资格</strong><small>重点看邮箱、地区和付款方式</small></span></div>
-          <div><b>03</b><span><strong>最后看步骤</strong><small>符合条件后再操作并查看排查</small></span></div>
+      <aside class="home-hero-feature" aria-label="最近核验优惠">
+        <div class="hero-feature-heading">
+          <div><span>最近核验</span><strong>当前值得先看</strong></div>
+          <a href="#latest">查看全部 <svg viewBox="0 0 24 24" set:html={icon('arrow')} /></a>
         </div>
+        <div class="hero-feature-list">
+          {latestGuides.slice(0, 2).map((guide) => {
+            const status = presentationStatus(guide);
+            const benefit = guide.dealPrice || guide.benefits?.[0]?.value || guide.dealType;
+            return (
+              <a href={`/guides/${guide.slug}/`}>
+                <span class={`home-brand is-${brandClass(guide.title)}`}>{initials(guide.title)}</span>
+                <span class="hero-feature-copy">
+                  <span class={`home-status is-${status.className}`}>{status.label}</span>
+                  <strong>{guide.title}</strong>
+                  <small>{benefit}</small>
+                </span>
+                <svg class="hero-feature-arrow" viewBox="0 0 24 24" set:html={icon('arrow')} />
+              </a>
+            );
+          })}
+        </div>
+        <p><svg viewBox="0 0 24 24" set:html={icon('clock')} />核验时间以教程页标注为准，领取前请再次确认官方规则。</p>
       </aside>
     </section>
 
-    <section class="route-section">
-      <h2><span class="mobile-only">从你的需求开始</span><span class="desktop-only">从这 4 条路线开始</span></h2>
-      <p><span class="mobile-only">选择最接近你的身份或目标</span><span class="desktop-only">如果你不知道先看什么，就从最接近自己需求的一条路线进入。</span></p>
-      <div class="route-grid">
-        {routes.map((r)=><a class="route-card" href={r.href}>
-          <span class={`route-icon ${r.cls}`}><svg viewBox="0 0 24 24" set:html={icon(r.icon)} /></span>
-          <span class="route-copy"><strong>{r.title}</strong><small>{r.desc}</small><em class="desktop-only">{r.detail}</em></span>
-          <span class="route-arrow">›</span>
-        </a>)}
+    <section class="home-shell home-topics" aria-labelledby="topics-title">
+      <div class="home-section-heading">
+        <div><span>专题入口</span><h2 id="topics-title">按你的需求浏览</h2></div>
+        <p>进入专题后可直接查看该类全部优惠及当前状态。</p>
       </div>
-      <div class="principle-strip desktop-only" aria-label="领取原则">
-        <div><strong>先看资格</strong><span>邮箱、地区、身份和付款方式先确认清楚</span></div>
-        <div><strong>再看验证</strong><span>优先参考最后验证时间与公开成功条件</span></div>
-        <div><strong>最后再操作</strong><span>确认值得领取后再按步骤执行并查看排查</span></div>
-      </div>
-    </section>
-
-    <section class="verified-section" id="latest">
-      <div class="section-heading"><div><h2><span class="mobile-only">最近核验</span><span class="desktop-only">最近值得先看的优惠</span></h2><p class="desktop-only">优先查看需求高、资格复杂或容易踩坑的内容。</p></div><a href="#all-guides">查看全部 <span>›</span></a></div>
-      <div class="verified-list">
-        {latestGuides.map((g, index)=><a class={`verified-card ${index===1?'partial':''}`} href={`/guides/${g.slug}/`} data-guide-card data-search-text={`${g.title} ${g.summary} ${g.audience} ${g.category}`}>
-          <div class={`brand-mark ${g.slug.includes('github')?'github':'jetbrains'}`}>{g.slug.includes('github')?'GH':'JB'}</div>
-          <div class="verified-content">
-            <div class="verified-meta"><span class="status">{g.status}</span><span class="time"><svg viewBox="0 0 24 24" set:html={icon('clock')} />预计 {g.estimatedTime}</span></div>
-            <h3>{g.title}</h3>
-            <div class="verified-bottom"><strong>{g.dealPrice}</strong><span>适合：{g.audience}</span></div>
-            <small>{g.lastVerified} 验证</small>
-          </div>
-          <span class="enter"><svg viewBox="0 0 24 24" set:html={icon('arrow')} /></span>
-        </a>)}
+      <div class="home-topic-grid">
+        {routes.map((route) => (
+          <a class={`home-topic-card is-${route.cls}`} href={route.href}>
+            <span class="home-topic-icon"><svg viewBox="0 0 24 24" set:html={icon(route.icon)} /></span>
+            <span class="home-topic-copy"><strong>{route.title}</strong><small>{route.desc}</small></span>
+            <span class="home-topic-meta"><b>{route.count}</b><small>项内容</small></span>
+            <svg class="home-topic-arrow" viewBox="0 0 24 24" set:html={icon('arrow')} />
+          </a>
+        ))}
       </div>
     </section>
 
-    <section class="all-guides" id="all-guides">
-      {guideGroups.map(({category,guides})=><section id={category.slug} data-category-block>
-        <h2>{category.name}</h2>
-        <div>{guides.map((g)=><a href={`/guides/${g.slug}/`} data-guide-card data-search-text={`${g.title} ${g.summary} ${g.audience} ${g.category}`}>{g.title}</a>)}</div>
-      </section>)}
-      <div class="empty-state" data-empty-state>没有找到匹配的优惠。</div>
+    <section class="home-shell home-latest" id="latest" aria-labelledby="latest-title">
+      <div class="home-section-heading is-inline">
+        <div><span>最近核验</span><h2 id="latest-title">当前值得先看的优惠</h2></div>
+        <a href="#all-guides">查看全部优惠 <svg viewBox="0 0 24 24" set:html={icon('arrow')} /></a>
+      </div>
+      <div class="home-featured-grid">
+        {latestGuides.map((guide) => {
+          const status = presentationStatus(guide);
+          const benefit = guide.dealPrice || guide.benefits?.[0]?.value || guide.dealType;
+          return (
+            <a class="home-featured-card" href={`/guides/${guide.slug}/`}>
+              <div class="home-featured-top">
+                <span class={`home-brand is-${brandClass(guide.title)}`}>{initials(guide.title)}</span>
+                <span class={`home-status is-${status.className}`}>{status.label}</span>
+              </div>
+              <h3>{guide.title}</h3>
+              <p>{guide.summary}</p>
+              <strong class="home-benefit">{benefit}</strong>
+              <div class="home-featured-footer"><span>{guide.lastVerified} 核验</span><b>查看教程 <svg viewBox="0 0 24 24" set:html={icon('arrow')} /></b></div>
+            </a>
+          );
+        })}
+      </div>
+    </section>
+
+    <section class="home-shell home-all" id="all-guides" aria-labelledby="all-title">
+      <div class="home-section-heading all-heading">
+        <div><span>优惠库</span><h2 id="all-title">浏览全部优惠</h2><p>卡片由内容数据自动生成，新增教程后会自动进入对应分类。</p></div>
+        <label class="home-inline-search" for="all-search">
+          <svg viewBox="0 0 24 24" set:html={icon('search')} />
+          <input id="all-search" data-inline-search type="search" placeholder="筛选当前列表" autocomplete="off" />
+        </label>
+      </div>
+
+      <div class="home-category-row" role="tablist" aria-label="优惠分类">
+        <button class="active" type="button" data-category="全部">全部</button>
+        {categories.map((category) => <button type="button" data-category={category.slug}>{category.name}</button>)}
+      </div>
+
+      <div class="home-deal-grid" data-deal-grid>
+        {sortedGuides.map((guide, index) => {
+          const status = presentationStatus(guide);
+          const benefit = guide.dealPrice || guide.benefits?.[0]?.value || guide.dealType;
+          return (
+            <a
+              class:list={['home-deal-card', `is-${status.className}`, { 'is-initially-hidden': index >= initialVisible }]}
+              href={`/guides/${guide.slug}/`}
+              data-guide-card
+              data-category={guide.categorySlug}
+              data-related-categories={(guide.relatedCategorySlugs || []).join(',')}
+              data-search-text={searchable(guide).toLowerCase()}
+            >
+              <span class={`home-brand is-${brandClass(guide.title)}`}>{initials(guide.title)}</span>
+              <span class="home-deal-copy">
+                <span class="home-deal-title"><strong>{guide.title}</strong><em class={`home-status is-${status.className}`}>{status.label}</em></span>
+                <small>{guide.summary}</small>
+                <b>{benefit}</b>
+                <span class="home-deal-meta"><i>适合：{guide.audience}</i><i>{guide.lastVerified} 核验</i></span>
+              </span>
+              <span class="home-deal-cta">查看教程 <svg viewBox="0 0 24 24" set:html={icon('arrow')} /></span>
+            </a>
+          );
+        })}
+      </div>
+
+      <div class="home-empty" hidden data-empty-state><strong>没有找到匹配的优惠</strong><span>可以更换关键词或切换其他分类。</span></div>
+      {sortedGuides.length > initialVisible && <button class="home-load-more" type="button" data-load-more>加载更多优惠</button>}
     </section>
   </main>
+
   <script is:inline>
-    const input=document.querySelector('[data-search]');
-    const cards=[...document.querySelectorAll('[data-guide-card]')];
-    const blocks=[...document.querySelectorAll('[data-category-block]')];
-    const empty=document.querySelector('[data-empty-state]');
-    const apply=(v='')=>{const k=v.toLowerCase().trim();let n=0;cards.forEach(c=>{const ok=!k||(c.dataset.searchText||c.textContent).toLowerCase().includes(k);c.style.display=ok?'':'none';if(ok)n++});blocks.forEach(b=>b.style.display=[...b.querySelectorAll('[data-guide-card]')].some(c=>c.style.display!=='none')?'':'none');if(empty)empty.style.display=n?'none':'block'};
-    const submit=()=>{apply(input?.value||'');document.querySelector('#all-guides')?.scrollIntoView({behavior:'smooth'})};
-    input?.addEventListener('input',e=>apply(e.target.value));
-    input?.addEventListener('keydown',e=>e.key==='Enter'&&submit());
-    document.querySelector('[data-search-submit]')?.addEventListener('click',submit);
-    document.querySelectorAll('[data-search-preset]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.searchPreset;submit()}));
+    (() => {
+      const heroInput = document.querySelector('[data-search]');
+      const inlineInput = document.querySelector('[data-inline-search]');
+      const cards = [...document.querySelectorAll('[data-guide-card]')];
+      const categoryButtons = [...document.querySelectorAll('[data-category]')];
+      const empty = document.querySelector('[data-empty-state]');
+      const loadMore = document.querySelector('[data-load-more]');
+      let activeCategory = '全部';
+      let expanded = false;
+
+      const activeQuery = () => ((inlineInput?.value || heroInput?.value || '')).trim().toLowerCase();
+      const apply = () => {
+        const query = activeQuery();
+        let matching = 0;
+        let visible = 0;
+        cards.forEach((card) => {
+          const ownCategory = card.dataset.category || '';
+          const related = (card.dataset.relatedCategories || '').split(',').filter(Boolean);
+          const categoryMatch = activeCategory === '全部' || ownCategory === activeCategory || related.includes(activeCategory);
+          const searchMatch = !query || (card.dataset.searchText || '').includes(query);
+          const matches = categoryMatch && searchMatch;
+          if (matches) matching += 1;
+          const show = matches && (expanded || visible < 8);
+          card.hidden = !show;
+          card.classList.remove('is-initially-hidden');
+          if (show) visible += 1;
+        });
+        if (empty) empty.hidden = matching !== 0;
+        if (loadMore) loadMore.hidden = expanded || matching <= 8;
+      };
+
+      const runHeroSearch = () => {
+        if (inlineInput) inlineInput.value = heroInput?.value || '';
+        expanded = false;
+        activeCategory = '全部';
+        categoryButtons.forEach((button) => button.classList.toggle('active', button.dataset.category === '全部'));
+        apply();
+        document.querySelector('#all-guides')?.scrollIntoView({ behavior: 'smooth' });
+      };
+
+      heroInput?.addEventListener('keydown', (event) => { if (event.key === 'Enter') runHeroSearch(); });
+      document.querySelector('[data-search-submit]')?.addEventListener('click', runHeroSearch);
+      document.querySelectorAll('[data-search-preset]').forEach((button) => button.addEventListener('click', () => {
+        if (heroInput) heroInput.value = button.dataset.searchPreset || '';
+        runHeroSearch();
+      }));
+      inlineInput?.addEventListener('input', () => {
+        if (heroInput) heroInput.value = inlineInput.value;
+        expanded = false;
+        apply();
+      });
+      categoryButtons.forEach((button) => button.addEventListener('click', () => {
+        activeCategory = button.dataset.category || '全部';
+        expanded = false;
+        categoryButtons.forEach((item) => item.classList.toggle('active', item === button));
+        apply();
+      }));
+      loadMore?.addEventListener('click', () => { expanded = true; apply(); });
+      apply();
+    })();
   </script>
 </BaseLayout>
