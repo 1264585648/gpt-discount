@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+import '../styles/topic-page.css';
+import { topics, type Topic } from '../data/topics';
+
+interface Props {
+  title: string;
+  description: string;
+  topic: Topic;
+}
+
+const { title, description, topic } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <title>{title}</title>
+  </head>
+  <body class="topic-body" style={`--topic-accent:${topic.accentColor};--topic-accent-soft:${topic.accentSoft};`}>
+    <header class="topic-topbar">
+      <nav class="topic-shell topic-nav" aria-label="主导航">
+        <a class="topic-logo" href="/" aria-label="返回 GPT Discount 首页">
+          <span class="topic-logo-symbol" aria-hidden="true">
+            <svg viewBox="0 0 32 32">
+              <path d="M16 1.8 28 8.7v14L16 29.6 4 22.7v-14L16 1.8Z" fill="currentColor" />
+              <path d="m16 8.2 5.8 3.35v6.9L16 21.8l-5.8-3.35v-6.9L16 8.2Z" fill="#fff" opacity=".96" />
+            </svg>
+          </span>
+          <strong>GPT Discount</strong>
+        </a>
+
+        <div class="topic-nav-links">
+          <a href="/">首页</a>
+          <details class="topic-menu">
+            <summary aria-label="打开专题菜单">专题 <svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4" /></svg></summary>
+            <div class="topic-menu-panel">
+              {topics.map((item) => (
+                <a class:list={{ active: item.slug === topic.slug }} href={`/topics/${item.slug}/`}>
+                  <span class={`menu-visual is-${item.visual}`} aria-hidden="true"></span>
+                  <span><strong>{item.title}</strong><small>{item.slogan}</small></span>
+                </a>
+              ))}
+            </div>
+          </details>
+          <a href="/#latest">最近更新</a>
+          <a href="/verification/">认证指南</a>
+        </div>
+
+        <a class="topic-search-button" href="#topic-search" aria-label="搜索当前专题优惠">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
+        </a>
+      </nav>
+    </header>
+
+    <slot />
+
+    <footer class="topic-footer">
+      <div class="topic-shell topic-footer-inner">
+        <div class="topic-footer-brand">
+          <a class="topic-logo" href="/">
+            <span class="topic-logo-symbol" aria-hidden="true">
+              <svg viewBox="0 0 32 32"><path d="M16 1.8 28 8.7v14L16 29.6 4 22.7v-14L16 1.8Z" fill="currentColor" /><path d="m16 8.2 5.8 3.35v6.9L16 21.8l-5.8-3.35v-6.9L16 8.2Z" fill="#fff" opacity=".96" /></svg>
+            </span>
+            <strong>GPT Discount</strong>
+          </a>
+          <p>只整理公开可核验的优惠与领取路径</p>
+        </div>
+        <div class="topic-footer-links">
+          <a href={`/topics/${topic.slug}/`}>专题入口</a>
+          <a href="/verification/">认证指南</a>
+          <a href="/#latest">最近更新</a>
+          <a href="/#feedback">反馈入口</a>
+          <a href="/#disclaimer">免责声明</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

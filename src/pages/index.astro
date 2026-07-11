@@ -18,10 +18,10 @@ const icon = (name:string) => ({
 }[name] || '');
 
 const routes = [
-  {icon:'graduation', cls:'purple', title:'学生与教育优惠', desc:'GitHub、JetBrains、Notion', detail:'学生身份与教育邮箱路径', href:'#edu-ai-discounts'},
-  {icon:'spark', cls:'violet', title:'AI 工具订阅', desc:'ChatGPT、Claude、Cursor', detail:'订阅前先判断资格和地区', href:'#ai-tools'},
-  {icon:'grid', cls:'orange', title:'常用软件低价', desc:'设计、办公、效率工具', detail:'长期续费前比较方案', href:'#common-software'},
-  {icon:'cloud', cls:'green', title:'云服务赠金', desc:'Google Cloud、VPS', detail:'重点确认账单和防扣费', href:'#cloud-credit'}
+  {icon:'graduation', cls:'purple', title:'学生与教育优惠', desc:'GitHub、JetBrains、Notion', detail:'学生身份与教育邮箱路径', href:'/topics/student-education/'},
+  {icon:'spark', cls:'violet', title:'AI 工具订阅', desc:'ChatGPT、Claude、Cursor', detail:'订阅前先判断资格和地区', href:'/topics/ai-tools/'},
+  {icon:'grid', cls:'orange', title:'常用软件低价', desc:'设计、办公、效率工具', detail:'长期续费前比较方案', href:'/topics/common-software/'},
+  {icon:'cloud', cls:'green', title:'云服务赠金', desc:'Google Cloud、VPS', detail:'重点确认账单和防扣费', href:'/topics/cloud-credit/'}
 ];
 ---
 <BaseLayout title="GPT Discount｜AI 工具与软件优惠领取导航" description="按身份和目标查找 AI 工具、学生教育优惠、软件折扣和云服务赠金。">

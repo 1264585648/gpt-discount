@@ -1,0 +1,92 @@
+---
+import type { TopicVisual } from '../data/topics';
+interface Props { visual: TopicVisual; }
+const { visual } = Astro.props;
+---
+<div class={`topic-cover-art is-${visual}`} aria-hidden="true">
+  <svg viewBox="0 0 620 420" role="presentation">
+    <defs>
+      <linearGradient id={`visual-gradient-${visual}`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="var(--topic-accent)" />
+        <stop offset="1" stop-color="#8f86ff" />
+      </linearGradient>
+      <filter id={`soft-shadow-${visual}`} x="-30%" y="-30%" width="160%" height="160%">
+        <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#5b50d6" flood-opacity=".16" />
+      </filter>
+    </defs>
+    <circle cx="514" cy="74" r="37" fill="var(--topic-accent-soft)" />
+    <circle cx="107" cy="86" r="8" fill="var(--topic-accent)" opacity=".76" />
+    <circle cx="548" cy="258" r="11" fill="var(--topic-accent)" opacity=".28" />
+    <path d="M103 304C145 213 229 142 340 121c84-16 154 2 207 45" fill="none" stroke="var(--topic-accent)" stroke-width="2" opacity=".17" />
+    <path d="m115 172 63-49 69 35 76-56 75 31 77-39" fill="none" stroke="var(--topic-accent)" stroke-width="2" opacity=".3" />
+    <g fill="#fff" stroke="var(--topic-accent)" stroke-width="3">
+      <circle cx="115" cy="172" r="7" /><circle cx="178" cy="123" r="7" /><circle cx="247" cy="158" r="7" /><circle cx="323" cy="102" r="7" /><circle cx="398" cy="133" r="7" /><circle cx="475" cy="94" r="7" />
+    </g>
+
+    {visual === 'education' && (
+      <g filter={`url(#soft-shadow-${visual})`}>
+        <rect x="108" y="176" width="188" height="116" rx="22" fill="#fff" stroke="var(--topic-accent)" stroke-opacity=".2" />
+        <rect x="132" y="203" width="58" height="62" rx="14" fill="var(--topic-accent-soft)" />
+        <circle cx="161" cy="223" r="12" fill="var(--topic-accent)" opacity=".65" />
+        <path d="M140 253c8-18 35-18 43 0" fill="var(--topic-accent)" opacity=".65" />
+        <rect x="211" y="207" width="61" height="9" rx="4.5" fill="var(--topic-accent)" opacity=".55" />
+        <rect x="211" y="229" width="47" height="7" rx="3.5" fill="var(--topic-accent)" opacity=".18" />
+        <rect x="211" y="247" width="56" height="7" rx="3.5" fill="var(--topic-accent)" opacity=".18" />
+
+        <path d="m312 126 111-52 111 52-111 52-111-52Z" fill={`url(#visual-gradient-${visual})`} />
+        <path d="M349 145v72c46 28 101 28 147 0v-72" fill="var(--topic-accent)" opacity=".88" />
+        <path d="M534 127v92" stroke="var(--topic-accent)" stroke-width="7" stroke-linecap="round" />
+        <circle cx="534" cy="226" r="8" fill="var(--topic-accent)" />
+
+        <circle cx="358" cy="274" r="64" fill="#fff" stroke="var(--topic-accent)" stroke-width="8" opacity=".98" />
+        <circle cx="358" cy="274" r="43" fill="var(--topic-accent-soft)" />
+        <path d="m337 274 14 15 30-34" fill="none" stroke="var(--topic-accent)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="m331 326-16 60 43-25 42 25-15-60" fill="var(--topic-accent)" opacity=".78" />
+
+        <path d="M210 350c42-17 82-17 120 4 39-21 78-21 119-4v24c-42-13-82-10-119 10-37-20-78-23-120-10v-24Z" fill="#fff" stroke="var(--topic-accent)" stroke-width="5" />
+        <path d="M330 354v30" stroke="var(--topic-accent)" stroke-width="4" />
+      </g>
+    )}
+
+    {visual === 'ai' && (
+      <g filter={`url(#soft-shadow-${visual})`}>
+        <rect x="120" y="132" width="236" height="160" rx="30" fill="#fff" stroke="var(--topic-accent)" stroke-opacity=".2" />
+        <path d="m169 292-17 47 60-47" fill="#fff" stroke="var(--topic-accent)" stroke-opacity=".2" stroke-width="3" />
+        <circle cx="184" cy="204" r="15" fill="var(--topic-accent)" opacity=".85" />
+        <circle cx="238" cy="204" r="15" fill="var(--topic-accent)" opacity=".45" />
+        <circle cx="292" cy="204" r="15" fill="var(--topic-accent)" opacity=".2" />
+        <circle cx="442" cy="216" r="94" fill="var(--topic-accent-soft)" />
+        <circle cx="442" cy="216" r="61" fill="#fff" stroke="var(--topic-accent)" stroke-width="5" />
+        <path d="m442 156 13 38 40 4-31 25 9 40-31-21-32 21 10-40-31-25 40-4 13-38Z" fill={`url(#visual-gradient-${visual})`} />
+        <path d="M350 108 395 76m95 45 44-30m-66 216 36 36m-124-31-40 34" stroke="var(--topic-accent)" stroke-width="5" stroke-linecap="round" opacity=".55" />
+        <g fill="var(--topic-accent)"><circle cx="395" cy="76" r="10" /><circle cx="534" cy="91" r="10" /><circle cx="504" cy="343" r="10" /><circle cx="340" cy="346" r="10" /></g>
+      </g>
+    )}
+
+    {visual === 'software' && (
+      <g filter={`url(#soft-shadow-${visual})`}>
+        <rect x="104" y="115" width="348" height="246" rx="28" fill="#fff" stroke="var(--topic-accent)" stroke-opacity=".2" />
+        <path d="M104 165h348" stroke="var(--topic-accent)" stroke-opacity=".18" stroke-width="3" />
+        <circle cx="137" cy="140" r="7" fill="var(--topic-accent)" /><circle cx="162" cy="140" r="7" fill="var(--topic-accent)" opacity=".45" /><circle cx="187" cy="140" r="7" fill="var(--topic-accent)" opacity=".2" />
+        <rect x="137" y="197" width="93" height="126" rx="18" fill="var(--topic-accent-soft)" />
+        <rect x="254" y="197" width="165" height="22" rx="11" fill="var(--topic-accent)" opacity=".22" />
+        <rect x="254" y="242" width="132" height="16" rx="8" fill="var(--topic-accent)" opacity=".13" />
+        <rect x="254" y="278" width="148" height="16" rx="8" fill="var(--topic-accent)" opacity=".13" />
+        <path d="m497 214 26 26 54-54 22 22-54 54 24 24-40 40-24-24-35 35-31-31 35-35-24-24 47-33Z" fill={`url(#visual-gradient-${visual})`} />
+        <circle cx="527" cy="246" r="13" fill="#fff" opacity=".92" />
+      </g>
+    )}
+
+    {visual === 'cloud' && (
+      <g filter={`url(#soft-shadow-${visual})`}>
+        <path d="M180 293h287c56 0 86-67 47-107-20-21-49-25-74-15-10-66-91-94-141-48-21 19-31 43-30 70-50-13-95 24-95 73 0 15 2 18 6 27Z" fill="var(--topic-accent-soft)" stroke="var(--topic-accent)" stroke-width="5" />
+        <rect x="122" y="298" width="224" height="80" rx="22" fill="#fff" stroke="var(--topic-accent)" stroke-opacity=".22" />
+        <rect x="149" y="323" width="78" height="13" rx="6.5" fill="var(--topic-accent)" opacity=".65" />
+        <rect x="149" y="348" width="120" height="9" rx="4.5" fill="var(--topic-accent)" opacity=".18" />
+        <circle cx="309" cy="338" r="14" fill="var(--topic-accent)" />
+        <path d="M445 225 526 255v56c0 52-37 82-81 101-44-19-81-49-81-101v-56l81-30Z" fill={`url(#visual-gradient-${visual})`} />
+        <path d="m410 311 24 24 46-53" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+    )}
+  </svg>
+</div>
