@@ -1,78 +1,112 @@
 ---
-title: "Figma Education：设计原型、Dev Mode 与 AI 工作流"
+title: "Figma Education：专业设计工具免费，AI 每月 3,000 点"
 category: "教育邮箱专题"
 categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "ai-tools"
   - "common-software"
-summary: "面向设计、前端、产品和课程项目。重点写 Figma Education 验证、教育团队、FigJam、Dev Mode、Figma Make / AI 工作流入口。"
+summary: "学生和教师完成 Figma Education 验证后，可免费创建或加入 Education Team，使用 Figma、FigJam、Dev Mode 和专业协作功能；AI 与 Figma Make 不是无限量，每位教育用户目前每月获得 3,000 AI credits。"
 status: "可领取"
+contentStatus: "已完成"
 difficulty: "简单"
-estimatedTime: "10-15 分钟"
-audience: "设计学生 / 前端学生 / 产品课程小组 / 教师"
-dealType: "教育计划 / 设计协作工具"
-lastVerified: "2026-07-08"
-originalPrice: "Figma Professional / Dev Seat 以官方定价为准"
-dealPrice: "教育团队权益以 Figma Education 页面和账号显示为准"
+estimatedTime: "约 5–15 分钟"
+audience: "在校学生、教师、设计与产品课程小组"
+dealType: "免费教育计划 / 专业设计协作工具"
+lastVerified: "2026-07-11"
+originalPrice: "Figma Professional Full seat 当前美国参考价为 US$16/月；其他地区以官方定价页为准"
+dealPrice: "Figma Education 免费；每位教育用户每月 3,000 AI credits"
 couponCode: "无需优惠码"
-region: "多地区可申请，需通过 Figma Education 验证"
-warning: "Figma Education 通常提供教育团队和专业设计协作权益；AI 功能、Figma Make、Dev Mode 或额度是否完整可用，要看当前账号页面。"
+region: "面向符合资格的学生和教师，实际验证结果以 Figma Education 申请页面为准"
+warning: "免费的是 Education Team，不是把个人 Starter 账号永久变成所有产品无限版。AI、Figma Make、图片生成和其他 AI 操作共用每月 3,000 点数，点数每月重置、不结转；教育计划目前不能直接购买额外 AI 点数。"
+officialUrl: "https://www.figma.com/education/apply"
+allBenefitsUrl: "https://www.figma.com/education/"
+benefits:
+  - name: "Figma Education Team"
+    value: "学生和教师验证后免费"
+    type: "core"
+  - name: "Figma Design"
+    value: "专业设计、原型和团队协作工具"
+    type: "core"
+  - name: "FigJam"
+    value: "课堂白板、头脑风暴和小组协作"
+    type: "core"
+  - name: "Dev Mode"
+    value: "设计检查、代码片段和开发交付"
+    type: "core"
+  - name: "Figma AI / Make"
+    value: "每人每月 3,000 AI credits"
+    type: "limited"
+  - name: "专业团队功能"
+    value: "Education Team 内免费使用"
+    type: "core"
+requirements:
+  - label: "当前为符合 Figma Education 条件的学生或教师"
+    level: "required"
+  - label: "拥有 Figma 账号，建议绑定学校邮箱"
+    level: "required"
+  - label: "按申请页面完成学生或教师身份验证"
+    level: "required"
+  - label: "创建、升级或加入 Education Team 后使用教育权益"
+    level: "required"
+  - label: "团队成员应属于真实的教育、课程或学校协作场景"
+    level: "recommended"
+verification:
+  label: "Figma Education"
+  guide: "/verification/#education-email"
 preparation:
-  - "Figma 账号。建议使用学校邮箱注册或添加学校邮箱。"
-  - "学生或教师身份材料。"
-  - "准备课程、班级、项目小组或学校团队名称。"
-  - "如果是多人项目，提前确定谁创建教育团队。"
+  - "一个本人长期使用的 Figma 账号"
+  - "可正常接收邮件的学校官方邮箱"
+  - "申请页面要求的学生或教师证明信息"
+  - "准备学校名称、课程或教育项目相关信息"
+  - "已有重要文件时，先确认要升级或加入的是哪个团队"
 steps:
-  - title: "进入 Figma Education 页面"
-    description: "打开 Figma Education 官方页面，选择学生或教师入口，开始验证。"
-    imageLabel: "Figma Education 首页截图"
-  - title: "创建账号并验证身份"
-    description: "使用学校邮箱或按页面要求提交学生 / 教师证明，等待验证通过。"
-    imageLabel: "身份验证页面截图"
-  - title: "创建 Education Team"
-    description: "验证后创建教育团队，选择课程、班级或项目用途。"
-    imageLabel: "Education Team 创建截图"
-  - title: "检查 FigJam、Dev Mode 和协作权益"
-    description: "进入团队设置和文件页面，确认 FigJam、共享、多人协作、Dev Mode 等功能是否可用。"
-    imageLabel: "团队权益 / Dev Mode 截图"
-  - title: "查看 Figma Make 和 AI 工作流入口"
-    description: "如果账号中出现 Figma Make、AI workflow、生成界面等入口，记录可用范围和限制。不要把实验性或地区性功能写成所有账号都有。"
-    imageLabel: "Figma Make / AI 入口截图"
+  - title: "确认免费范围和自己的教育身份"
+    description: "Figma 官方当前面向学生和教师提供免费的 Figma for Education。免费权益需要通过 Education 验证，并在 Education Team 中使用；普通个人 Starter 计划本身也免费，但功能限制更多，不能与 Education Team 混为一谈。"
+    note: "官方说明：[[Figma for Education|https://www.figma.com/education/]] · [[高校学生与教师页面|https://www.figma.com/education/higher-education/]]"
+  - title: "使用学校邮箱创建或登录 Figma 账号"
+    description: "打开 Figma 并登录本人账号。官方流程建议使用学生或教师邮箱注册；如果你已经用个人邮箱注册，也可以先登录现有账号，再进入教育申请页完成验证，避免把历史设计分散到多个账号。"
+    note: "不要购买或借用他人的学校邮箱、教育账号或团队邀请。"
+  - title: "进入 Figma Education 申请页"
+    description: "打开 Education 页面并点击 Get verified，或直接进入教育申请入口。选择学生或教师身份，按页面要求填写学校和身份信息。申请页面可能根据国家、学校和账号情况要求不同的验证步骤。"
+    note: "申请入口：[[Figma Education Apply|https://www.figma.com/education/apply]]"
+  - title: "完成学生或教师身份验证"
+    description: "提交学校邮箱及页面要求的信息，等待系统完成验证。不要假设只要邮箱后缀像学校邮箱就一定通过；最终资格由 Figma 的验证页面决定。如果验证失败，检查学校名称、邮箱归属、当前在读或任职状态，并通过 Figma Support 提交问题。"
+    note: "Figma 官方流程是：创建账号 → 完成教育验证 → 设置 Education Team。"
+  - title: "创建、升级或加入 Education Team"
+    description: "验证通过后，在文件浏览器中创建新的教育团队、把符合条件的 Starter Team 升级为 Education Team，或加入课程与学校已有的 Education Team。只有团队显示为 Education 计划后，专业功能才算真正生效。"
+    note: "官方教育页说明，完成团队设置后可使用专业付费工具。"
+  - title: "检查 Figma、FigJam 和 Dev Mode 权益"
+    description: "进入 Education Team，创建 Figma Design 和 FigJam 文件，并检查 Dev Mode。官方教育页明确列出设计、实时协作、原型、FigJam 白板以及 Dev Mode 设计到代码交付能力。若文件仍显示 Starter 限制，先确认文件是否放在 Education Team，而不是个人 Drafts 或其他免费团队。"
+    note: "权益说明：[[Figma for Education|https://www.figma.com/education/]]"
+  - title: "检查每月 3,000 个 AI credits"
+    description: "在任意文件中打开 Main menu，选择 AI balance，查看已使用点数、剩余点数和下次重置时间。Figma 官方当前规定，Education 用户每人每月获得 3,000 AI credits；点数属于个人，不与团队成员共享，每月重置且不会结转。"
+    note: "官方 AI 规则：[[AI credits on the Education plan|https://help.figma.com/hc/en-us/articles/37611757713431-AI-credits-on-the-Education-plan]]"
+  - title: "使用 Figma Make 和其他 AI 功能"
+    description: "Figma Make、AI 图片编辑、图层重命名、内容生成、FigJam 总结等 AI 操作会消耗同一份点数。具体一次操作消耗多少会随功能和模型变化；使用前后查看 AI balance，不要把 Education 计划写成 Figma Make 或所有 AI 功能无限使用。"
+    note: "当前普通 Professional Full seat 也包含每月 3,000 点；Education 计划的区别是免费，但不能直接购买额外点数。"
+  - title: "AI 点数用完后的处理方式"
+    description: "Education 用户达到每月上限后，需要等待下一次月度重置，期间无法继续运行需要点数的 AI 操作。官方当前不提供教育团队直接购买额外点数的方式；确有高强度 AI 需求时，可以另建付费 Professional Team 并移动特定文件，但不要直接升级正在用于课程协作的 Education Team，避免其他教育成员失去免费协作资格。"
+    note: "官方提醒：升级 Education Team 后，其他 Education 成员不能继续在该团队免费协作。"
+  - title: "毕业、离校或课程结束前迁移文件"
+    description: "教育资格或学校关系变化前，把个人作品集、原型和重要课程文件复制到本人长期控制的 Drafts 或个人团队，并导出必要的 PDF、PNG 和原型资料。不要只保存在教师或学校创建的团队中，以免离校后失去访问权限。"
+    note: "复制文件时同时检查使用的团队字体、组件库和共享资源是否仍可访问。"
 faq:
-  - question: "Figma Education 是不是等于所有 AI 功能免费？"
-    answer: "不是。教育权益与 AI 功能要分开写。Figma Make、AI workflow、Dev Mode 等功能是否可用，应以账号内显示为准。"
-  - question: "适合什么人领取？"
-    answer: "适合设计、前端、产品、交互课程和团队项目。纯文字用户优先级不如 Notion、Microsoft 或 Google AI。"
-  - question: "团队成员都需要学生身份吗？"
-    answer: "建议同一课程或学校项目里的成员使用学校邮箱加入，具体限制以 Figma Education 团队规则为准。"
-editorNote: "这篇可以和 Canva、Adobe 做对比：Canva 偏轻量内容生成，Adobe 偏专业创作，Figma 偏产品设计和协作原型。"
+  - question: "Figma Education 是免费的吗？"
+    answer: "是。Figma 官方当前明确表示学生和教师可以免费使用 Figma for Education，并在 Education Team 中使用 Figma、FigJam、Dev Mode 和专业协作工具。"
+  - question: "只绑定学校邮箱就会自动获得 Education 吗？"
+    answer: "不一定。学校邮箱是申请的重要信息，但仍需进入 Education 申请页完成学生或教师验证，并创建、升级或加入 Education Team。"
+  - question: "Figma AI 对教育用户无限免费吗？"
+    answer: "不是。每位 Education 用户当前每月获得 3,000 AI credits，点数每月重置、不结转，也不能在教育计划中直接购买额外点数。"
+  - question: "Figma Make 包含在教育计划里吗？"
+    answer: "教育用户可以使用账号中开放的 Figma Make 和 AI 功能，但这些操作共用每月 3,000 AI credits。发布、模型、地区或新功能的具体开放状态仍以账号页面为准。"
+  - question: "为什么验证成功后还是 Starter 限制？"
+    answer: "常见原因是文件仍位于个人 Drafts、Starter Team 或其他团队。进入文件浏览器检查团队名称和计划，把文件移动到已成功升级的 Education Team。"
+  - question: "团队里可以加入非学生或非教师吗？"
+    answer: "Education Team 应用于真实的课堂和教育协作。不要将它当成免费商业团队或公开共享付费席位；成员资格和邀请结果以 Figma 当前教育规则及团队页面为准。"
+  - question: "AI 点数用完可以付费购买吗？"
+    answer: "Education 计划当前不能直接购买额外 AI credits。可以等待月度重置，或另建付费 Professional Team；不要贸然把现有教育团队升级为付费团队。"
+  - question: "毕业后文件会不会消失？"
+    answer: "不应假设教育团队会永久保留。毕业、离校或课程结束前，把个人作品复制到本人长期控制的账号空间，并导出重要文件。"
+editorNote: "首页必须醒目标注：Education 免费；AI 不是无限，每人每月 3,000 点，且教育计划不能直接购买额外点数。"
 order: 21
 ---
-
-## 为什么放在教育邮箱专题里
-
-Figma 是设计、前端、产品和交互课程里很常用的工具。它不是单纯 AI 聊天工具，但随着 Figma Make、AI workflow、Dev Mode 等入口出现，教育账号的设计协作价值更高。
-
-## 写作重点
-
-这篇应强调“课程项目可落地”：
-
-- UI / UX 原型
-- 课程小组协作
-- 设计系统
-- Dev Mode 交付
-- FigJam 头脑风暴
-- Figma Make 或 AI 辅助生成界面
-
-## 建议截图
-
-- Figma Education 首页
-- 学生 / 教师验证页
-- Education Team 创建页
-- 团队权限页
-- Figma Make / AI 入口页
-
-## 官方来源
-
-- Figma Education：https://www.figma.com/education/
-- Figma products：https://www.figma.com/products/
