@@ -1,9 +1,16 @@
 ---
 title: "德国 Telekom T Phone 3 / T Tablet 2：Perplexity Pro 18 个月"
-category: "AI 工具优惠"
-categorySlug: "ai-tools"
+category: "AI 订阅"
+categorySlug: "ai-subscriptions"
 relatedCategorySlugs:
   - "common-software"
+productName: "Perplexity"
+productSlug: "perplexity"
+planName: "Perplexity Pro"
+offerType: "设备捆绑"
+countryCodes:
+  - "DE"
+regionLabel: "德国及部分欧洲市场"
 summary: "Telekom 发布 T Phone 3 和 T Tablet 2 时曾捆绑 Perplexity Pro 18 个月权益；它属于购机附赠，不是独立免费会员。当前购买前必须在商品页、订单或设备兑换入口重新确认。"
 status: "待验证"
 contentStatus: "已完成"
