@@ -36,22 +36,30 @@ const { title, description, topic } = Astro.props;
         <div class="topic-nav-links">
           <a href="/">首页</a>
           <details class="topic-menu">
-            <summary aria-label="打开专题菜单">专题 <svg viewBox="0 0 16 16"><path d="m4 6 4 4 4-4" /></svg></summary>
+            <summary aria-label="打开专题菜单">
+              优惠专题
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+            </summary>
             <div class="topic-menu-panel">
               {topics.map((item) => (
                 <a class:list={{ active: item.slug === topic.slug }} href={`/topics/${item.slug}/`}>
                   <span class={`menu-visual is-${item.visual}`} aria-hidden="true"></span>
-                  <span><strong>{item.title}</strong><small>{item.slogan}</small></span>
+                  <span>
+                    <strong>{item.title}</strong>
+                    <small>{item.slogan}</small>
+                  </span>
                 </a>
               ))}
             </div>
           </details>
-          <a href="/#latest">最近更新</a>
+          <a href="/#all-guides">所有优惠</a>
           <a href="/verification/">认证指南</a>
+          <a href="/#latest">最近更新</a>
         </div>
 
-        <a class="topic-search-button" href="#topic-search" aria-label="搜索当前专题优惠">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="m20 20-4-4" /></svg>
+        <a class="topic-nav-action" href="#all-deals">
+          查看本专题
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
         </a>
       </nav>
     </header>
@@ -59,23 +67,43 @@ const { title, description, topic } = Astro.props;
     <slot />
 
     <footer class="topic-footer">
-      <div class="topic-shell topic-footer-inner">
+      <div class="topic-shell topic-footer-main">
         <div class="topic-footer-brand">
           <a class="topic-logo" href="/">
             <span class="topic-logo-symbol" aria-hidden="true">
-              <svg viewBox="0 0 32 32"><path d="M16 1.8 28 8.7v14L16 29.6 4 22.7v-14L16 1.8Z" fill="currentColor" /><path d="m16 8.2 5.8 3.35v6.9L16 21.8l-5.8-3.35v-6.9L16 8.2Z" fill="#fff" opacity=".96" /></svg>
+              <svg viewBox="0 0 32 32">
+                <path d="M16 1.8 28 8.7v14L16 29.6 4 22.7v-14L16 1.8Z" fill="currentColor" />
+                <path d="m16 8.2 5.8 3.35v6.9L16 21.8l-5.8-3.35v-6.9L16 8.2Z" fill="#fff" opacity=".96" />
+              </svg>
             </span>
             <strong>GPT Discount</strong>
           </a>
-          <p>只整理公开可核验的优惠与领取路径</p>
+          <p>发现和分享 AI 工具、软件与云服务的公开优惠和可复查领取路径。</p>
         </div>
-        <div class="topic-footer-links">
-          <a href={`/topics/${topic.slug}/`}>专题入口</a>
+
+        <div class="topic-footer-column">
+          <strong>优惠专题</strong>
+          {topics.slice(0, 4).map((item) => <a href={`/topics/${item.slug}/`}>{item.title}</a>)}
+        </div>
+
+        <div class="topic-footer-column">
+          <strong>使用帮助</strong>
           <a href="/verification/">认证指南</a>
           <a href="/#latest">最近更新</a>
+          <a href="/#all-guides">全部教程</a>
+        </div>
+
+        <div class="topic-footer-column">
+          <strong>关于本站</strong>
           <a href="/#feedback">反馈入口</a>
           <a href="/#disclaimer">免责声明</a>
+          <a href="/">返回首页</a>
         </div>
+      </div>
+
+      <div class="topic-shell topic-footer-bottom">
+        <span>© {new Date().getFullYear()} GPT Discount</span>
+        <span>只整理公开可核验的信息，不承诺第三方活动长期有效。</span>
       </div>
     </footer>
   </body>
