@@ -56,7 +56,7 @@ steps:
     description: "查看马耳他政府、数字创新主管机构或指定项目平台公布的当前批次，确认申请对象、年龄或居民证明要求。项目按阶段推进，不要仅凭新闻报道推断自己的账号已经自动获得资格。"
   - title: "从官方项目入口报名 AI 素养课程"
     description: "使用本人真实信息从政府或指定教育平台报名。公开报道显示课程由马耳他大学参与开发，项目方负责组织和权益分发；不要使用论坛中的镜像课程或第三方收费代办。"
-    note: "项目报道：[[Reuters：Malta offers residents one year of ChatGPT Plus|https://www.reuters.com/world/europe/malta-offers-residents-free-chatgpt-plus-2026-05-16/]]"
+    note: "项目报道：[[Reuters：OpenAI seals deal in Malta|https://www.reuters.com/business/openai-seals-deal-malta-give-all-maltese-access-chatgpt-plus-2026-05-16/]]"
   - title: "完成课程与项目要求"
     description: "按课程页面完成规定内容、测试或确认步骤，并保存完成证明。ChatGPT Plus 权益与课程完成挂钩，仅注册课程但未完成要求通常不能视为领取成功。"
   - title: "等待项目方发放专属领取入口"
