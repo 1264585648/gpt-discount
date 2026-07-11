@@ -235,7 +235,13 @@ const sortedGuides = [...guides].sort((a, b) => {
 
       const params = new URLSearchParams(window.location.search);
       let product = params.get('product') || 'all';
-      let status = 'all';
+      let status = params.get('status') || 'all';
+
+      const hasOption = (select, value) => [...(select?.options || [])].some((option) => option.value === value);
+      const requestedOffer = params.get('type') || 'all';
+      const requestedRegion = params.get('region') || 'all';
+      if (offerSelect && hasOption(offerSelect, requestedOffer)) offerSelect.value = requestedOffer;
+      if (regionSelect && hasOption(regionSelect, requestedRegion)) regionSelect.value = requestedRegion;
 
       const setActive = (buttons, key, value) => {
         buttons.forEach((button) => {
@@ -243,6 +249,11 @@ const sortedGuides = [...guides].sort((a, b) => {
           button.classList.toggle('active', active);
           if (button.getAttribute('role') === 'tab') button.setAttribute('aria-selected', String(active));
         });
+      };
+
+      const syncParam = (url, key, value) => {
+        if (!value || value === 'all') url.searchParams.delete(key);
+        else url.searchParams.set(key, value);
       };
 
       const apply = () => {
@@ -264,8 +275,10 @@ const sortedGuides = [...guides].sort((a, b) => {
         setActive(statusButtons, 'statusFilter', status);
 
         const next = new URL(window.location.href);
-        if (product === 'all') next.searchParams.delete('product');
-        else next.searchParams.set('product', product);
+        syncParam(next, 'product', product);
+        syncParam(next, 'status', status);
+        syncParam(next, 'type', offerType);
+        syncParam(next, 'region', region);
         window.history.replaceState({}, '', next);
       };
 
@@ -290,6 +303,7 @@ const sortedGuides = [...guides].sort((a, b) => {
       });
 
       if (!productButtons.some((button) => button.dataset.productFilter === product)) product = 'all';
+      if (!statusButtons.some((button) => button.dataset.statusFilter === status)) status = 'all';
       apply();
     })();
   </script>
