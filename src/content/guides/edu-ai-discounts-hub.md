@@ -1,74 +1,85 @@
 ---
-title: "教育邮箱 AI 优惠专题：先领哪几个"
+title: "教育邮箱优惠总览：哪些免费，哪些只是折扣"
 category: "教育邮箱专题"
 categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "ai-tools"
   - "common-software"
-summary: "把教育邮箱能申请的 AI、绘图、视频、办公、设计类优惠做成总览：先看哪些值得领，再按单篇教程操作。"
-status: "待验证"
+summary: "先确认学生或教师身份，再按价值和领取难度选择优惠：GitHub、JetBrains、Notion、Figma 等可免费使用；Adobe 和 Microsoft 个人版属于折扣；部分校园权益需要学校统一采购。"
+status: "可领取"
+contentStatus: "已完成"
 difficulty: "简单"
-estimatedTime: "15 分钟"
-audience: "在校学生 / 教师 / 有学校邮箱的用户"
-dealType: "专题汇总 / 学生认证"
-lastVerified: "2026-07-08"
-originalPrice: "多个产品原价不同"
-dealPrice: "免费、折扣、学校授权，均以结算页为准"
-couponCode: "无需优惠码"
-region: "多数为美国或学校白名单，部分全球可用"
-warning: "教育邮箱优惠变化很快。不要购买来路不明的二手教育邮箱，不要伪造学生身份；每次发布前都要重新核对官方入口。"
+estimatedTime: "约 10–15 分钟"
+audience: "在校学生、教师和拥有学校账号的用户"
+dealType: "免费教育计划 / 学生折扣 / 学校授权"
+lastVerified: "2026-07-11"
+originalPrice: "各产品原价不同"
+dealPrice: "包含免费、折扣和学校授权；每项权益以对应教程为准"
+couponCode: "多数无需优惠码"
+region: "全球可用范围不同，部分优惠限制学校、国家或地区"
+warning: "学校邮箱不是万能优惠码。部分项目要求真实在读材料，部分只面向 K-12 或由学校采购，还有一些限时活动已经结束。不要购买、共享或伪造教育账号。"
+benefits:
+  - name: "GitHub 学生包"
+    value: "GitHub Pro、Copilot Student 及合作伙伴权益"
+    type: "core"
+  - name: "JetBrains"
+    value: "符合条件的学生和教师免费"
+    type: "core"
+  - name: "Notion Education"
+    value: "单人 Plus 工作区免费"
+    type: "core"
+  - name: "Figma Education"
+    value: "专业设计工具免费，AI 每月 3,000 点"
+    type: "core"
+  - name: "Adobe Creative Cloud"
+    value: "学生折扣，不是免费"
+    type: "limited"
+  - name: "Microsoft 365"
+    value: "学校 A1 免费；美国个人学生版约 5 折"
+    type: "limited"
+requirements:
+  - label: "本人当前为符合条件的学生或教师"
+    level: "required"
+  - label: "可正常使用学校邮箱或提供在读、任职证明"
+    level: "required"
+  - label: "领取前确认是个人优惠还是学校统一授权"
+    level: "required"
+  - label: "付费折扣在付款前确认最终价格和自动续费"
+    level: "required"
+verification:
+  label: "学生或教师身份验证"
+  guide: "/verification/"
 preparation:
-  - "一个仍可收验证码的学校邮箱，最好是当前在读或在职身份。"
-  - "确认学校是否在官方认可名单内，例如 WHED、GitHub Education、学校统一身份登录或第三方学生认证平台。"
-  - "准备学生证、在读证明、课程表或学信/学校证明截图，部分服务可能需要人工审核。"
-  - "准备一张可用支付方式。部分折扣不是免费，需要在结算页确认价格。"
+  - "一个本人长期使用的个人账号，避免所有权益只绑定毕业后会停用的学校邮箱"
+  - "可收验证码的学校邮箱"
+  - "学生证、课程表、成绩单、在读证明或教师任职材料"
+  - "需要付费的项目再准备付款方式"
 steps:
-  - title: "先判断是不是官方教育优惠"
-    description: "优先看产品官网、GitHub Student Developer Pack、学校 IT 页面、UNiDAYS、Student Beans、SheerID 等验证入口。论坛信息只作为线索，不直接当作可领取结论。"
-    note: "如果只有帖子说能领，但官网没有入口，文章状态应标为待验证。"
-    imageLabel: "官方优惠页 / 学生认证页截图"
-  - title: "优先领取长期稳定项目"
-    description: "先领 GitHub Student Developer Pack、Notion Education、Figma Education、Microsoft 365 Education 这类长期存在的教育项目。"
-    imageLabel: "长期项目清单截图"
-  - title: "再看限时地区项目"
-    description: "Google AI Pro 学生免费、Perplexity Pro 合作赠送等通常有地区、截止日期或合作渠道限制，适合单独写短教程并标注有效期。"
-    imageLabel: "地区限制 / 截止日期截图"
-  - title: "创作类按需求领取"
-    description: "绘图和视频方向重点看 Adobe Creative Cloud Pro 学生价、Canva Education / Campus、Figma Education。它们不是单纯聊天机器人优惠，但 AI 图片、视频、设计功能更实用。"
-    imageLabel: "创作工具权益截图"
-  - title: "把不能领的也写清楚"
-    description: "ChatGPT Plus、Claude Pro、Cursor、Midjourney 等如果没有明确个人教育邮箱自助折扣，不要写成可领取。可以做成避坑文章，减少用户踩空。"
-    imageLabel: "无官方学生折扣提示截图"
+  - title: "先确认自己属于哪一种教育身份"
+    description: "区分高校学生、K-12 学生、教师和学校员工。Canva Education 主要面向 K-12；Notion Education 主要面向高校；不同产品对学校类型和年龄要求不同。"
+  - title: "优先领取真正免费的个人项目"
+    description: "开发和设计用户可先申请 GitHub Student Developer Pack、JetBrains 学生授权、Notion Education Plus 和 Figma Education。这些项目不需要先购买普通套餐，但都要完成真实身份验证。"
+  - title: "再检查学校是否已经采购机构权益"
+    description: "Microsoft 365 A1/A3/A5、Canva for Campus、Claude for Education 等权益由学校分配。只有学校邮箱但学校未采购时，不会自动获得完整桌面版 Office、Canva Pro 或 Claude Pro。"
+  - title: "把免费和折扣分开判断"
+    description: "Adobe Creative Cloud 学生版、美国 Microsoft 365 Personal 学生价等需要付款，只是比普通价格便宜。付款前查看首年价、后续价格、年度承诺、自动续费和取消费用。"
+  - title: "避开已经结束或没有公开入口的活动"
+    description: "Google AI Pro 上一轮学生优惠已经结束；ChatGPT Plus、Claude Pro 等个人订阅也不能因为有教育邮箱就默认获得折扣。看到旧新闻或论坛截图时，先进入官方页面核验。"
+  - title: "领取成功后保存到期信息"
+    description: "记录验证日期、权益到期时间、下一次扣费和续期要求。毕业、离校或学校账号停用前，把个人文件、作品和重要数据迁移到长期控制的个人账号。"
 faq:
-  - question: "教育邮箱是不是等于所有 AI 工具都能打折？"
-    answer: "不是。多数聊天机器人没有长期公开的个人学生折扣，真正稳定的是开发、办公、设计、校园授权类项目。"
-  - question: "买二手教育邮箱能不能用？"
-    answer: "不建议。轻则优惠被取消，重则账号风控、资料泄露或违反服务条款。专题只写合规领取路径。"
-  - question: "为什么很多文章标待验证？"
-    answer: "因为教育优惠经常改地区、改入口、改有效期。没有最近成功截图和官方入口时，宁可标待验证。"
-editorNote: "这个专题适合放在首页靠前位置。建议后续每篇文章固定补充：官方入口、验证方式、最后验证时间、可用地区、失败原因、替代方案。"
+  - question: "最值得先领取哪几个？"
+    answer: "开发者优先 GitHub Student Pack 和 JetBrains；笔记与知识库优先 Notion；产品设计和前端课程优先 Figma；是否需要 Adobe、Canva 或 Microsoft 则取决于具体学习场景。"
+  - question: "只有学校邮箱，没有学生证可以吗？"
+    answer: "有些产品只需要已识别的学校邮箱，有些会要求当前在读材料。学校邮箱无法识别时，按对应教程准备学生证、课程表、成绩单或在读证明。"
+  - question: "哪些项目需要付款？"
+    answer: "Adobe 学生版和 Microsoft 365 Personal 美国学生价属于付费折扣；学校统一采购的 Campus、A3/A5 或 Education 方案是否向学生免费，由学校决定。"
+  - question: "为什么同一优惠别人能领，我不能？"
+    answer: "常见原因包括学校不在认可范围、账号地区不同、活动截止、年龄不符合、以前领取过，或学校没有采购相应许可。以本人账号的最终验证结果为准。"
+editorNote: "总览只保留用户需要的领取顺序、资格差异和风险，不出现选题或写作说明。"
 order: 15
 ---
 
-## 这组专题怎么用
+## 推荐领取顺序
 
-教育邮箱优惠不要做成“优惠码合集”，而要做成“可验证的领取路线图”。用户最关心的不是有哪些名字，而是：我有没有资格、从哪里进、要不要绑卡、最后价格有没有变、失败后还能不能换方案。
-
-## 当前建议拆成这些文章
-
-- GitHub Student Developer Pack：开发者和 AI 编程工具优先领。
-- Notion Education：适合笔记、知识库、学生组织和少量 AI 响应。
-- Google AI Pro 学生项目：重点写地区、有效期、领取前检查。
-- Adobe Creative Cloud Pro：绘图、视频、Firefly 创作类重点。
-- Canva Education / Campus：学生演示、海报、AI 图片和视频工具。
-- Figma Education：设计、原型、Dev Mode，以及 Figma Make / AI 工作流入口。
-- Microsoft 365 Education / Premium：办公、Copilot、OneDrive、学校账号场景。
-- 不能直接用教育邮箱领取的 AI 工具：ChatGPT Plus、Claude Pro、Cursor、Midjourney、Perplexity 等避坑说明。
-
-## 发布口径
-
-只写官方入口和可核验路径。论坛、Reddit、V2EX、社群帖子可以用来发现选题，但不能把“有人说成功”直接写成“可领取”。
-
-## 风险提醒
-
-教育邮箱不是万能钥匙。不要售卖、购买、共享学校邮箱，也不要伪造学生身份。优惠教程站要长期做，可信度比短期流量更重要。
+先领取无需付款、长期稳定的教育计划，再处理需要学校采购或需要付费的折扣。遇到限时活动时，先检查截止日期和账号地区。
