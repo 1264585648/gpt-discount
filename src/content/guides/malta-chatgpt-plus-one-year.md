@@ -1,10 +1,18 @@
 ---
 title: "马耳他居民 ChatGPT Plus 1 年免费"
-category: "AI 工具优惠"
-categorySlug: "ai-tools"
+category: "AI 订阅"
+categorySlug: "ai-subscriptions"
 relatedCategorySlugs:
   - "edu-ai-discounts"
   - "common-software"
+productName: "ChatGPT"
+productSlug: "chatgpt"
+planName: "ChatGPT Plus"
+offerType: "官方活动"
+countryCodes:
+  - "MT"
+regionLabel: "马耳他"
+featured: true
 summary: "马耳他政府与 OpenAI 推出全国 AI 普及计划，符合条件的马耳他居民完成指定 AI 素养课程后，可获得 ChatGPT Plus 1 年免费；权益按阶段发放，最终以政府或项目门户的本人资格结果为准。"
 status: "可领取"
 contentStatus: "已完成"
