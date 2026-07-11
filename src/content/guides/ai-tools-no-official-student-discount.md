@@ -1,76 +1,75 @@
 ---
-title: "这些 AI 工具教育邮箱暂时别写成可领取"
+title: "教育邮箱不等于 AI 订阅折扣：领取前先核验"
 category: "教育邮箱专题"
 categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "ai-tools"
-summary: "ChatGPT Plus、Claude Pro、Cursor、Midjourney、Perplexity 等工具经常被论坛讨论，但没有官方个人教育邮箱自助折扣时，不要写成稳定可领取。"
+summary: "ChatGPT Plus、Claude Pro、Cursor、Midjourney、Perplexity 等产品可能有学校采购、地区活动或合作渠道福利，但仅有教育邮箱并不代表个人订阅一定能打折。付款前应从官方定价页和本人结算页确认。"
 status: "待验证"
+contentStatus: "已完成"
 difficulty: "简单"
-estimatedTime: "5 分钟"
-audience: "想用教育邮箱薅 AI 订阅折扣的人"
-dealType: "避坑说明 / 待验证清单"
-lastVerified: "2026-07-08"
-originalPrice: "各产品原价不同"
-dealPrice: "无统一教育邮箱折扣，以官方定价页和学校授权为准"
-couponCode: "无"
-region: "不限"
-warning: "论坛帖、社群截图、二手邮箱卖家宣传不能直接当作教程来源。没有官方入口、最近成功截图和清晰资格说明，就标待验证或不可领取。"
+estimatedTime: "约 5 分钟"
+audience: "准备使用学校邮箱申请 AI 工具优惠的学生和教师"
+dealType: "优惠核验 / 避坑指南"
+lastVerified: "2026-07-11"
+originalPrice: "各产品价格不同"
+dealPrice: "没有统一教育邮箱折扣；以官方个人计划、学校授权和当前活动为准"
+couponCode: "无通用优惠码"
+region: "不同产品、学校和活动地区规则不同"
+warning: "学校或机构版不等于个人版免费。不要购买二手教育邮箱、共享账号或陌生团队席位；只有官方页面或本人结算页明确显示价格变化，才能确认优惠生效。"
+benefits:
+  - name: "个人学生折扣"
+    value: "必须有官方个人申请入口"
+    type: "core"
+  - name: "学校机构授权"
+    value: "由学校管理员统一分配"
+    type: "limited"
+  - name: "限时合作福利"
+    value: "受地区、时间和合作渠道限制"
+    type: "limited"
+  - name: "普通免费版"
+    value: "不等同于学生专属优惠"
+    type: "core"
+requirements:
+  - label: "从产品官网或本人账号进入定价与订阅页面"
+    level: "required"
+  - label: "区分个人订阅、学校采购和第三方合作活动"
+    level: "required"
+  - label: "付款前确认最终价格、有效期和自动续费"
+    level: "required"
+  - label: "不使用他人学校邮箱、共享账号或伪造材料"
+    level: "required"
 preparation:
-  - "准备官方定价页、教育页、帮助中心或学校 IT 页面作为核验来源。"
-  - "区分个人学生折扣、学校统一采购、限时合作赠送、地区活动和第三方渠道福利。"
-  - "不要购买二手教育邮箱、共享学校账号或伪造学生身份。"
-  - "如果只是论坛有人说成功，先写成线索，不写成教程。"
+  - "本人长期使用的产品账号"
+  - "学校邮箱或在读材料，仅在官方验证页面要求时使用"
+  - "产品官方定价页、教育页或学校 IT 公告"
+  - "需要付款时准备查看最终结算价，而不是只看宣传页"
 steps:
-  - title: "先查官方定价和教育页"
-    description: "搜索产品官网是否存在 Student、Education、Campus、University、Academic、School、Classroom 等入口。"
-    imageLabel: "官方定价页 / 教育页截图"
-  - title: "区分个人优惠和机构授权"
-    description: "ChatGPT Edu、Claude for Education、Microsoft / Google 校园 AI 计划通常是学校或机构级，不等于个人教育邮箱直接领取。"
-    imageLabel: "机构授权说明截图"
-  - title: "检查是否只是合作渠道活动"
-    description: "Perplexity、Google AI Pro 等可能通过运营商、支付平台、学校或地区活动赠送，不能泛化成教育邮箱优惠。"
-    imageLabel: "合作渠道活动截图"
-  - title: "把不可领取写成避坑页"
-    description: "如果没有官方入口，就写清楚当前未找到个人教育邮箱自助折扣，并给出可替代方案。"
-    imageLabel: "避坑结论截图"
-  - title: "持续更新验证记录"
-    description: "保留最后验证时间、验证结果、入口是否存在、失败提示和替代方案，方便后续更新。"
-    imageLabel: "验证记录表截图"
+  - title: "先打开官方个人定价页"
+    description: "检查个人计划中是否明确出现 Student、Education、Academic 等选项。只有学校或企业销售入口，不代表个人教育邮箱可以免费升级。"
+  - title: "区分个人优惠和学校统一采购"
+    description: "ChatGPT Edu、Claude for Education、Canva for Campus、Microsoft 365 Education 等通常由学校购买并分配账号。你需要询问学校 IT 或管理员，而不是在个人订阅页输入学校邮箱。"
+  - title: "检查是否属于限时合作活动"
+    description: "运营商、银行卡、学校社团、设备厂商或地区活动可能赠送会员，但通常有明确截止日期、资格和兑换入口。不要把一次合作活动理解成长期教育邮箱折扣。"
+  - title: "在结算页确认价格是否真的变化"
+    description: "点击升级后查看最终价格、币种、税费、免费期结束日期和下一次扣费。如果结算页仍显示普通原价，说明优惠没有应用，不要继续付款。"
+  - title: "没有优惠时选择替代方案"
+    description: "可以先使用产品免费版，或领取 GitHub Student Pack、JetBrains、Notion、Figma 等有明确教育入口的项目。需要团队版时，询问学校是否已经统一采购。"
+  - title: "保存验证结果和到期时间"
+    description: "成功领取后保存订单或订阅页，记录到期和续费日期；验证失败时记录错误提示，避免反复尝试导致账号风控。"
 faq:
-  - question: "ChatGPT Plus 有学生邮箱折扣吗？"
-    answer: "截至本文验证口径，应区分 ChatGPT Edu 这类学校机构方案和个人 ChatGPT Plus 订阅。没有官方个人教育邮箱自助折扣入口时，不写成可领取。"
-  - question: "Claude Pro 有学生优惠吗？"
-    answer: "Claude 有教育相关机构和校园项目，但个人 Claude Pro 是否有学生邮箱自助折扣，要以 Anthropic 官方页面为准。没有入口时写待验证。"
-  - question: "Cursor、Midjourney 能不能用教育邮箱打折？"
-    answer: "如果没有官方学生折扣入口，不建议写成教程。可以写成论坛传闻核验和替代方案。"
-editorNote: "这篇是专题可信度保护页。用户会搜这些词，但站点不要为了流量把传闻写成事实。"
+  - question: "有 .edu 邮箱就一定能领取 AI 会员吗？"
+    answer: "不能。教育邮箱只是部分服务的验证方式之一，产品还会检查学校、地区、年龄、活动时间、账号历史或学校是否采购。"
+  - question: "学校有 ChatGPT Edu 或 Claude Education，我能直接升级个人账号吗？"
+    answer: "通常不能。机构方案由学校分配席位和登录入口，应联系学校 IT、图书馆或项目管理员。"
+  - question: "论坛里有人领取成功，为什么我没有？"
+    answer: "对方可能使用了不同地区、学校采购、旧活动、合作渠道或新用户资格。最终以你的官方验证页面和结算页为准。"
+  - question: "怎样判断优惠码是否可信？"
+    answer: "优惠码必须来自产品官方、可信合作伙伴或本人学校公告，并且在付款前让结算价明确变化。要求提供密码或付款给个人的所谓优惠不要使用。"
+editorNote: "该页面向用户解释核验方法，不使用“应该怎么写文章”等编辑口吻。"
 order: 23
 ---
 
-## 为什么需要这篇
+## 核心判断
 
-教育邮箱专题最容易翻车的地方，不是漏写优惠，而是把论坛传闻写成可领取教程。用户点进去发现不能领，站点可信度会直接下降。
-
-## 当前建议口径
-
-| 工具 | 建议写法 |
-| --- | --- |
-| ChatGPT Plus | 暂不写个人教育邮箱可领取；可以说明 ChatGPT Edu 是学校机构方案。 |
-| Claude Pro | 暂不写个人教育邮箱可领取；可以说明 Claude 有教育机构方案和校园项目。 |
-| Cursor | 没有官方学生自助折扣入口时，只做待验证线索。 |
-| Midjourney | 没有官方教育邮箱折扣入口时，不写成教程。 |
-| Perplexity | 关注合作渠道赠送，但不要泛化成教育邮箱稳定优惠。 |
-
-## 可以给用户的替代方案
-
-- 先领 GitHub Student Pack / Copilot 学生计划。
-- 文字和知识库先用 Notion Education、Microsoft 365 学生权益。
-- 绘图和视频优先看 Adobe、Canva、Figma。
-- Google AI Pro 只按当前地区和有效期单独核验。
-
-## 官方和参考来源
-
-- ChatGPT Edu：https://openai.com/chatgpt/education/
-- Claude for Education：https://www.anthropic.com/education
-- GitHub Student Developer Pack：https://education.github.com/pack
+教育邮箱只是身份材料，不是通用优惠码。看到“学生免费”时，先确认它是个人优惠、学校授权，还是限时合作活动。
