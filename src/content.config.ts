@@ -59,6 +59,16 @@ const guides = defineCollection({
     faq: z.array(guideFaqSchema),
     editorNote: z.string(),
     order: z.number().optional(),
+
+    // AI 订阅专题字段。全部保持可选，兼容已有内容并支持渐进迁移。
+    productName: z.string().optional(),
+    productSlug: z.enum(['chatgpt', 'gemini', 'claude', 'perplexity', 'grok', 'cursor', 'other']).optional(),
+    planName: z.string().optional(),
+    offerType: z.enum(['官方活动', '学生优惠', '运营商赠送', '设备捆绑', '地区活动', '免费试用', '历史活动']).optional(),
+    countryCodes: z.array(z.string()).optional(),
+    regionLabel: z.string().optional(),
+    featured: z.boolean().optional(),
+    expiresAt: z.string().optional(),
   }),
 });
 
