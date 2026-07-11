@@ -21,20 +21,37 @@ const offer = guide.status === '已失效'
           : /(折扣|学生价|优惠价|首年|半价|减免|立减|优惠)/i.test(offerSource)
             ? { kind: 'discount', label: '折扣', caption: '优惠方式' }
             : { kind: 'deal', label: '优惠', caption: '优惠方式' };
+
+const statusBadgeClass = guide.status === '可领取'
+  ? 'success'
+  : guide.status === '已失效'
+    ? 'danger'
+    : 'warning';
+
+const footerHint = guide.status === '可领取'
+  ? '先看资格与风险'
+  : guide.status === '已失效'
+    ? '当前不可领取'
+    : '先核验官方状态';
+
+const footerLink = guide.status === '可领取'
+  ? '查看领取步骤 →'
+  : guide.status === '已失效'
+    ? '查看状态与替代方案 →'
+    : '查看核验方法 →';
 ---
 
 <a
   class="guide-card pro-guide-card"
   href={`/guides/${guide.slug}/`}
   data-guide-card
-  data-search-text={`${guide.title} ${guide.category} ${guide.summary} ${guide.audience} ${guide.dealType} ${guide.dealPrice} ${guide.difficulty} ${guide.region} ${guide.contentStatus}`}
+  data-search-text={`${guide.title} ${guide.category} ${guide.summary} ${guide.audience} ${guide.dealType} ${guide.dealPrice} ${guide.difficulty} ${guide.region}`}
 >
   <div class="card-top">
     <div class="badges">
       <span class={`offer-badge is-${offer.kind}`}>{offer.label}</span>
       <span class="badge brand">{guide.category}</span>
-      <span class="badge success">{guide.status}</span>
-      <span class={guide.contentStatus === '已完成' ? 'badge success' : 'badge warning'}>{guide.contentStatus}</span>
+      <span class={`badge ${statusBadgeClass}`}>{guide.status}</span>
     </div>
     <span class="badge card-time">{guide.estimatedTime}</span>
   </div>
@@ -68,12 +85,18 @@ const offer = guide.status === '已失效'
   </div>
 
   <div class="card-footer">
-    <span class="badge warning">先看资格与风险</span>
-    <span class="text-link">查看领取步骤 →</span>
+    <span class={`badge ${statusBadgeClass}`}>{footerHint}</span>
+    <span class="text-link">{footerLink}</span>
   </div>
 </a>
 
 <style>
+  .badge.danger {
+    color: #b42318;
+    background: #fff1f0;
+    border-color: rgba(180, 35, 24, .18);
+  }
+
   .offer-badge {
     display: inline-flex;
     align-items: center;
