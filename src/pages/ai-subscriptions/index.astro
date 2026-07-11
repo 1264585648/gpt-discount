@@ -10,6 +10,7 @@ import {
   type GuideStatus,
 } from '../../data/guides';
 import '../../styles/ai-subscriptions.css';
+import '../../styles/ai-subscriptions-enhancements.css';
 
 const topic = topics.find((item) => item.visual === 'ai')!;
 const allAiGuides = await getGuidesByCategory('ai-subscriptions');
@@ -43,6 +44,10 @@ const sortedGuides = [...guides].sort((a, b) => {
   if (statusDiff !== 0) return statusDiff;
   return b.lastVerified.localeCompare(a.lastVerified);
 });
+
+const featuredGuides = sortedGuides
+  .filter((guide) => guide.featured && guide.status !== '已失效')
+  .slice(0, 3);
 ---
 <TopicLayout
   title="AI 订阅优惠｜ChatGPT、Gemini、Claude、Perplexity"
@@ -76,12 +81,68 @@ const sortedGuides = [...guides].sort((a, b) => {
       </aside>
     </section>
 
+    {featuredGuides.length > 0 && (
+      <section class="ai-sub-shell ai-sub-featured" data-featured-section aria-labelledby="ai-sub-featured-title">
+        <div class="ai-sub-featured-heading">
+          <div>
+            <span>值得先看</span>
+            <h2 id="ai-sub-featured-title">重点优惠</h2>
+            <p>优先展示权益较高、入口较明确或需要尽快核验的活动。</p>
+          </div>
+          <a href="#all-deals">查看全部优惠 <span aria-hidden="true">↓</span></a>
+        </div>
+
+        <div class="ai-sub-featured-grid">
+          {featuredGuides.map((guide) => {
+            const product = productFor(guide);
+            const offerType = offerTypeFor(guide);
+            const region = regionFor(guide);
+            const status = statusMeta[guide.status];
+            return (
+              <a
+                class={`ai-sub-featured-card is-${status.className}`}
+                href={`/guides/${guide.slug}/`}
+                data-featured-card
+                data-product={product.slug}
+                data-status={guide.status}
+                data-offer-type={offerType}
+                data-region={region}
+              >
+                <div class="ai-sub-featured-top">
+                  <span class={`ai-sub-product-mark is-${product.slug}`}>{product.mark}</span>
+                  <span class={`ai-sub-status is-${status.className}`}>{status.label}</span>
+                </div>
+                <span class="ai-sub-featured-type">{product.name} · {offerType}</span>
+                <h3>{benefitFor(guide)}</h3>
+                <p>{guide.title}</p>
+                <div class="ai-sub-featured-bottom">
+                  <span>{region}</span>
+                  <strong>{status.cta} →</strong>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </section>
+    )}
+
     <section class="ai-sub-shell ai-sub-browser" id="all-deals" aria-labelledby="ai-sub-deals-title">
       <div class="ai-sub-browser-heading">
         <div>
           <span>按产品查找</span>
           <h2 id="ai-sub-deals-title">当前优惠</h2>
           <p>地区只作为资格条件，不再作为内容主分类。</p>
+        </div>
+        <div class="ai-sub-browser-tools">
+          <span data-result-summary aria-live="polite">显示全部优惠</span>
+          <label>
+            <span class="sr-only">优惠排序</span>
+            <select data-sort aria-label="优惠排序">
+              <option value="recommended">推荐优先</option>
+              <option value="verified">最近核验</option>
+              <option value="title">名称排序</option>
+            </select>
+          </label>
         </div>
       </div>
 
@@ -121,12 +182,13 @@ const sortedGuides = [...guides].sort((a, b) => {
               {regions.map((region) => <option value={region}>{region}</option>)}
             </select>
           </label>
+          <button class="ai-sub-clear-filter" type="button" data-clear-filter hidden>清除筛选</button>
         </div>
       </div>
 
       {sortedGuides.length > 0 ? (
         <div class="ai-sub-grid" data-offer-grid>
-          {sortedGuides.map((guide) => {
+          {sortedGuides.map((guide, index) => {
             const product = productFor(guide);
             const offerType = offerTypeFor(guide);
             const region = regionFor(guide);
@@ -139,6 +201,10 @@ const sortedGuides = [...guides].sort((a, b) => {
                 data-status={guide.status}
                 data-offer-type={offerType}
                 data-region={region}
+                data-title={guide.title}
+                data-verified={guide.lastVerified}
+                data-default-order={index}
+                data-featured={guide.featured ? '1' : '0'}
               >
                 <div class="ai-sub-card-top">
                   <div class="ai-sub-product-identity">
@@ -226,10 +292,16 @@ const sortedGuides = [...guides].sort((a, b) => {
   <script is:inline>
     (() => {
       const cards = [...document.querySelectorAll('[data-offer-card]')];
+      const featuredCards = [...document.querySelectorAll('[data-featured-card]')];
+      const featuredSection = document.querySelector('[data-featured-section]');
       const productButtons = [...document.querySelectorAll('[data-product-filter]')];
       const statusButtons = [...document.querySelectorAll('[data-status-filter]')];
       const offerSelect = document.querySelector('[data-offer-filter]');
       const regionSelect = document.querySelector('[data-region-filter]');
+      const sortSelect = document.querySelector('[data-sort]');
+      const list = document.querySelector('[data-offer-grid]');
+      const summary = document.querySelector('[data-result-summary]');
+      const clear = document.querySelector('[data-clear-filter]');
       const empty = document.querySelector('[data-empty-filter]');
       const reset = document.querySelector('[data-reset-filter]');
 
@@ -240,8 +312,10 @@ const sortedGuides = [...guides].sort((a, b) => {
       const hasOption = (select, value) => [...(select?.options || [])].some((option) => option.value === value);
       const requestedOffer = params.get('type') || 'all';
       const requestedRegion = params.get('region') || 'all';
+      const requestedSort = params.get('sort') || 'recommended';
       if (offerSelect && hasOption(offerSelect, requestedOffer)) offerSelect.value = requestedOffer;
       if (regionSelect && hasOption(regionSelect, requestedRegion)) regionSelect.value = requestedRegion;
+      if (sortSelect && hasOption(sortSelect, requestedSort)) sortSelect.value = requestedSort;
 
       const setActive = (buttons, key, value) => {
         buttons.forEach((button) => {
@@ -251,35 +325,74 @@ const sortedGuides = [...guides].sort((a, b) => {
         });
       };
 
-      const syncParam = (url, key, value) => {
-        if (!value || value === 'all') url.searchParams.delete(key);
+      const syncParam = (url, key, value, defaultValue = 'all') => {
+        if (!value || value === defaultValue) url.searchParams.delete(key);
         else url.searchParams.set(key, value);
       };
+
+      const matchesFilters = (card, offerType, region) => (
+        (product === 'all' || card.dataset.product === product)
+        && (status === 'all' || card.dataset.status === status)
+        && (offerType === 'all' || card.dataset.offerType === offerType)
+        && (region === 'all' || card.dataset.region === region)
+      );
 
       const apply = () => {
         const offerType = offerSelect?.value || 'all';
         const region = regionSelect?.value || 'all';
+        const sort = sortSelect?.value || 'recommended';
         let visible = 0;
+        let featuredVisible = 0;
 
         cards.forEach((card) => {
-          const show = (product === 'all' || card.dataset.product === product)
-            && (status === 'all' || card.dataset.status === status)
-            && (offerType === 'all' || card.dataset.offerType === offerType)
-            && (region === 'all' || card.dataset.region === region);
+          const show = matchesFilters(card, offerType, region);
           card.hidden = !show;
           if (show) visible += 1;
         });
 
+        featuredCards.forEach((card) => {
+          const show = matchesFilters(card, offerType, region);
+          card.hidden = !show;
+          if (show) featuredVisible += 1;
+        });
+
+        if (featuredSection) featuredSection.hidden = featuredVisible === 0;
         if (empty) empty.hidden = visible !== 0;
         setActive(productButtons, 'productFilter', product);
         setActive(statusButtons, 'statusFilter', status);
+
+        const hasFilters = product !== 'all' || status !== 'all' || offerType !== 'all' || region !== 'all';
+        if (summary) summary.textContent = hasFilters ? `当前显示 ${visible} 项优惠` : '显示全部优惠';
+        if (clear) clear.hidden = !hasFilters;
 
         const next = new URL(window.location.href);
         syncParam(next, 'product', product);
         syncParam(next, 'status', status);
         syncParam(next, 'type', offerType);
         syncParam(next, 'region', region);
+        syncParam(next, 'sort', sort, 'recommended');
         window.history.replaceState({}, '', next);
+      };
+
+      const reorder = () => {
+        const mode = sortSelect?.value || 'recommended';
+        const ordered = [...cards].sort((a, b) => {
+          if (mode === 'title') return (a.dataset.title || '').localeCompare(b.dataset.title || '', 'zh-CN');
+          if (mode === 'verified') return (b.dataset.verified || '').localeCompare(a.dataset.verified || '');
+          const featuredDiff = Number(b.dataset.featured || 0) - Number(a.dataset.featured || 0);
+          if (featuredDiff !== 0) return featuredDiff;
+          return Number(a.dataset.defaultOrder || 0) - Number(b.dataset.defaultOrder || 0);
+        });
+        ordered.forEach((card) => list?.appendChild(card));
+        apply();
+      };
+
+      const clearFilters = () => {
+        product = 'all';
+        status = 'all';
+        if (offerSelect) offerSelect.value = 'all';
+        if (regionSelect) regionSelect.value = 'all';
+        apply();
       };
 
       productButtons.forEach((button) => button.addEventListener('click', () => {
@@ -294,17 +407,13 @@ const sortedGuides = [...guides].sort((a, b) => {
 
       offerSelect?.addEventListener('change', apply);
       regionSelect?.addEventListener('change', apply);
-      reset?.addEventListener('click', () => {
-        product = 'all';
-        status = 'all';
-        if (offerSelect) offerSelect.value = 'all';
-        if (regionSelect) regionSelect.value = 'all';
-        apply();
-      });
+      sortSelect?.addEventListener('change', reorder);
+      clear?.addEventListener('click', clearFilters);
+      reset?.addEventListener('click', clearFilters);
 
       if (!productButtons.some((button) => button.dataset.productFilter === product)) product = 'all';
       if (!statusButtons.some((button) => button.dataset.statusFilter === status)) status = 'all';
-      apply();
+      reorder();
     })();
   </script>
 </TopicLayout>
