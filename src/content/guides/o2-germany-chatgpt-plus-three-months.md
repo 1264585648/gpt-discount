@@ -1,9 +1,16 @@
 ---
 title: "德国 O2 ChatGPT Plus 3 个月免费活动核验"
-category: "AI 工具优惠"
-categorySlug: "ai-tools"
+category: "AI 订阅"
+categorySlug: "ai-subscriptions"
 relatedCategorySlugs:
   - "common-software"
+productName: "ChatGPT"
+productSlug: "chatgpt"
+planName: "ChatGPT Plus"
+offerType: "运营商赠送"
+countryCodes:
+  - "DE"
+regionLabel: "德国"
 summary: "德国 O2 曾向部分现有客户提供 ChatGPT Plus 3 个月免费权益，但截至 2026 年 7 月公开 Priority 页面已不再展示统一领取入口；当前只能以本人 Mein O2 或 Priority 账号内是否出现活动为准。"
 status: "待验证"
 contentStatus: "已完成"
