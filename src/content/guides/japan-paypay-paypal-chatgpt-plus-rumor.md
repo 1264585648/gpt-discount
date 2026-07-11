@@ -1,9 +1,16 @@
 ---
 title: "日本 ChatGPT Plus 免费活动核验：PayPay 传闻暂未证实"
-category: "AI 工具优惠"
-categorySlug: "ai-tools"
+category: "AI 订阅"
+categorySlug: "ai-subscriptions"
 relatedCategorySlugs:
   - "common-software"
+productName: "ChatGPT"
+productSlug: "chatgpt"
+planName: "ChatGPT Plus"
+offerType: "地区活动"
+countryCodes:
+  - "JP"
+regionLabel: "日本"
 summary: "论坛中有人提到日本地区可通过 PayPay 或特殊支付方式免费获得 ChatGPT Plus，但截至 2026 年 7 月 11 日，尚未找到 PayPay、SoftBank、Yahoo! JAPAN 或 OpenAI 面向日本消费者公开发布的可复现免费 Plus 活动。当前应保持待验证，不应改写成 Perplexity 或其他产品。"
 status: "待验证"
 contentStatus: "已完成"
