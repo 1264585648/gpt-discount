@@ -1,0 +1,296 @@
+---
+import TopicLayout from '../../layouts/TopicLayout.astro';
+import { topics } from '../../data/topics';
+import {
+  aiProducts,
+  getGuideOfferType,
+  getGuideProduct,
+  getGuidesByCategory,
+  type Guide,
+  type GuideStatus,
+} from '../../data/guides';
+import '../../styles/ai-subscriptions.css';
+
+const topic = topics.find((item) => item.visual === 'ai')!;
+const allAiGuides = await getGuidesByCategory('ai-subscriptions');
+const guides = allAiGuides.filter((guide) => !guide.dealType.includes('导航') && !guide.slug.endsWith('-hub'));
+
+const productFor = (guide: Guide) => getGuideProduct(guide);
+const offerTypeFor = (guide: Guide) => getGuideOfferType(guide);
+const regionFor = (guide: Guide) => guide.regionLabel || guide.region.split(/[；;]/)[0].trim();
+const planFor = (guide: Guide) => guide.planName || productFor(guide).name;
+const benefitFor = (guide: Guide) => guide.benefits?.find((item) => item.type === 'core')?.value
+  || guide.benefits?.[0]?.value
+  || guide.dealPrice;
+
+const productCounts = new Map(aiProducts.map((product) => [
+  product.slug,
+  guides.filter((guide) => productFor(guide).slug === product.slug).length,
+]));
+const availableProducts = aiProducts.filter((product) => (productCounts.get(product.slug) ?? 0) > 0);
+const offerTypes = [...new Set(guides.map(offerTypeFor))];
+const regions = [...new Set(guides.map(regionFor).filter(Boolean))];
+
+const statusMeta: Record<GuideStatus, { label: string; className: string; cta: string }> = {
+  可领取: { label: '可领取', className: 'available', cta: '查看领取步骤' },
+  待验证: { label: '待验证', className: 'pending', cta: '查看核验结果' },
+  已失效: { label: '已结束', className: 'expired', cta: '查看历史活动' },
+};
+
+const sortedGuides = [...guides].sort((a, b) => {
+  const rank: Record<GuideStatus, number> = { 可领取: 1, 待验证: 2, 已失效: 3 };
+  const statusDiff = rank[a.status] - rank[b.status];
+  if (statusDiff !== 0) return statusDiff;
+  return b.lastVerified.localeCompare(a.lastVerified);
+});
+---
+<TopicLayout
+  title="AI 订阅优惠｜ChatGPT、Gemini、Claude、Perplexity"
+  description="汇总 ChatGPT、Gemini、Claude、Perplexity 等 AI 产品的免费试用、学生优惠、运营商赠送和合作活动。"
+  topic={topic}
+>
+  <main class="ai-sub-page">
+    <div class="ai-sub-shell ai-sub-breadcrumb" aria-label="面包屑">
+      <a href="/">首页</a>
+      <span aria-hidden="true">/</span>
+      <strong>AI 订阅优惠</strong>
+    </div>
+
+    <section class="ai-sub-shell ai-sub-hero" aria-labelledby="ai-sub-title">
+      <div class="ai-sub-hero-copy">
+        <span class="ai-sub-eyebrow">AI SUBSCRIPTION DEALS</span>
+        <h1 id="ai-sub-title">AI 订阅优惠</h1>
+        <p>汇总 ChatGPT、Gemini、Claude、Perplexity 等 AI 产品的免费试用、学生优惠、运营商赠送和合作活动。</p>
+        <small>先选择产品，再查看资格、领取状态和完整操作步骤。</small>
+      </div>
+
+      <aside class="ai-sub-check-card" aria-label="领取前检查">
+        <span class="ai-sub-check-kicker">领取前先确认</span>
+        <h2>优惠名称和结算结果必须一致</h2>
+        <ul>
+          <li><span>01</span><strong>产品和套餐名称是否正确</strong></li>
+          <li><span>02</span><strong>账号、身份或运营商资格是否符合</strong></li>
+          <li><span>03</span><strong>结算页是否显示完整免费期</strong></li>
+        </ul>
+        <p>论坛信息仅作为线索，最终以官方入口和本人账号显示为准。</p>
+      </aside>
+    </section>
+
+    <section class="ai-sub-shell ai-sub-browser" id="all-deals" aria-labelledby="ai-sub-deals-title">
+      <div class="ai-sub-browser-heading">
+        <div>
+          <span>按产品查找</span>
+          <h2 id="ai-sub-deals-title">当前优惠</h2>
+          <p>地区只作为资格条件，不再作为内容主分类。</p>
+        </div>
+      </div>
+
+      <div class="ai-sub-product-tabs" role="tablist" aria-label="AI 产品筛选">
+        <button class="active" type="button" data-product-filter="all" role="tab" aria-selected="true">
+          <span class="ai-sub-product-mark is-all">ALL</span>
+          <span><strong>全部</strong><small>查看所有 AI 订阅</small></span>
+        </button>
+        {availableProducts.map((product) => (
+          <button type="button" data-product-filter={product.slug} role="tab" aria-selected="false">
+            <span class={`ai-sub-product-mark is-${product.slug}`}>{product.mark}</span>
+            <span><strong>{product.name}</strong><small>{product.description}</small></span>
+          </button>
+        ))}
+      </div>
+
+      <div class="ai-sub-filter-bar" aria-label="优惠筛选">
+        <div class="ai-sub-status-filter" role="group" aria-label="领取状态">
+          <button class="active" type="button" data-status-filter="all">全部状态</button>
+          <button type="button" data-status-filter="可领取">可领取</button>
+          <button type="button" data-status-filter="待验证">待验证</button>
+          <button type="button" data-status-filter="已失效">已结束</button>
+        </div>
+
+        <div class="ai-sub-selects">
+          <label>
+            <span class="sr-only">优惠类型</span>
+            <select data-offer-filter aria-label="优惠类型">
+              <option value="all">全部类型</option>
+              {offerTypes.map((type) => <option value={type}>{type}</option>)}
+            </select>
+          </label>
+          <label>
+            <span class="sr-only">适用地区</span>
+            <select data-region-filter aria-label="适用地区">
+              <option value="all">全部地区</option>
+              {regions.map((region) => <option value={region}>{region}</option>)}
+            </select>
+          </label>
+        </div>
+      </div>
+
+      {sortedGuides.length > 0 ? (
+        <div class="ai-sub-grid" data-offer-grid>
+          {sortedGuides.map((guide) => {
+            const product = productFor(guide);
+            const offerType = offerTypeFor(guide);
+            const region = regionFor(guide);
+            const status = statusMeta[guide.status];
+            return (
+              <article
+                class={`ai-sub-card is-${status.className}`}
+                data-offer-card
+                data-product={product.slug}
+                data-status={guide.status}
+                data-offer-type={offerType}
+                data-region={region}
+              >
+                <div class="ai-sub-card-top">
+                  <div class="ai-sub-product-identity">
+                    <span class={`ai-sub-product-mark is-${product.slug}`}>{product.mark}</span>
+                    <span><strong>{product.name}</strong><small>{planFor(guide)}</small></span>
+                  </div>
+                  <span class={`ai-sub-status is-${status.className}`}>{status.label}</span>
+                </div>
+
+                <div class="ai-sub-card-benefit">
+                  <span>{offerType}</span>
+                  <h3>{benefitFor(guide)}</h3>
+                </div>
+
+                <div class="ai-sub-card-copy">
+                  <h4>{guide.title}</h4>
+                  <p>{guide.summary}</p>
+                </div>
+
+                <div class="ai-sub-card-meta">
+                  <span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-5.2 7-12A7 7 0 0 0 5 9c0 6.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.4"/></svg>
+                    {region}
+                  </span>
+                  <span>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                    {guide.lastVerified} 核验
+                  </span>
+                </div>
+
+                <div class="ai-sub-card-actions">
+                  <a class="ai-sub-primary-action" href={`/guides/${guide.slug}/`}>
+                    {status.cta}
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+                  </a>
+                  {guide.officialUrl && (
+                    <a class="ai-sub-secondary-action" href={guide.officialUrl} target="_blank" rel="noreferrer" aria-label={`${guide.title} 官方入口`}>
+                      官方入口
+                    </a>
+                  )}
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <div class="ai-sub-empty-static">
+          <strong>AI 订阅优惠正在整理中</strong>
+          <span>我们正在核验公开入口、领取条件和当前状态。</span>
+        </div>
+      )}
+
+      <div class="ai-sub-empty-filter" hidden data-empty-filter>
+        <strong>暂时没有符合当前筛选条件的优惠</strong>
+        <button type="button" data-reset-filter>查看全部 AI 订阅优惠</button>
+      </div>
+    </section>
+
+    <section class="ai-sub-shell ai-sub-notice" aria-labelledby="ai-sub-notice-title">
+      <div>
+        <span>领取提醒</span>
+        <h2 id="ai-sub-notice-title">领取前别漏掉这几项</h2>
+      </div>
+      <ul>
+        <li><strong>使用长期账号</strong><span>只绑定自己长期控制的账号和付款方式。</span></li>
+        <li><strong>确认免费期限</strong><span>结算页必须写清当前应付金额和结束日期。</span></li>
+        <li><strong>记录续费价格</strong><span>保存成功页面，并提前设置到期提醒。</span></li>
+        <li><strong>不要购买资格</strong><span>不购买身份、手机号、居民资料或共享兑换码。</span></li>
+      </ul>
+    </section>
+
+    <section class="ai-sub-shell ai-sub-related" aria-labelledby="ai-sub-related-title">
+      <div class="ai-sub-related-heading">
+        <span>继续浏览</span>
+        <h2 id="ai-sub-related-title">相关专题</h2>
+      </div>
+      <div class="ai-sub-related-grid">
+        <a href="/topics/student-education/"><strong>学生与教育优惠</strong><span>学生认证、教育邮箱和学校授权权益</span><em>查看专题 →</em></a>
+        <a href="/topics/common-software/"><strong>常用软件优惠</strong><span>办公、设计、开发和效率工具折扣</span><em>查看专题 →</em></a>
+        <a href="/topics/cloud-credit/"><strong>云服务赠金</strong><span>新用户赠金、免费额度和账单提醒</span><em>查看专题 →</em></a>
+      </div>
+    </section>
+  </main>
+
+  <script is:inline>
+    (() => {
+      const cards = [...document.querySelectorAll('[data-offer-card]')];
+      const productButtons = [...document.querySelectorAll('[data-product-filter]')];
+      const statusButtons = [...document.querySelectorAll('[data-status-filter]')];
+      const offerSelect = document.querySelector('[data-offer-filter]');
+      const regionSelect = document.querySelector('[data-region-filter]');
+      const empty = document.querySelector('[data-empty-filter]');
+      const reset = document.querySelector('[data-reset-filter]');
+
+      const params = new URLSearchParams(window.location.search);
+      let product = params.get('product') || 'all';
+      let status = 'all';
+
+      const setActive = (buttons, key, value) => {
+        buttons.forEach((button) => {
+          const active = button.dataset[key] === value;
+          button.classList.toggle('active', active);
+          if (button.getAttribute('role') === 'tab') button.setAttribute('aria-selected', String(active));
+        });
+      };
+
+      const apply = () => {
+        const offerType = offerSelect?.value || 'all';
+        const region = regionSelect?.value || 'all';
+        let visible = 0;
+
+        cards.forEach((card) => {
+          const show = (product === 'all' || card.dataset.product === product)
+            && (status === 'all' || card.dataset.status === status)
+            && (offerType === 'all' || card.dataset.offerType === offerType)
+            && (region === 'all' || card.dataset.region === region);
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+
+        if (empty) empty.hidden = visible !== 0;
+        setActive(productButtons, 'productFilter', product);
+        setActive(statusButtons, 'statusFilter', status);
+
+        const next = new URL(window.location.href);
+        if (product === 'all') next.searchParams.delete('product');
+        else next.searchParams.set('product', product);
+        window.history.replaceState({}, '', next);
+      };
+
+      productButtons.forEach((button) => button.addEventListener('click', () => {
+        product = button.dataset.productFilter || 'all';
+        apply();
+      }));
+
+      statusButtons.forEach((button) => button.addEventListener('click', () => {
+        status = button.dataset.statusFilter || 'all';
+        apply();
+      }));
+
+      offerSelect?.addEventListener('change', apply);
+      regionSelect?.addEventListener('change', apply);
+      reset?.addEventListener('click', () => {
+        product = 'all';
+        status = 'all';
+        if (offerSelect) offerSelect.value = 'all';
+        if (regionSelect) regionSelect.value = 'all';
+        apply();
+      });
+
+      if (!productButtons.some((button) => button.dataset.productFilter === product)) product = 'all';
+      apply();
+    })();
+  </script>
+</TopicLayout>
