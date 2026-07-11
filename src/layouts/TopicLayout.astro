@@ -10,6 +10,7 @@ interface Props {
 }
 
 const { title, description, topic } = Astro.props;
+const topicHref = (item: Topic) => item.visual === 'ai' ? '/ai-subscriptions/' : `/topics/${item.slug}/`;
 ---
 <!doctype html>
 <html lang="zh-CN">
@@ -42,7 +43,7 @@ const { title, description, topic } = Astro.props;
             </summary>
             <div class="topic-menu-panel">
               {topics.map((item) => (
-                <a class:list={{ active: item.slug === topic.slug }} href={`/topics/${item.slug}/`}>
+                <a class:list={{ active: item.slug === topic.slug }} href={topicHref(item)}>
                   <span class={`menu-visual is-${item.visual}`} aria-hidden="true"></span>
                   <span>
                     <strong>{item.title}</strong>
@@ -83,7 +84,7 @@ const { title, description, topic } = Astro.props;
 
         <div class="topic-footer-column">
           <strong>优惠专题</strong>
-          {topics.slice(0, 4).map((item) => <a href={`/topics/${item.slug}/`}>{item.title}</a>)}
+          {topics.slice(0, 4).map((item) => <a href={topicHref(item)}>{item.title}</a>)}
         </div>
 
         <div class="topic-footer-column">
