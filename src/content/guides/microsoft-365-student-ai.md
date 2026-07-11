@@ -1,76 +1,107 @@
 ---
-title: "Microsoft 365 学生权益：Office、Copilot 与 AI 生产力"
+title: "Microsoft 365 学生权益：A1 免费，个人版美国学生 5 折"
 category: "教育邮箱专题"
 categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "ai-tools"
   - "common-software"
-summary: "适合写学校邮箱能不能领取 Office、OneDrive、Microsoft 365 Premium 学生赠送，以及 Copilot 功能是否由学校或地区决定。"
-status: "待验证"
+summary: "Microsoft 的学生权益分为学校授权和个人订阅两条线：符合条件的学校可为学生提供免费的 Office 365 A1 网页应用；桌面版 Office 通常需要学校购买 A3/A5；美国高校学生还可用个人 Microsoft 账号以 US$4.99/月订阅 Microsoft 365 Personal，并获得 Copilot 和 1TB OneDrive。"
+status: "可领取"
+contentStatus: "已完成"
 difficulty: "简单"
-estimatedTime: "5-10 分钟"
-audience: "学生 / 教师 / 学校账号用户 / Office 重度用户"
-dealType: "学校授权 / 学生权益 / 限时赠送"
-lastVerified: "2026-07-08"
-originalPrice: "Microsoft 365 Personal / Premium 以官方定价为准"
-dealPrice: "Office 365 A1 可免费；Microsoft 365 Premium 学生赠送和 Copilot 权益以页面显示为准"
+estimatedTime: "约 5–15 分钟"
+audience: "高校学生、教师、学校 Microsoft 365 账号用户"
+dealType: "免费学校授权 / 学生折扣订阅"
+lastVerified: "2026-07-11"
+originalPrice: "美国 Microsoft 365 Personal 普通月费 US$9.99；学校 A3/A5 价格由机构采购决定"
+dealPrice: "学校 A1 网页版可免费；美国高校学生个人版 US$4.99/月，约 5 折"
 couponCode: "无需优惠码"
-region: "学校和地区差异明显，需用学校邮箱验证"
-warning: "Microsoft 365 教育权益强依赖学校授权。不是所有学校邮箱都能领取 Premium 或 Copilot，发布前必须用当前入口验证。"
+region: "学校 A1 面向符合条件的教育机构；个人版学生 5 折页面当前为美国地区"
+warning: "学校邮箱不等于自动获得桌面版 Office 或完整 Copilot。A1 主要是网页应用；桌面版 Word、Excel、PowerPoint 通常需要学校分配 A3/A5。Copilot Chat 可随符合条件的学校账号免费使用，但完整 Microsoft 365 Copilot 是额外付费许可。美国个人学生价需要个人 Microsoft 账号、付款方式和定期重新验证。"
+officialUrl: "https://www.microsoft.com/en-us/education/products/microsoft-365/compare-microsoft-365-education-plans"
+allBenefitsUrl: "https://www.microsoft.com/en-us/microsoft-365/college-student-pricing"
+benefits:
+  - name: "Office 365 A1"
+    value: "符合条件学校免费提供，主要为网页应用"
+    type: "core"
+  - name: "Word / Excel / PowerPoint"
+    value: "A1 网页版；A3/A5 才包含桌面与网页版本"
+    type: "core"
+  - name: "Copilot Chat"
+    value: "符合条件的学校账号可免费使用"
+    type: "core"
+  - name: "Microsoft 365 Copilot"
+    value: "教育学术价 US$18/用户/月，需学校额外购买"
+    type: "limited"
+  - name: "美国学生个人版"
+    value: "Microsoft 365 Personal US$4.99/月"
+    type: "limited"
+  - name: "个人版 OneDrive"
+    value: "1TB，包含个人版 Copilot 权益"
+    type: "limited"
+requirements:
+  - label: "学校权益：所在学校必须是符合条件的 Microsoft 教育机构"
+    level: "required"
+  - label: "学校需为你的学校账号分配 A1、A3 或 A5 许可"
+    level: "required"
+  - label: "个人学生价：需为受认可高校的全日制或非全日制在读学生"
+    level: "required"
+  - label: "个人学生价需使用个人 Microsoft 账号，而不是学校 EDU 账号购买"
+    level: "required"
+  - label: "个人学生价需添加付款方式并完成学生身份验证"
+    level: "required"
+verification:
+  label: "Microsoft Education / 学生身份验证"
+  guide: "/verification/#education-email"
 preparation:
-  - "学校邮箱。"
-  - "确认学校是否为 Microsoft 教育客户，是否提供 Office 365 A1、A3、A5 或其他授权。"
-  - "如果要领取学生 Premium 赠送，确认当前活动地区、学校和年龄要求。"
-  - "准备区分个人 Microsoft 账号和学校 / 工作账号。"
+  - "学校提供的 Microsoft 365 学校账号和学校邮箱"
+  - "一个本人长期使用的个人 Microsoft 账号，用于购买个人学生价"
+  - "确认自己需要的是学校免费网页版，还是个人桌面版和 1TB OneDrive"
+  - "个人学生价准备 EDU 邮箱、在读信息或页面接受的学生证明"
+  - "重要学校文件提前备份到本人长期控制的账号或本地设备"
 steps:
-  - title: "进入 Microsoft 教育学生入口"
-    description: "打开 Microsoft 365 Education 或 Get Office for Students 页面，输入学校邮箱验证资格。"
-    imageLabel: "Microsoft 教育入口截图"
-  - title: "检查学校邮箱是否通过"
-    description: "如果学校已开通教育授权，页面会提示可用计划或引导登录学校账号。"
-    note: "如果提示不符合条件，可能是学校没有开通或地区不支持。"
-    imageLabel: "学校邮箱验证结果截图"
-  - title: "确认当前计划名称"
-    description: "进入 Microsoft 365 账户页，查看自己是 Office 365 A1、学校授权版本，还是 Microsoft 365 Premium 学生赠送。"
-    imageLabel: "账户订阅页截图"
-  - title: "检查 Copilot 和 AI 功能"
-    description: "进入 Word、PowerPoint、Excel、OneDrive 或 Copilot 入口，确认当前账号是否有 AI 功能。学校授权、地区和套餐会影响可用性。"
-    imageLabel: "Copilot / Office AI 入口截图"
-  - title: "区分个人文件和学校文件"
-    description: "学校账号里的 OneDrive 和 Teams 资料可能受学校管理。重要个人文件建议另存到个人账号。"
-    imageLabel: "OneDrive 学校账号提示截图"
+  - title: "先区分学校授权和个人学生订阅"
+    description: "学校 Microsoft 365 Education 使用学校或工作账号，由学校 IT 管理；Microsoft 365 Personal 学生折扣使用个人 Microsoft 账号，由本人付款和管理。两条路径的文件、订阅、Copilot 和毕业后访问完全不同，不要混用同一个登录入口判断权益。"
+    note: "学校计划对比：[[Microsoft 365 Education plans|https://www.microsoft.com/en-us/education/products/microsoft-365/compare-microsoft-365-education-plans]] · 个人学生价：[[Microsoft 365 college student pricing|https://www.microsoft.com/en-us/microsoft-365/college-student-pricing]]"
+  - title: "登录学校账号检查学校分配的计划"
+    description: "使用学校提供的账号登录 Microsoft 365 门户，进入账号或订阅页面，查看是否存在 Office 365 A1、Microsoft 365 A3、A5 或学校自定义许可。只有学校已经成为符合条件的教育机构并给你分配许可，学生账号才会出现对应权益；学校邮箱后缀本身不会自动创建许可。"
+    note: "登录入口：[[Microsoft 365 portal|https://www.microsoft365.com/]]"
+  - title: "判断自己拿到的是网页 Office 还是桌面 Office"
+    description: "Microsoft 当前计划对比页明确：Office 365 A1 由 Microsoft 向符合条件的教育机构免费提供，但 Word、Excel、PowerPoint、OneNote 和 Outlook 主要是 Online only。A3 和 A5 才列出 Desktop and online。登录后如果只看到在浏览器中打开应用，而没有 Install apps 或安装按钮，通常说明学校只分配了 A1 或未分配桌面应用许可。"
+    note: "官方计划对比：[[Compare Microsoft 365 Education plans|https://www.microsoft.com/en-us/education/products/microsoft-365/compare-microsoft-365-education-plans]]"
+  - title: "检查免费的 Copilot Chat 是否可用"
+    description: "使用学校账号打开 Microsoft 365 Copilot 或 Copilot Chat。Microsoft 当前说明，A1、A3、A5 用户登录学校或工作账号后，可以无额外费用使用 Copilot Chat；目前主要面向教师、教职员工和 13 岁以上的高校学生。学校管理员仍可能关闭或限制访问，因此账号里没有入口时应先询问学校 IT。"
+    note: "官方说明：[[Copilot in Education|https://www.microsoft.com/en-us/education/products/copilot-in-education]]"
+  - title: "不要把 Copilot Chat 当成完整 Microsoft 365 Copilot"
+    description: "免费的 Copilot Chat 主要提供网页信息检索、文件上传、图片生成、Copilot Pages 和企业级数据保护。要在 Word、Excel、PowerPoint、Outlook、Teams 中深度调用学校 Microsoft Graph 数据和完整应用内 Copilot，学校需要购买 Microsoft 365 Copilot 附加许可。Microsoft 当前教育学术报价为 US$18/用户/月，不是教育邮箱自动免费。"
+    note: "官方当前价格和区别：[[Microsoft 365 Copilot for Education|https://www.microsoft.com/en-us/education/products/copilot-in-education]]"
+  - title: "需要个人桌面版时查看美国学生 5 折"
+    description: "美国高校学生可打开 Microsoft 365 学生定价页，使用个人邮箱创建或登录个人 Microsoft 账号，添加付款方式，再提供学校邮箱或其他在读信息完成验证。当前美国页面显示 Microsoft 365 Personal 为 US$4.99/月，约为普通月费的 50%，包含桌面版 Word、Excel、PowerPoint、Outlook、OneNote、1TB OneDrive 和个人版 Copilot。"
+    note: "美国学生价：[[Microsoft 365 student discount|https://www.microsoft.com/en-us/microsoft-365/college-student-pricing]]"
+  - title: "完成个人学生身份验证"
+    description: "Microsoft 当前接受多种验证方式，包括学校邮箱、在读信息、学校账号、ISIC、验证码，或带日期的学生证、当前成绩报告、课程表、录取通知等。购买账号必须是个人 Microsoft 账号，学校 EDU 邮箱主要用于验证，不应直接作为购买账号。"
+    note: "全日制和非全日制、在受认可大学或学院就读的学生均可申请，最终以验证页面结果为准。"
+  - title: "付款前检查自动续费和重新验证"
+    description: "个人学生价是按月自动续费的付费订阅，不是免费试用。当前页面说明，优惠期间会按学生月价持续扣费；Microsoft 会要求定期重新验证学生资格。无法继续验证时，价格会在后续周期提高到当时的普通月费。购买后进入个人 Microsoft 账号订阅页检查下一次扣费和 recurring billing。"
+    note: "订阅管理：[[Microsoft Services & subscriptions|https://account.microsoft.com/services]]"
+  - title: "毕业或离校前迁移学校文件"
+    description: "学校账号、邮箱、OneDrive、Teams 和共享文件都由学校管理员控制。毕业、退学、离职或学校更换许可后，账号可能被停用或降级。提前把个人简历、作品、课堂资料和重要 OneDrive 文件下载或复制到本人长期控制的个人账号；不要等学校邮箱失效后再处理。"
+    note: "个人订阅和学校订阅互相独立，购买个人版不会自动把学校 OneDrive 文件转入个人 OneDrive。"
 faq:
-  - question: "学校邮箱一定能免费用 Office 吗？"
-    answer: "不一定。要看学校是否开通 Microsoft 教育授权，以及你所在地区和账号是否符合条件。"
-  - question: "Copilot 是不是教育邮箱直接免费？"
-    answer: "不是。Copilot 权益取决于学校授权、Microsoft 当前学生活动、具体套餐和账号页面。"
-  - question: "个人 Microsoft 账号和学校账号有什么区别？"
-    answer: "学校账号通常由学校管理，可能影响数据保存、毕业后访问和管理员权限。教程里要提醒用户区分。"
-editorNote: "这篇适合做成“先查学校有没有授权”的实用教程。不要只写 Copilot 免费，应该把 Office、OneDrive、Premium 学生赠送和学校授权一起讲清楚。"
+  - question: "学校邮箱一定能免费安装桌面版 Office 吗？"
+    answer: "不一定。Office 365 A1 虽然由 Microsoft 免费提供给符合条件的学校，但官方当前列出的 Word、Excel、PowerPoint 等主要是网页版本。学校需要购买并分配 A3/A5 或其他桌面应用许可，你才会看到桌面版安装权益。"
+  - question: "Copilot 对学生是免费的吗？"
+    answer: "要分开看。符合条件的学校 A1/A3/A5 账号可以免费使用 Copilot Chat，但完整 Microsoft 365 Copilot 是学校额外购买的付费附加许可，当前教育学术价为 US$18/用户/月。"
+  - question: "美国学生 US$4.99/月是免费一年吗？"
+    answer: "当前美国官方学生页显示的是 Microsoft 365 Personal 约 5 折月付价 US$4.99/月，不是免费一年。历史上出现过限时免费活动，但不能沿用旧新闻判断当前优惠。"
+  - question: "个人学生价包含 Copilot 吗？"
+    answer: "包含。当前美国学生折扣页明确说明，Microsoft 365 Personal 学生订阅包含 Word、Excel、PowerPoint、OneNote、Outlook 中的个人版 Copilot 权益，以及 Copilot Chat 的 AI 图片生成功能；AI 使用额度和最低年龄限制仍适用。"
+  - question: "购买时应该用学校账号还是个人账号？"
+    answer: "个人学生价必须使用个人 Microsoft 账号购买，学校邮箱用于学生验证。学校 Microsoft 365 Education 权益则使用学校分配的工作或学校账号登录。"
+  - question: "为什么我能用 Word 网页版，但不能安装 Office？"
+    answer: "最常见原因是学校只分配了 Office 365 A1。A1 当前主要包含网页应用；A3/A5 才列出桌面和网页版本。也可能是学校管理员没有把桌面应用许可分配给你的账号。"
+  - question: "毕业后会自动继续享受学生价吗？"
+    answer: "不会永久保证。个人学生折扣需要定期重新验证，失去资格后会恢复为当时的普通价格。学校账号则由学校管理，毕业后可能被停用，因此应提前迁移文件。"
+editorNote: "首页必须醒目标注两条：学校 A1 免费但主要是网页 Office；美国个人学生版是 US$4.99/月 5 折，不是免费。Copilot Chat 免费，完整 Microsoft 365 Copilot 付费。"
 order: 22
 ---
-
-## 为什么值得写
-
-Microsoft 365 是教育邮箱最常见的权益之一。它既覆盖传统 Office、OneDrive、Teams，也逐渐覆盖 Copilot 和 AI 生产力功能。问题在于：权益强依赖学校授权，不能简单写成所有学生免费。
-
-## 写作重点
-
-这篇应该把三件事分开：
-
-- Office 365 A1：学校教育场景常见的免费 Web 应用权益。
-- Microsoft 365 Premium 学生赠送：可能是限时、地区或学校资格活动。
-- Copilot / AI 功能：取决于当前套餐、学校授权和页面显示。
-
-## 建议截图
-
-- Microsoft 教育入口
-- 学校邮箱验证结果
-- Microsoft 365 账户订阅页
-- Copilot / Office AI 功能入口
-- OneDrive 学校账号提示
-
-## 官方来源
-
-- Microsoft 365 Education：https://www.microsoft.com/education/products/microsoft-365
-- Microsoft 365 for students：https://www.microsoft.com/en-us/education/products/office
