@@ -1,9 +1,18 @@
 ---
 title: "日本 SoftBank 系 Perplexity Pro 6 个月免费"
-category: "AI 工具优惠"
-categorySlug: "ai-tools"
+category: "AI 订阅"
+categorySlug: "ai-subscriptions"
 relatedCategorySlugs:
+  - "ai-tools"
   - "common-software"
+productName: "Perplexity"
+productSlug: "perplexity"
+planName: "Perplexity Pro"
+offerType: "运营商赠送"
+countryCodes:
+  - "JP"
+regionLabel: "日本"
+featured: true
 summary: "日本 SoftBank、Y!mobile、LINEMO 及官方列出的部分合作线路，首次符合条件的用户可申请 Perplexity Pro 6 个月免费；第 7 个月起自动转为 2,950 日元/月。"
 status: "可领取"
 contentStatus: "已完成"
