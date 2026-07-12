@@ -47,6 +47,9 @@ jobs:
           path: astro-check.log
           retention-days: 3
 
+      - name: Audit source links and placeholders
+        run: npm run audit:links
+
       - name: Build site
         run: npm run build
 
