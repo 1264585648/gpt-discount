@@ -3,7 +3,12 @@ import TopicLayout from '../../layouts/TopicLayout.astro';
 import TopicCoverVisual from '../../components/TopicCoverVisual.astro';
 import TopicDealRow from '../../components/TopicDealRow.astro';
 import { topics, type Topic } from '../../data/topics';
-import { getGuides, getGuidesByCategory, type Guide } from '../../data/guides';
+import {
+  getGuidePresentationCategory,
+  getGuides,
+  getGuidesByCategory,
+  type Guide,
+} from '../../data/guides';
 
 export async function getStaticPaths() {
   return topics.map((topic) => ({ params: { slug: topic.slug }, props: { topic } }));
@@ -19,34 +24,17 @@ const relatedTopics = topic.relatedTopics
   .filter((item): item is Topic => Boolean(item))
   .slice(0, 3);
 
-const searchable = (guide: Guide) => [
-  guide.title,
-  guide.summary,
-  guide.dealType,
-  guide.dealPrice,
-  guide.audience,
-  guide.region,
-  guide.warning,
-].filter(Boolean).join(' ');
-
-const categoryFor = (guide: Guide) => {
-  const text = searchable(guide);
-  if (guide.status === '已失效') return '已结束';
-  if (guide.status === '待验证') return '待验证';
-  if (/部分地区|指定地区|地区限制/.test(text)) return '地区限制';
-  if (/学校授权|学校统一|教师身份|教育机构/.test(text)) return '学校授权';
-  if (/学生|教育邮箱|在校/.test(text)) return '学生优惠';
-  if (/限时|活动|首年/.test(text)) return '限时活动';
-  return '可领取';
-};
-
 const categoryOrder = ['可领取', '学生优惠', '学校授权', '限时活动', '地区限制', '待验证', '已结束'];
 const rank = Object.fromEntries(categoryOrder.map((category, index) => [category, index]));
 const sortedGuides = [...guides].sort(
-  (a, b) => (rank[categoryFor(a)] ?? 9) - (rank[categoryFor(b)] ?? 9) || (a.order ?? 999) - (b.order ?? 999)
+  (a, b) => (rank[getGuidePresentationCategory(a)] ?? 9) - (rank[getGuidePresentationCategory(b)] ?? 9)
+    || (a.order ?? 999) - (b.order ?? 999)
 );
 const categoryCounts = Object.fromEntries(
-  categoryOrder.map((category) => [category, sortedGuides.filter((guide) => categoryFor(guide) === category).length])
+  categoryOrder.map((category) => [
+    category,
+    sortedGuides.filter((guide) => getGuidePresentationCategory(guide) === category).length,
+  ])
 );
 const availableCategories = categoryOrder.filter((category) => categoryCounts[category] > 0);
 
@@ -56,39 +44,70 @@ const aiProductDefinitions = [
     label: 'ChatGPT',
     owner: 'OpenAI',
     mark: 'GPT',
-    description: 'Free、Go、Plus、Pro 和 ChatGPT Edu。',
-    guideSlugs: ['chatgpt-plans-student-discount'],
+    description: 'Free、Go、Plus、Pro、应用内购买与教育方案。',
   },
   {
     slug: 'claude',
     label: 'Claude',
     owner: 'Anthropic',
     mark: 'CL',
-    description: 'Claude 免费版、Pro 订阅和高校授权。',
-    guideSlugs: ['claude-pro-discount'],
+    description: 'Claude Free、Pro、Max 与学校授权。',
   },
   {
     slug: 'gemini',
     label: 'Gemini',
     owner: 'Google',
     mark: 'G',
-    description: 'Gemini 免费版、Google AI Pro 和学生优惠。',
-    guideSlugs: ['google-ai-pro-student'],
+    description: 'Gemini 免费版、Google AI Pro 与学生活动。',
   },
-];
+  {
+    slug: 'grok',
+    label: 'Grok',
+    owner: 'xAI / X',
+    mark: 'X',
+    description: '免费额度、SuperGrok 与 X Premium 相关权益。',
+  },
+  {
+    slug: 'cursor',
+    label: 'Cursor',
+    owner: 'Anysphere',
+    mark: 'CU',
+    description: '免费版、付费订阅与可能开放的资格活动。',
+  },
+  {
+    slug: 'perplexity',
+    label: 'Perplexity',
+    owner: 'Perplexity AI',
+    mark: 'P',
+    description: '免费版、Pro 订阅与合作活动。',
+  },
+  {
+    slug: 'other',
+    label: '其他 AI 工具',
+    owner: '更多产品',
+    mark: '+',
+    description: '尚未完成产品字段迁移的 AI 工具教程。',
+  },
+] as const;
+
+const aiGuides = allGuides.filter((guide) =>
+  guide.categorySlug === 'ai-tools' || guide.relatedCategorySlugs?.includes('ai-tools')
+);
 
 const aiProducts = aiProductDefinitions
   .map((product) => ({
     ...product,
-    guides: product.guideSlugs
-      .map((slug) => allGuides.find((guide) => guide.slug === slug))
-      .filter((guide): guide is Guide => Boolean(guide)),
+    guides: aiGuides
+      .filter((guide) => product.slug === 'other'
+        ? !guide.productSlug || guide.productSlug === 'other'
+        : guide.productSlug === product.slug)
+      .sort((a, b) => (a.order ?? 999) - (b.order ?? 999)),
   }))
   .filter((product) => product.guides.length > 0);
 
 const heroTags: Record<Topic['visual'], string[]> = {
   education: ['学生认证', '教育邮箱', '学校授权'],
-  ai: ['ChatGPT', 'Claude', 'Gemini'],
+  ai: ['免费版', '付费订阅', '领取教程'],
   software: ['办公效率', '设计开发', '订阅价格'],
   cloud: ['新用户赠金', '免费额度', '计费规则'],
 };
@@ -100,8 +119,6 @@ const initialVisible = 8;
   <main class="topic-page">
     <div class="topic-shell topic-breadcrumb" aria-label="面包屑">
       <a href="/">首页</a>
-      <span aria-hidden="true">/</span>
-      <a href={`/topics/${topic.slug}/`}>优惠分类</a>
       <span aria-hidden="true">/</span>
       <strong>{topic.title}</strong>
     </div>
@@ -129,39 +146,49 @@ const initialVisible = 8;
           <div class="topic-deals-header ai-topic-heading">
             <div>
               <span class="topic-section-kicker">按产品查看</span>
-              <h2 id="all-deals-title">ChatGPT、Claude 和 Gemini</h2>
-              <p>选择产品，查看对应套餐、优惠状态和领取教程。</p>
+              <h2 id="all-deals-title">AI 工具订阅与优惠教程</h2>
+              <p>选择产品，直接查看当前可用方案、限制和具体操作。</p>
             </div>
           </div>
 
-          <nav class="ai-product-nav" aria-label="AI 产品分类">
-            {aiProducts.map((product) => (
-              <a href={`#${product.slug}`}>
-                <span class={`ai-product-nav-mark is-${product.slug}`}>{product.mark}</span>
-                <span><strong>{product.label}</strong><small>{product.owner}</small></span>
-              </a>
-            ))}
-          </nav>
+          {aiProducts.length > 0 ? (
+            <>
+              <nav class="ai-product-nav" aria-label="AI 产品分类">
+                {aiProducts.map((product) => (
+                  <a href={`#${product.slug}`}>
+                    <span class={`ai-product-nav-mark is-${product.slug}`}>{product.mark}</span>
+                    <span><strong>{product.label}</strong><small>{product.owner}</small></span>
+                  </a>
+                ))}
+              </nav>
 
-          <div class="ai-product-groups" data-ai-product-groups>
-            {aiProducts.map((product) => (
-              <section class="ai-product-group" id={product.slug} aria-labelledby={`${product.slug}-title`}>
-                <div class="ai-product-group-heading">
-                  <span class={`ai-product-group-mark is-${product.slug}`}>{product.mark}</span>
-                  <div>
-                    <small>{product.owner}</small>
-                    <h3 id={`${product.slug}-title`}>{product.label}</h3>
-                    <p>{product.description}</p>
-                  </div>
-                </div>
-                <div class="topic-deal-list">
-                  {product.guides.map((guide, index) => (
-                    <TopicDealRow guide={guide} defaultOrder={index} />
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
+              <div class="ai-product-groups" data-ai-product-groups>
+                {aiProducts.map((product) => (
+                  <section class="ai-product-group" id={product.slug} aria-labelledby={`${product.slug}-title`}>
+                    <div class="ai-product-group-heading">
+                      <span class={`ai-product-group-mark is-${product.slug}`}>{product.mark}</span>
+                      <div>
+                        <small>{product.owner}</small>
+                        <h3 id={`${product.slug}-title`}>{product.label}</h3>
+                        <p>{product.description}</p>
+                      </div>
+                    </div>
+                    <div class="topic-deal-list">
+                      {product.guides.map((guide, index) => (
+                        <TopicDealRow guide={guide} defaultOrder={index} />
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div class="topic-content-empty">
+              <h3>目前没有已完成的 AI 工具教程</h3>
+              <p>文章完成并发布后会自动出现在这里。</p>
+              <div><a href="/">返回首页</a></div>
+            </div>
+          )}
         </>
       ) : (
         <>
@@ -223,7 +250,7 @@ const initialVisible = 8;
     <section class="topic-shell topic-related" aria-labelledby="related-title">
       <div class="topic-related-heading">
         <div><span class="topic-section-kicker">其他分类</span><h2 id="related-title">你可能还在找</h2></div>
-        <a href="/">查看全部分类 <span aria-hidden="true">→</span></a>
+        <a href="/#all-guides">查看全部分类 <span aria-hidden="true">→</span></a>
       </div>
       <div class="topic-related-grid">
         {relatedTopics.map((item) => (
@@ -241,7 +268,7 @@ const initialVisible = 8;
 
     .ai-product-nav {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
       gap: 10px;
       margin-top: 24px;
       padding-bottom: 24px;
@@ -284,6 +311,14 @@ const initialVisible = 8;
     .ai-product-group-mark.is-claude { background: #d97757; }
     .ai-product-nav-mark.is-gemini,
     .ai-product-group-mark.is-gemini { background: linear-gradient(135deg, #4285f4, #8e75d6 50%, #d96570); }
+    .ai-product-nav-mark.is-grok,
+    .ai-product-group-mark.is-grok { background: #050505; }
+    .ai-product-nav-mark.is-cursor,
+    .ai-product-group-mark.is-cursor { background: #22252b; }
+    .ai-product-nav-mark.is-perplexity,
+    .ai-product-group-mark.is-perplexity { background: #178b8b; }
+    .ai-product-nav-mark.is-other,
+    .ai-product-group-mark.is-other { background: #4f46e5; }
 
     .ai-product-nav strong,
     .ai-product-nav small { display: block; }
