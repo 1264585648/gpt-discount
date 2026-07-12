@@ -13,15 +13,15 @@ const platforms = verificationItems.filter((item) => item.type === 'platform');
 >
   <main class="verification-page">
     <div class="shell verification-shell">
-      <a class="back" href="/">← 返回</a>
+      <a class="back" href="/">← 返回首页</a>
 
       <header>
-        <h1>学生认证指南</h1>
-        <p>先准备资料，再按优惠页面显示的认证方式操作。</p>
+        <h1>学生认证</h1>
+        <p>不同优惠使用的认证方式不同。打开对应优惠后，按页面要求提交资料。</p>
       </header>
 
       <section>
-        <h2>先准备</h2>
+        <h2>需要准备的资料</h2>
         <div class="verify-grid material-grid">
           {materials.map((item) => (
             <article id={item.slug} class="verify-card">
@@ -36,14 +36,14 @@ const platforms = verificationItems.filter((item) => item.type === 'platform');
       </section>
 
       <section>
-        <h2>认证方式</h2>
+        <h2>常见认证平台</h2>
         <div class="verify-grid platform-grid">
           {platforms.map((item) => (
             <article id={item.slug} class="verify-card">
               <div class="verify-card-head">
                 <h3>{item.name}</h3>
                 {item.officialUrl && (
-                  <a href={item.officialUrl} target="_blank" rel="noreferrer">官方入口 →</a>
+                  <a href={item.officialUrl} target="_blank" rel="noreferrer">打开官网 →</a>
                 )}
               </div>
               <p>{item.summary}</p>
