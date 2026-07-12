@@ -36,7 +36,9 @@ for (const filename of readdirSync(guidesDirectory).filter((name) => name.endsWi
   const frontmatter = readFrontmatter(source, filename);
   const slug = basename(filename, '.md');
   const contentStatus = readScalar(frontmatter, 'contentStatus') ?? '待完善';
+  const contentType = readScalar(frontmatter, 'contentType');
   const status = readScalar(frontmatter, 'status');
+  const title = readScalar(frontmatter, 'title') ?? '';
   const lastVerified = readScalar(frontmatter, 'lastVerified');
   const verificationType = readScalar(frontmatter, 'verificationType');
   const priceVerifiedAt = readScalar(frontmatter, 'priceVerifiedAt');
@@ -67,10 +69,18 @@ for (const filename of readdirSync(guidesDirectory).filter((name) => name.endsWi
   }
 
   if (contentStatus === '已完成') {
-    const missingExplicitFields = ['offerType', 'eligibilityType', 'availabilityScope']
+    const missingExplicitFields = ['contentType', 'offerType', 'eligibilityType', 'availabilityScope']
       .filter((key) => !readScalar(frontmatter, key));
     if (missingExplicitFields.length > 0) {
-      warnings.push(`${filename}: 尚未迁移显式分类字段 ${missingExplicitFields.join(', ')}`);
+      warnings.push(`${filename}: 尚未迁移显式字段 ${missingExplicitFields.join(', ')}`);
+    }
+
+    if (status === '已失效' && contentType && contentType !== '状态核验' && contentType !== '风险说明') {
+      warnings.push(`${filename}: 已失效文章建议使用“状态核验”或“风险说明”内容类型`);
+    }
+
+    if (/总览|对比|怎么选/.test(title) && contentType && contentType !== '方案对比') {
+      warnings.push(`${filename}: 总览或对比文章建议使用“方案对比”内容类型`);
     }
 
     if (!verificationType) {
