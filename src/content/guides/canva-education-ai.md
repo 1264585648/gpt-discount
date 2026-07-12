@@ -7,6 +7,7 @@ relatedCategorySlugs:
 summary: "Canva Education 免费面向符合资格的 K-12 教师、学生和学校。大学生不能只凭高校邮箱领取 Canva Pro；只有学校采购并开放 Canva for Campus，学生才会获得对应高级权益。"
 status: "可领取"
 contentStatus: "已完成"
+contentType: "学校授权"
 publishedAt: "2026-07-11"
 updatedAt: "2026-07-12"
 difficulty: "简单"
