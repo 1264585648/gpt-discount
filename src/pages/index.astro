@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import HomeGuideCard from '../components/HomeGuideCard.astro';
 import { aiProducts, guideMatchesAiProduct, isAiTopicGuide } from '../data/ai-products';
 import { categories, getGuideBrand, getGuides, guideMatchesCategory, sortGuidesByFreshness } from '../data/guides';
 import '../styles/home-desktop.css';
@@ -122,7 +123,7 @@ const routes = [
               ))}
             </div>
           ) : (
-            <div>{guides.map((guide) => <a href={`/guides/${guide.slug}/`} data-guide-card data-search-text={`${guide.title} ${guide.summary} ${guide.audience} ${guide.category}`}>{guide.title}</a>)}</div>
+            <div class="home-guide-list">{guides.map((guide) => <HomeGuideCard guide={guide} />)}</div>
           )}
         </section>
       ))}
@@ -133,9 +134,10 @@ const routes = [
   <style>
     .hero-layout { grid-template-columns: minmax(0, 1fr); }
 
-    .home-ai-product-grid {
+    .home-ai-product-grid,
+    .home-guide-list {
       display: grid !important;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 10px;
     }
 
@@ -177,8 +179,9 @@ const routes = [
     .home-ai-product small { margin-top: 5px; color: #697184; font-size: 11px; line-height: 1.45; }
     .home-ai-product em { grid-column: 2; color: #8a92a3; font-size: 10px; font-style: normal; }
 
-    @media (max-width: 520px) {
-      .home-ai-product-grid { grid-template-columns: 1fr; }
+    @media (max-width: 620px) {
+      .home-ai-product-grid,
+      .home-guide-list { grid-template-columns: 1fr; }
     }
   </style>
 
