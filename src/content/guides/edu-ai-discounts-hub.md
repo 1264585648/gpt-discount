@@ -7,6 +7,7 @@ relatedCategorySlugs:
 summary: "教育优惠大致分为三类：个人验证后免费、学校统一采购、个人付费折扣。先领取 GitHub、JetBrains、Notion、Figma 等免费项目，再判断学校是否提供 Canva Campus 或 Microsoft 365，最后再考虑 Adobe 等付费学生价。"
 status: "可领取"
 contentStatus: "已完成"
+contentType: "方案对比"
 publishedAt: "2026-07-11"
 updatedAt: "2026-07-12"
 difficulty: "简单"
