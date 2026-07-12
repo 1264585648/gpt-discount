@@ -2,7 +2,7 @@
 import TopicLayout from '../../layouts/TopicLayout.astro';
 import TopicCoverVisual from '../../components/TopicCoverVisual.astro';
 import TopicDealRow from '../../components/TopicDealRow.astro';
-import { aiProducts } from '../../data/ai-products';
+import { aiProducts, guideMatchesAiProduct, isAiTopicGuide } from '../../data/ai-products';
 import { topics, type Topic } from '../../data/topics';
 import {
   getGuidePresentationCategory,
@@ -38,16 +38,12 @@ const categoryCounts = Object.fromEntries(
 );
 const availableCategories = categoryOrder.filter((category) => categoryCounts[category] > 0);
 
-const aiGuides = allGuides.filter((guide) =>
-  guide.categorySlug === 'ai-tools' || guide.relatedCategorySlugs?.includes('ai-tools')
-);
+const aiGuides = allGuides.filter(isAiTopicGuide);
 const aiProductGroups = aiProducts
   .map((product) => ({
     ...product,
     guides: aiGuides
-      .filter((guide) => product.slug === 'other'
-        ? !guide.productSlug || guide.productSlug === 'other'
-        : guide.productSlug === product.slug)
+      .filter((guide) => guideMatchesAiProduct(guide, product.slug))
       .sort((a, b) => (a.order ?? 999) - (b.order ?? 999)),
   }))
   .filter((product) => product.guides.length > 0)
