@@ -58,7 +58,7 @@ for (const file of htmlFiles) {
 }
 
 for (const [route, page] of pages) {
-  for (const match of page.html.matchAll(/\bhref=["']([^"']+)["']/gi)) {
+  for (const match of page.html.matchAll(/<a\b[^>]*\bhref=["']([^"']+)["'][^>]*>/gi)) {
     const href = match[1].trim();
     if (!href || /^(?:https?:|mailto:|tel:|javascript:|data:)/i.test(href)) continue;
 
