@@ -39,10 +39,14 @@
 - [x] 重写 Microsoft 365：拆分学校 A1、个人学生价和 Copilot
 - [x] 修正 GitHub Student Pack：Copilot 新计划注册暂停及合作权益期限
 - [x] 修正 Notion Education：区分直接 Education Plus 与 GitHub Pack AI 合作权益
-- [x] 第一、二批教程删除“条件—准备—步骤”中的重复信息
-- [ ] 重写 Canva Education、JetBrains、Google Cloud、Google AI Pro 等其余已发布教程
+- [x] 重写 Canva Education：拆分 K-12 免费与高校 Campus，控制为 6 步
+- [x] 重写 JetBrains 学生授权：明确三种验证方式、非商业限制和 AI Pro 不包含
+- [x] 重写 Google Cloud：补 90 天期限、试用结束处理和 Gemini API 不适用限制
+- [x] 重写 Google AI Pro 状态页：按历史活动处理，控制为 5 步
+- [x] 前三批教程删除“条件—准备—步骤”中的重复信息
 - [ ] 按内容类型进一步拆分模板：领取教程 / 状态核验 / 方案对比 / 学校授权 / 风险说明
 - [ ] 清理全部旧教程中未渲染的 Markdown 正文
+- [ ] 继续审阅其他已发布教程：Grok、X Premium、Google Cloud 之外的云服务和专题汇总页
 
 ## P3：防止再次出现断链和空壳内容
 
@@ -74,6 +78,10 @@
 - `50a07d7`：重写 Microsoft 365 学生权益教程
 - `6ca74a4`：修正 GitHub Student Pack 当前权益状态
 - `d424467`：修正 Notion Education 与 AI 合作权益
+- `9e6a027`：重写 Canva Education
+- `4f9ab9b`：重写 JetBrains 学生授权
+- `f955b52`：重写 Google Cloud US$300 赠金教程
+- `73f7a2e`：重写 Google AI Pro 学生优惠状态页
 - `e60ae7b`：统一分类名称并移除 emoji 元数据
 - `d4ff98d`：CI 恢复为只监听 `main`
 - `3b1e1cc`：README 恢复为单分支 `main`
@@ -82,5 +90,6 @@
 
 1. 在 Cloudflare Pages 控制台确认生产分支为 `main`。
 2. 查看 `main` 的 GitHub Actions 构建结果并修复可能的类型或链接问题。
-3. 继续依次重写 Canva、JetBrains、Google Cloud 和 Google AI Pro。
-4. 为剩余已发布教程补齐 `verificationType`、`priceVerifiedAt` 和 `benefitsVerifiedAt`。
+3. 清理剩余教程中未渲染的 Markdown 正文。
+4. 为其余已发布教程补齐 `verificationType`、`priceVerifiedAt` 和 `benefitsVerifiedAt`。
+5. 继续按内容类型拆分页面模板，降低所有教程使用同一结构带来的模板感。
