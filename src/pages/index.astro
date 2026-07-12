@@ -4,26 +4,62 @@ import { categories, getGuides, guideMatchesCategory } from '../data/guides';
 import '../styles/home-desktop.css';
 
 const allGuides = await getGuides();
-const latestSlugs = ['github-student-pack-copilot','jetbrains-idea-student-pack'];
+const latestSlugs = ['github-student-pack-copilot', 'jetbrains-idea-student-pack'];
 const latestGuides = latestSlugs.map((slug) => allGuides.find((guide) => guide.slug === slug)).filter(Boolean);
-const guideGroups = categories.map((category) => ({ category, guides: allGuides.filter((guide) => guideMatchesCategory(guide, category.slug)) }));
-const icon = (name:string) => ({
-  graduation:'<path d="m3 10 9-5 9 5-9 5-9-5Z"/><path d="M7 12v5c3.2 2.2 6.8 2.2 10 0v-5"/><path d="M21 10v6"/>',
-  spark:'<path d="m12 3 2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2L12 3Z"/><path d="m19 3 .7 2.3L22 6l-2.3.7L19 9l-.7-2.3L16 6l2.3-.7L19 3Z"/>',
-  grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
-  cloud:'<path d="M17.5 19H7a5 5 0 1 1 1-9.9A6.5 6.5 0 0 1 20.3 12"/><circle cx="18" cy="17" r="4"/><path d="M18 14.8v4.4M16.7 16.1h2.1c.8 0 .8 1.2 0 1.2h-1.6c-.8 0-.8 1.2 0 1.2h2.1"/>',
-  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
-  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
-  arrow:'<path d="M5 12h14M13 6l6 6-6 6"/>'
+const guideGroups = categories.map((category) => ({
+  category,
+  guides: allGuides.filter((guide) => guideMatchesCategory(guide, category.slug)),
+}));
+
+const aiHomeProducts = [
+  {
+    slug: 'gemini',
+    title: 'Gemini',
+    owner: 'Google',
+    description: 'Gemini 免费版、Google AI Pro 与学生优惠',
+    mark: 'G',
+  },
+  {
+    slug: 'gpt',
+    title: 'GPT / ChatGPT',
+    owner: 'OpenAI',
+    description: 'ChatGPT Free、Go、Plus、Pro 与教育方案',
+    mark: 'GPT',
+  },
+  {
+    slug: 'claude',
+    title: 'Claude',
+    owner: 'Anthropic',
+    description: 'Claude 免费版、Pro 订阅与高校授权',
+    mark: 'CL',
+  },
+  {
+    slug: 'other',
+    title: '其他 AI 工具',
+    owner: '更多产品',
+    description: 'Grok、Cursor、Perplexity 等工具',
+    mark: '+',
+  },
+];
+
+const icon = (name: string) => ({
+  graduation: '<path d="m3 10 9-5 9 5-9 5-9-5Z"/><path d="M7 12v5c3.2 2.2 6.8 2.2 10 0v-5"/><path d="M21 10v6"/>',
+  spark: '<path d="m12 3 2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2L12 3Z"/><path d="m19 3 .7 2.3L22 6l-2.3.7L19 9l-.7-2.3L16 6l2.3-.7L19 3Z"/>',
+  grid: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+  cloud: '<path d="M17.5 19H7a5 5 0 1 1 1-9.9A6.5 6.5 0 0 1 20.3 12"/><circle cx="18" cy="17" r="4"/><path d="M18 14.8v4.4M16.7 16.1h2.1c.8 0 .8 1.2 0 1.2h-1.6c-.8 0-.8 1.2 0 1.2h2.1"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  arrow: '<path d="M5 12h14M13 6l6 6-6 6"/>',
 }[name] || '');
 
 const routes = [
-  {icon:'graduation', cls:'purple', title:'学生与教育优惠', desc:'GitHub、JetBrains、Notion', detail:'学生免费计划与教育授权', href:'/topics/student-education/'},
-  {icon:'spark', cls:'violet', title:'AI 工具优惠', desc:'ChatGPT、Claude、Cursor', detail:'免费版、订阅折扣与限时活动', href:'/topics/ai-tools/'},
-  {icon:'grid', cls:'orange', title:'常用软件优惠', desc:'设计、办公、效率工具', detail:'学生价、免费计划与订阅折扣', href:'/topics/common-software/'},
-  {icon:'cloud', cls:'green', title:'云服务赠金', desc:'Google Cloud、AWS、Azure', detail:'新用户赠金、免费额度与试用', href:'/topics/cloud-credit/'}
+  { icon: 'graduation', cls: 'purple', title: '学生与教育优惠', desc: 'GitHub、JetBrains、Notion', detail: '学生免费计划与教育授权', href: '/topics/student-education/' },
+  { icon: 'spark', cls: 'violet', title: 'AI 工具优惠', desc: 'Gemini、GPT、Claude', detail: '按产品查看免费版、订阅与教育方案', href: '/topics/ai-tools/' },
+  { icon: 'grid', cls: 'orange', title: '常用软件优惠', desc: '设计、办公、效率工具', detail: '学生价、免费计划与订阅折扣', href: '/topics/common-software/' },
+  { icon: 'cloud', cls: 'green', title: '云服务赠金', desc: 'Google Cloud、AWS、Azure', detail: '新用户赠金、免费额度与试用', href: '/topics/cloud-credit/' },
 ];
 ---
+
 <BaseLayout title="GPT Discount｜AI 工具与软件优惠教程" description="查找 AI 工具、学生教育优惠、软件折扣和云服务赠金的领取教程。">
   <main class="mobile-home">
     <section class="hero-layout">
@@ -36,11 +72,11 @@ const routes = [
         <p>查看当前优惠、适用条件、官方入口和具体操作步骤。</p>
         <div class="search-box" role="search">
           <svg viewBox="0 0 24 24" set:html={icon('search')} />
-          <input data-search type="search" placeholder="搜索 ChatGPT、Claude、学生包……" aria-label="搜索优惠" />
+          <input data-search type="search" placeholder="搜索 Gemini、ChatGPT、Claude……" aria-label="搜索优惠" />
           <button type="button" data-search-submit aria-label="提交搜索"><svg viewBox="0 0 24 24" set:html={icon('search')} /><span>搜索优惠</span></button>
         </div>
         <div class="hot-tags" aria-label="热门搜索">
-          {['教育邮箱','GitHub 学生包','ChatGPT','Claude','云服务赠金'].map((item)=><button data-search-preset={item}>{item}</button>)}
+          {['Gemini', 'ChatGPT', 'Claude', 'GitHub 学生包', '云服务赠金'].map((item) => <button data-search-preset={item}>{item}</button>)}
         </div>
         <div class="trust-strip mobile-only">
           <div><strong>4</strong><span>类优惠</span></div>
@@ -54,51 +90,146 @@ const routes = [
       <h2>按分类查看</h2>
       <p>选择你正在找的优惠类型。</p>
       <div class="route-grid">
-        {routes.map((r)=><a class="route-card" href={r.href}>
-          <span class={`route-icon ${r.cls}`}><svg viewBox="0 0 24 24" set:html={icon(r.icon)} /></span>
-          <span class="route-copy"><strong>{r.title}</strong><small>{r.desc}</small><em class="desktop-only">{r.detail}</em></span>
-          <span class="route-arrow">›</span>
-        </a>)}
+        {routes.map((route) => (
+          <a class="route-card" href={route.href}>
+            <span class={`route-icon ${route.cls}`}><svg viewBox="0 0 24 24" set:html={icon(route.icon)} /></span>
+            <span class="route-copy"><strong>{route.title}</strong><small>{route.desc}</small><em class="desktop-only">{route.detail}</em></span>
+            <span class="route-arrow">›</span>
+          </a>
+        ))}
       </div>
     </section>
 
     <section class="verified-section" id="latest">
-      <div class="section-heading"><div><h2>最近更新</h2><p class="desktop-only">新近补充或更新的优惠教程。</p></div><a href="#all-guides">查看全部 <span>›</span></a></div>
+      <div class="section-heading">
+        <div><h2>最近更新</h2><p class="desktop-only">新近补充或更新的优惠教程。</p></div>
+        <a href="#all-guides">查看全部 <span>›</span></a>
+      </div>
       <div class="verified-list">
-        {latestGuides.map((g, index)=><a class={`verified-card ${index===1?'partial':''}`} href={`/guides/${g.slug}/`} data-guide-card data-search-text={`${g.title} ${g.summary} ${g.audience} ${g.category}`}>
-          <div class={`brand-mark ${g.slug.includes('github')?'github':'jetbrains'}`}>{g.slug.includes('github')?'GH':'JB'}</div>
-          <div class="verified-content">
-            <div class="verified-meta"><span class="status">{g.status}</span><span class="time"><svg viewBox="0 0 24 24" set:html={icon('clock')} />预计 {g.estimatedTime}</span></div>
-            <h3>{g.title}</h3>
-            <div class="verified-bottom"><strong>{g.dealPrice}</strong><span>适合：{g.audience}</span></div>
-            <small>{g.lastVerified} 核验</small>
-          </div>
-          <span class="enter"><svg viewBox="0 0 24 24" set:html={icon('arrow')} /></span>
-        </a>)}
+        {latestGuides.map((guide, index) => (
+          <a class={`verified-card ${index === 1 ? 'partial' : ''}`} href={`/guides/${guide.slug}/`} data-guide-card data-search-text={`${guide.title} ${guide.summary} ${guide.audience} ${guide.category}`}>
+            <div class={`brand-mark ${guide.slug.includes('github') ? 'github' : 'jetbrains'}`}>{guide.slug.includes('github') ? 'GH' : 'JB'}</div>
+            <div class="verified-content">
+              <div class="verified-meta"><span class="status">{guide.status}</span><span class="time"><svg viewBox="0 0 24 24" set:html={icon('clock')} />预计 {guide.estimatedTime}</span></div>
+              <h3>{guide.title}</h3>
+              <div class="verified-bottom"><strong>{guide.dealPrice}</strong><span>适合：{guide.audience}</span></div>
+              <small>{guide.lastVerified} 核验</small>
+            </div>
+            <span class="enter"><svg viewBox="0 0 24 24" set:html={icon('arrow')} /></span>
+          </a>
+        ))}
       </div>
     </section>
 
     <section class="all-guides" id="all-guides">
-      {guideGroups.map(({category,guides})=><section id={category.slug} data-category-block>
-        <h2>{category.name}</h2>
-        <div>{guides.map((g)=><a href={`/guides/${g.slug}/`} data-guide-card data-search-text={`${g.title} ${g.summary} ${g.audience} ${g.category}`}>{g.title}</a>)}</div>
-      </section>)}
+      {guideGroups.map(({ category, guides }) => (
+        <section id={category.slug} data-category-block>
+          <h2>{category.name}</h2>
+          {category.slug === 'ai-tools' ? (
+            <div class="home-ai-product-grid">
+              {aiHomeProducts.map((product) => (
+                <a
+                  class={`home-ai-product is-${product.slug}`}
+                  href={`/topics/ai-tools/#${product.slug}`}
+                  data-guide-card
+                  data-search-text={`${product.title} ${product.owner} ${product.description}`}
+                >
+                  <span class="home-ai-product-mark">{product.mark}</span>
+                  <span><strong>{product.title}</strong><small>{product.description}</small></span>
+                  <em>{product.owner}</em>
+                </a>
+              ))}
+            </div>
+          ) : (
+            <div>{guides.map((guide) => <a href={`/guides/${guide.slug}/`} data-guide-card data-search-text={`${guide.title} ${guide.summary} ${guide.audience} ${guide.category}`}>{guide.title}</a>)}</div>
+          )}
+        </section>
+      ))}
       <div class="empty-state" data-empty-state>没有找到匹配的优惠。</div>
     </section>
   </main>
+
   <style>
     .hero-layout { grid-template-columns: minmax(0, 1fr); }
+
+    .home-ai-product-grid {
+      display: grid !important;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .home-ai-product {
+      min-height: 118px;
+      display: grid !important;
+      grid-template-columns: 42px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 16px !important;
+      border: 1px solid #e5e9f0 !important;
+      border-radius: 14px !important;
+      background: #fff !important;
+    }
+
+    .home-ai-product-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      border-radius: 12px;
+      background: #111827;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .home-ai-product.is-gemini .home-ai-product-mark { background: linear-gradient(135deg, #4285f4, #9b72cb 50%, #d96570); }
+    .home-ai-product.is-claude .home-ai-product-mark { background: #d97757; }
+    .home-ai-product.is-other .home-ai-product-mark { background: #4f46e5; }
+
+    .home-ai-product strong,
+    .home-ai-product small,
+    .home-ai-product em { display: block; }
+    .home-ai-product strong { color: #182033; font-size: 15px; }
+    .home-ai-product small { margin-top: 5px; color: #697184; font-size: 11px; line-height: 1.45; }
+    .home-ai-product em { grid-column: 2; color: #8a92a3; font-size: 10px; font-style: normal; }
+
+    @media (max-width: 900px) {
+      .home-ai-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 520px) {
+      .home-ai-product-grid { grid-template-columns: 1fr; }
+    }
   </style>
+
   <script is:inline>
-    const input=document.querySelector('[data-search]');
-    const cards=[...document.querySelectorAll('[data-guide-card]')];
-    const blocks=[...document.querySelectorAll('[data-category-block]')];
-    const empty=document.querySelector('[data-empty-state]');
-    const apply=(v='')=>{const k=v.toLowerCase().trim();let n=0;cards.forEach(c=>{const ok=!k||(c.dataset.searchText||c.textContent).toLowerCase().includes(k);c.style.display=ok?'':'none';if(ok)n++});blocks.forEach(b=>b.style.display=[...b.querySelectorAll('[data-guide-card]')].some(c=>c.style.display!=='none')?'':'none');if(empty)empty.style.display=n?'none':'block'};
-    const submit=()=>{apply(input?.value||'');document.querySelector('#all-guides')?.scrollIntoView({behavior:'smooth'})};
-    input?.addEventListener('input',e=>apply(e.target.value));
-    input?.addEventListener('keydown',e=>e.key==='Enter'&&submit());
-    document.querySelector('[data-search-submit]')?.addEventListener('click',submit);
-    document.querySelectorAll('[data-search-preset]').forEach(b=>b.addEventListener('click',()=>{input.value=b.dataset.searchPreset;submit()}));
+    const input = document.querySelector('[data-search]');
+    const cards = [...document.querySelectorAll('[data-guide-card]')];
+    const blocks = [...document.querySelectorAll('[data-category-block]')];
+    const empty = document.querySelector('[data-empty-state]');
+    const apply = (value = '') => {
+      const keyword = value.toLowerCase().trim();
+      let count = 0;
+      cards.forEach((card) => {
+        const ok = !keyword || (card.dataset.searchText || card.textContent).toLowerCase().includes(keyword);
+        card.style.display = ok ? '' : 'none';
+        if (ok) count += 1;
+      });
+      blocks.forEach((block) => {
+        block.style.display = [...block.querySelectorAll('[data-guide-card]')].some((card) => card.style.display !== 'none') ? '' : 'none';
+      });
+      if (empty) empty.style.display = count ? 'none' : 'block';
+    };
+    const submit = () => {
+      apply(input?.value || '');
+      document.querySelector('#all-guides')?.scrollIntoView({ behavior: 'smooth' });
+    };
+    input?.addEventListener('input', (event) => apply(event.target.value));
+    input?.addEventListener('keydown', (event) => event.key === 'Enter' && submit());
+    document.querySelector('[data-search-submit]')?.addEventListener('click', submit);
+    document.querySelectorAll('[data-search-preset]').forEach((button) => button.addEventListener('click', () => {
+      input.value = button.dataset.searchPreset;
+      submit();
+    }));
   </script>
 </BaseLayout>
