@@ -257,6 +257,200 @@ const initialVisible = 8;
     </section>
   </main>
 
+  <style is:global>
+    .ai-topic-heading {
+      align-items: flex-start;
+    }
+
+    .ai-product-nav {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 24px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #edf0f4;
+    }
+
+    .ai-product-nav a {
+      min-height: 76px;
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr);
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      border: 1px solid #e4e8ef;
+      border-radius: 13px;
+      background: #fff;
+      transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+    }
+
+    .ai-product-nav a:hover {
+      border-color: color-mix(in srgb, var(--topic-accent) 25%, #e4e8ef);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, .06);
+      transform: translateY(-1px);
+    }
+
+    .ai-product-nav-mark,
+    .ai-product-group-mark {
+      display: grid;
+      place-items: center;
+      color: #fff;
+      border-radius: 12px;
+      background: #111827;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: -.035em;
+    }
+
+    .ai-product-nav-mark {
+      width: 44px;
+      height: 44px;
+    }
+
+    .ai-product-nav-mark.is-gemini,
+    .ai-product-group-mark.is-gemini {
+      background: linear-gradient(135deg, #4285f4, #8e75d6 50%, #d96570);
+    }
+
+    .ai-product-nav-mark.is-claude,
+    .ai-product-group-mark.is-claude {
+      background: #d97757;
+    }
+
+    .ai-product-nav-mark.is-other,
+    .ai-product-group-mark.is-other {
+      background: #4f46e5;
+    }
+
+    .ai-product-nav strong,
+    .ai-product-nav small {
+      display: block;
+    }
+
+    .ai-product-nav strong {
+      color: #182033;
+      font-size: 14px;
+    }
+
+    .ai-product-nav small {
+      margin-top: 4px;
+      color: #8a92a3;
+      font-size: 10px;
+    }
+
+    .ai-product-groups {
+      display: grid;
+      gap: 30px;
+      padding-top: 28px;
+    }
+
+    .ai-product-group {
+      scroll-margin-top: 96px;
+    }
+
+    .ai-product-group + .ai-product-group {
+      padding-top: 28px;
+      border-top: 1px solid #edf0f4;
+    }
+
+    .ai-product-group-heading {
+      display: grid;
+      grid-template-columns: 54px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .ai-product-group-mark {
+      width: 54px;
+      height: 54px;
+      border-radius: 15px;
+      font-size: 14px;
+    }
+
+    .ai-product-group-heading small,
+    .ai-product-group-heading h3,
+    .ai-product-group-heading p {
+      display: block;
+      margin: 0;
+    }
+
+    .ai-product-group-heading small {
+      color: var(--topic-accent);
+      font-size: 10px;
+      font-weight: 780;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .ai-product-group-heading h3 {
+      margin-top: 3px;
+      color: #151a28;
+      font-size: 23px;
+      line-height: 1.2;
+      letter-spacing: -.03em;
+    }
+
+    .ai-product-group-heading p {
+      margin-top: 5px;
+      color: #697184;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .ai-product-group-heading > strong {
+      min-width: 48px;
+      padding: 7px 9px;
+      color: #6e7686;
+      border-radius: 8px;
+      background: #f4f6f9;
+      font-size: 11px;
+      text-align: center;
+    }
+
+    .ai-product-group .topic-deal-list {
+      padding-top: 14px;
+    }
+
+    .deal-brand-mark.is-grok,
+    .deal-brand-mark.is-x {
+      background: #111827;
+    }
+
+    @media (max-width: 980px) {
+      .ai-product-nav {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      .ai-product-nav {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+
+      .ai-product-nav a {
+        min-height: 66px;
+      }
+
+      .ai-product-group-heading {
+        grid-template-columns: 48px minmax(0, 1fr);
+      }
+
+      .ai-product-group-mark {
+        width: 48px;
+        height: 48px;
+      }
+
+      .ai-product-group-heading > strong {
+        display: none;
+      }
+
+      .ai-product-group-heading h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+
   <script is:inline>
     (() => {
       if (document.querySelector('[data-ai-product-groups]')) return;
