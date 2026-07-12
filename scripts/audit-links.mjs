@@ -91,14 +91,14 @@ for (const path of sourceFiles) {
   }
 
   if (!isGuide || isPublishedGuide) {
-    for (const match of source.matchAll(/(?:href=|['"`])\/guides\/([a-z0-9-]+)\/?/g)) {
+    for (const match of source.matchAll(/(?:href=|['"`|])\/guides\/([a-z0-9-]+)\/?/g)) {
       const slug = match[1];
       if (!guideSlugs.has(slug)) {
         errors.push(`${name}: 引用了不存在的教程 /guides/${slug}/`);
       }
     }
 
-    for (const match of source.matchAll(/(?:href=|['"`])\/topics\/([a-z0-9-]+)\/?/g)) {
+    for (const match of source.matchAll(/(?:href=|['"`|])\/topics\/([a-z0-9-]+)\/?/g)) {
       const slug = match[1];
       if (!topicSlugs.has(slug)) {
         errors.push(`${name}: 引用了不存在的专题 /topics/${slug}/`);
@@ -146,8 +146,12 @@ if (existsSync(redirectsPath)) {
 for (const filename of guideFiles) {
   const source = readFileSync(join(guideDirectory, filename), 'utf8');
   const parts = source.split(/^---\s*$/m);
-  if (parts.length >= 3 && parts.slice(2).join('---').trim()) {
-    warnings.push(`${filename}: frontmatter 后仍有 Markdown 正文，但当前详情页不渲染正文`);
+  if (parts.length < 3 || !parts.slice(2).join('---').trim()) continue;
+
+  if (publishedGuideFiles.has(filename)) {
+    errors.push(`${filename}: 已发布文章在 frontmatter 后仍有 Markdown 正文，但当前详情页不渲染正文`);
+  } else {
+    warnings.push(`${filename}: 草稿在 frontmatter 后仍有 Markdown 正文；发布前需迁移到结构化字段或删除`);
   }
 }
 
