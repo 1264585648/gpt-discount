@@ -11,14 +11,25 @@ interface Props {
 const { guide, initiallyHidden = false, defaultOrder = 0 } = Astro.props;
 const category = getGuidePresentationCategory(guide);
 
+const contentPresentation = {
+  '领取教程': { column: '主要权益', cta: '查看领取教程' },
+  '状态核验': { column: '当前状态', cta: '查看状态与处理' },
+  '方案对比': { column: '方案概览', cta: '查看怎么选' },
+  '学校授权': { column: '授权内容', cta: '查看授权方式' },
+  '风险说明': { column: '影响范围', cta: '查看风险说明' },
+} as const;
+
+const content = contentPresentation[guide.contentType as keyof typeof contentPresentation]
+  ?? contentPresentation['领取教程'];
+
 const presentationStatus = () => {
-  if (guide.status === '已失效') return { label: '已结束', className: 'expired', cta: '查看历史信息' };
-  if (guide.status === '待验证') return { label: '待验证', className: 'pending', cta: '查看当前信息' };
-  if (category === '学校授权') return { label: '需学校授权', className: 'school', cta: '查看申请步骤' };
-  if (category === '学生优惠') return { label: '需学生认证', className: 'student', cta: '查看申请步骤' };
-  if (category === '限时活动') return { label: '限时活动', className: 'limited', cta: '查看领取教程' };
-  if (category === '地区限制') return { label: '部分地区可用', className: 'regional', cta: '查看适用地区' };
-  return { label: '可领取', className: 'available', cta: '查看领取教程' };
+  if (guide.status === '已失效') return { label: '已结束', className: 'expired' };
+  if (guide.status === '待验证') return { label: '待实测', className: 'pending' };
+  if (category === '学校授权') return { label: '需学校授权', className: 'school' };
+  if (category === '学生优惠') return { label: '需学生认证', className: 'student' };
+  if (category === '限时活动') return { label: '限时活动', className: 'limited' };
+  if (category === '地区限制') return { label: '部分地区可用', className: 'regional' };
+  return { label: '可领取', className: 'available' };
 };
 
 const status = presentationStatus();
@@ -28,13 +39,25 @@ const benefits = [...new Set([
   guide.dealPrice,
   guide.dealType,
 ].filter(Boolean))].slice(0, 3);
-const verifiedText = guide.status === '待验证' ? '尚未核验' : `${guide.lastVerified} 核验`;
+
+const verifiedText = guide.status === '待验证'
+  ? `${guide.lastVerified} 页面核验 · 待实测`
+  : `${guide.lastVerified} ${guide.verificationType}`;
+
+const officialLabel = guide.status === '已失效'
+  ? '官方状态'
+  : guide.offerType === '学生优惠' || guide.offerType === '学校授权'
+    ? '官方申请'
+    : guide.offerKind === 'credit'
+      ? '官方赠金'
+      : '官方页面';
 ---
 
 <article
-  class:list={['topic-deal-row', `is-${status.className}`, { 'is-initially-hidden': initiallyHidden }]}
+  class:list={['topic-deal-row', `is-${status.className}`, `is-${guide.contentType}`, { 'is-initially-hidden': initiallyHidden }]}
   data-deal-card
   data-category={category}
+  data-content-type={guide.contentType}
   data-title={guide.title}
   data-verified={guide.lastVerified}
   data-default-order={defaultOrder}
@@ -55,7 +78,7 @@ const verifiedText = guide.status === '待验证' ? '尚未核验' : `${guide.la
   </div>
 
   <div class="deal-benefits">
-    <span class="deal-column-label">主要权益</span>
+    <span class="deal-column-label">{content.column}</span>
     <ul>
       {benefits.map((benefit) => <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>{benefit}</span></li>)}
     </ul>
@@ -63,12 +86,12 @@ const verifiedText = guide.status === '待验证' ? '尚未核验' : `${guide.la
 
   <div class="deal-actions">
     <a class="deal-primary-action" href={`/guides/${guide.slug}/`}>
-      {status.cta}
+      {content.cta}
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
     </a>
     {guide.officialUrl ? (
       <a class="deal-secondary-action" href={guide.officialUrl} target="_blank" rel="noreferrer">
-        官方页面
+        {officialLabel}
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M13 11l6-6M19 13v6H5V5h6"/></svg>
       </a>
     ) : (
