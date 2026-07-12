@@ -1,0 +1,208 @@
+---
+import { sitePromotion } from '../data/site-promotion';
+
+interface Props {
+  placement?: 'page-top' | 'article-bottom';
+}
+
+const { placement = 'page-top' } = Astro.props;
+const isBottom = placement === 'article-bottom';
+---
+
+{sitePromotion.enabled && (
+  <aside class:list={['site-promotion', isBottom && 'is-bottom']} aria-label="购买推广">
+    <a href={sitePromotion.href} class="site-promotion-link">
+      <span class="site-promotion-label">{sitePromotion.label}</span>
+      <span class="site-promotion-copy">
+        <strong>{isBottom ? '教程看完了？直接查看可购买项目' : sitePromotion.title}</strong>
+        <small>{sitePromotion.description}</small>
+      </span>
+      <span class="site-promotion-action">
+        <b>{sitePromotion.buttonText}</b>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+      </span>
+      <span class="site-promotion-note">{sitePromotion.note}</span>
+    </a>
+  </aside>
+)}
+
+<style>
+  .site-promotion {
+    width: min(1180px, calc(100% - 40px));
+    margin: 18px auto 0;
+  }
+
+  .site-promotion.is-bottom {
+    margin-top: 42px;
+    margin-bottom: 8px;
+  }
+
+  .site-promotion-link {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: center;
+    min-height: 92px;
+    padding: 18px 22px;
+    overflow: hidden;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 16px;
+    background:
+      radial-gradient(circle at 82% 15%, rgba(255, 255, 255, .24), transparent 24%),
+      linear-gradient(120deg, #111827 0%, #312e81 52%, #5b21b6 100%);
+    box-shadow: 0 18px 42px rgba(49, 46, 129, .22);
+  }
+
+  .site-promotion-link::after {
+    content: '';
+    position: absolute;
+    right: -28px;
+    bottom: -48px;
+    width: 170px;
+    height: 170px;
+    border: 28px solid rgba(255, 255, 255, .08);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .site-promotion-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 22px 50px rgba(49, 46, 129, .3);
+  }
+
+  .site-promotion-label {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 12px;
+    color: #312e81;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .site-promotion-copy,
+  .site-promotion-action,
+  .site-promotion-note {
+    position: relative;
+    z-index: 1;
+  }
+
+  .site-promotion-copy strong,
+  .site-promotion-copy small {
+    display: block;
+  }
+
+  .site-promotion-copy strong {
+    font-size: clamp(18px, 2vw, 24px);
+    line-height: 1.3;
+  }
+
+  .site-promotion-copy small {
+    margin-top: 5px;
+    color: rgba(255, 255, 255, .76);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .site-promotion-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    padding: 0 17px;
+    color: #312e81;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 10px 22px rgba(15, 23, 42, .18);
+  }
+
+  .site-promotion-action b {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .site-promotion-action svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .site-promotion-note {
+    position: absolute;
+    right: 24px;
+    bottom: 5px;
+    color: rgba(255, 255, 255, .54);
+    font-size: 10px;
+  }
+
+  @media (max-width: 720px) {
+    .site-promotion {
+      width: min(100% - 24px, 1180px);
+      margin-top: 12px;
+    }
+
+    .site-promotion.is-bottom {
+      margin-top: 28px;
+    }
+
+    .site-promotion-link {
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      min-height: 0;
+      padding: 16px;
+      border-radius: 13px;
+    }
+
+    .site-promotion-label {
+      grid-column: 1 / -1;
+      width: fit-content;
+      min-height: 28px;
+      padding: 0 10px;
+      font-size: 10px;
+    }
+
+    .site-promotion-copy strong {
+      font-size: 17px;
+    }
+
+    .site-promotion-copy small {
+      font-size: 12px;
+    }
+
+    .site-promotion-action {
+      min-height: 42px;
+      padding: 0 13px;
+    }
+
+    .site-promotion-action b {
+      font-size: 12px;
+    }
+
+    .site-promotion-note {
+      display: none;
+    }
+  }
+
+  @media (max-width: 460px) {
+    .site-promotion-link {
+      grid-template-columns: 1fr;
+    }
+
+    .site-promotion-action {
+      width: fit-content;
+    }
+  }
+</style>
