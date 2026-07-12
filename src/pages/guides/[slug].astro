@@ -44,6 +44,57 @@ const verificationDetails = [
   guide.benefitsVerifiedAt ? `权益 ${guide.benefitsVerifiedAt}` : undefined,
 ].filter(Boolean).join(' · ');
 
+const contentTypeLabels = {
+  '领取教程': {
+    benefits: '主要权益',
+    benefitsLink: '查看主要权益',
+    requirements: '开始前确认',
+    steps: '操作步骤',
+    faq: '常见问题',
+    warning: '费用与限制',
+    typeClass: 'is-claim-guide',
+  },
+  '状态核验': {
+    benefits: '当前状态',
+    benefitsLink: '查看当前状态',
+    requirements: '需要核对',
+    steps: '检查方法',
+    faq: '后续处理',
+    warning: '状态说明',
+    typeClass: 'is-status-check',
+  },
+  '方案对比': {
+    benefits: '方案概览',
+    benefitsLink: '查看方案概览',
+    requirements: '选择前确认',
+    steps: '判断顺序',
+    faq: '选择疑问',
+    warning: '适用限制',
+    typeClass: 'is-comparison',
+  },
+  '学校授权': {
+    benefits: '授权内容',
+    benefitsLink: '查看授权内容',
+    requirements: '资格与授权',
+    steps: '获取方式',
+    faq: '授权问题',
+    warning: '学校与账号限制',
+    typeClass: 'is-school-license',
+  },
+  '风险说明': {
+    benefits: '影响范围',
+    benefitsLink: '查看影响范围',
+    requirements: '风险前提',
+    steps: '处理建议',
+    faq: '风险问答',
+    warning: '重要风险',
+    typeClass: 'is-risk-note',
+  },
+} as const;
+
+const contentLabels = contentTypeLabels[guide.contentType as keyof typeof contentTypeLabels]
+  ?? contentTypeLabels['领取教程'];
+
 const conditionItems = [
   ...requirements,
   ...(guide.verification
@@ -72,7 +123,7 @@ const benefitIcon = (name: string) => {
 ---
 
 <BaseLayout navMode="article" title={`${guide.title}｜GPT Discount`} description={guide.summary}>
-  <main class="deal-detail-page">
+  <main class={`deal-detail-page ${contentLabels.typeClass}`} data-content-type={guide.contentType}>
     <div class="deal-shell">
       <section class="deal-hero" aria-labelledby="deal-title">
         <div class="hero-copy-panel">
@@ -85,7 +136,7 @@ const benefitIcon = (name: string) => {
           </div>
           <div class="hero-actions">
             {guide.officialUrl && <a class="primary-action" href={guide.officialUrl} target="_blank" rel="noreferrer">{officialLabel}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>}
-            {guide.benefits.length > 0 && <a class="secondary-action" href="#benefits">查看主要权益<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>}
+            {guide.benefits.length > 0 && <a class="secondary-action" href="#benefits">{contentLabels.benefitsLink}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>}
           </div>
         </div>
 
@@ -93,7 +144,7 @@ const benefitIcon = (name: string) => {
           <div class="eligibility-status"><span class="status-check" aria-hidden="true">{guide.status === '可领取' ? '✓' : guide.status === '已失效' ? '×' : '!'}</span><strong>{guide.status === '可领取' ? '当前可用' : guide.status}</strong></div>
           <div class="eligibility-list">
             <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg><span>适用人群：{guide.audience}</span></div>
-            <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5-9-5Z" /><path d="M7 12v5c3 2 7 2 10 0v-5" /></svg><span>获取方式：{guide.verification?.label ?? guide.dealType}</span></div>
+            <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5-9-5Z" /><path d="M7 12v5c3 2 7 2 10 0v-5" /></svg><span>内容类型：{guide.contentType}</span></div>
             <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg><span>核验记录：{verificationDetails}</span></div>
             {guide.officialUrl && <a href={guide.officialUrl} target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14" /><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6" /></svg><span>官方入口：<b>{officialLabel}</b></span></a>}
           </div>
@@ -101,13 +152,13 @@ const benefitIcon = (name: string) => {
       </section>
 
       {guide.benefits.length > 0 && <section class="benefits-section" id="benefits" aria-labelledby="benefits-title">
-        <div class="section-heading"><h2 id="benefits-title">主要权益</h2>{guide.allBenefitsUrl && <a href={guide.allBenefitsUrl} target="_blank" rel="noreferrer">查看官方说明<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg></a>}</div>
+        <div class="section-heading"><h2 id="benefits-title">{contentLabels.benefits}</h2>{guide.allBenefitsUrl && <a href={guide.allBenefitsUrl} target="_blank" rel="noreferrer">查看官方说明<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg></a>}</div>
         <div class="benefit-grid">{guide.benefits.map((benefit) => <article class="benefit-card"><span class="benefit-logo" set:html={benefitIcon(benefit.name)}></span><div><strong>{benefit.name}</strong><p>{benefit.value}</p></div>{benefit.type === 'limited' && <small>有限制</small>}</article>)}</div>
       </section>}
 
       <div class="content-grid">
         <section class="detail-panel requirements-panel" aria-labelledby="requirements-title">
-          <h2 id="requirements-title">开始前确认</h2>
+          <h2 id="requirements-title">{contentLabels.requirements}</h2>
           <div class="condition-list">
             {conditionItems.map((item) => item.guide ? (
               <a href={item.guide}>
@@ -126,16 +177,16 @@ const benefitIcon = (name: string) => {
         </section>
 
         <section class="detail-panel steps-panel" id="steps" aria-labelledby="steps-title">
-          <h2 id="steps-title">操作步骤</h2>
+          <h2 id="steps-title">{contentLabels.steps}</h2>
           <ol class="step-list">{guide.steps.map((step, index) => <li><span class="step-number">{index + 1}</span><div class="step-copy"><h3>{step.title}</h3><p>{step.description}</p>{step.note && <small>{step.note}</small>}</div></li>)}</ol>
         </section>
       </div>
 
       {(guide.faq.length > 0 || guide.warning) && <section class="faq-panel" aria-labelledby="faq-title">
-        <h2 id="faq-title">常见问题</h2>
+        <h2 id="faq-title">{contentLabels.faq}</h2>
         <div class="faq-list">
           {guide.faq.map((item) => <details><summary><strong>{item.question}</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5" /></svg></summary><p>{item.answer}</p></details>)}
-          {guide.warning && <details><summary><strong>费用与限制</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5" /></svg></summary><p>{guide.warning}</p></details>}
+          {guide.warning && <details><summary><strong>{contentLabels.warning}</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5" /></svg></summary><p>{guide.warning}</p></details>}
         </div>
       </section>}
     </div>
