@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { categories, getGuides, guideMatchesCategory } from '../data/guides';
+import { categories, getGuideBrand, getGuides, guideMatchesCategory, sortGuidesByFreshness } from '../data/guides';
 import '../styles/home-desktop.css';
 
 const allGuides = await getGuides();
-const latestSlugs = ['github-student-pack-copilot', 'jetbrains-idea-student-pack'];
-const latestGuides = latestSlugs.map((slug) => allGuides.find((guide) => guide.slug === slug)).filter(Boolean);
+const latestGuides = [...allGuides]
+  .sort(sortGuidesByFreshness)
+  .slice(0, 2)
+  .map((guide) => ({ guide, brand: getGuideBrand(guide) }));
 const guideGroups = categories.map((category) => ({
   category,
   guides: allGuides.filter((guide) => guideMatchesCategory(guide, category.slug)),
@@ -102,18 +104,18 @@ const routes = [
 
     <section class="verified-section" id="latest">
       <div class="section-heading">
-        <div><h2>最近更新</h2><p class="desktop-only">新近补充或更新的优惠教程。</p></div>
+        <div><h2>最近更新</h2><p class="desktop-only">根据文章更新时间和最后核验日期自动展示。</p></div>
         <a href="#all-guides">查看全部 <span>›</span></a>
       </div>
       <div class="verified-list">
-        {latestGuides.map((guide, index) => (
+        {latestGuides.map(({ guide, brand }, index) => (
           <a class={`verified-card ${index === 1 ? 'partial' : ''}`} href={`/guides/${guide.slug}/`} data-guide-card data-search-text={`${guide.title} ${guide.summary} ${guide.audience} ${guide.category}`}>
-            <div class={`brand-mark ${guide.slug.includes('github') ? 'github' : 'jetbrains'}`}>{guide.slug.includes('github') ? 'GH' : 'JB'}</div>
+            <div class={`brand-mark ${brand.className}`}>{brand.label}</div>
             <div class="verified-content">
               <div class="verified-meta"><span class="status">{guide.status}</span><span class="time"><svg viewBox="0 0 24 24" set:html={icon('clock')} />预计 {guide.estimatedTime}</span></div>
               <h3>{guide.title}</h3>
               <div class="verified-bottom"><strong>{guide.dealPrice}</strong><span>适合：{guide.audience}</span></div>
-              <small>{guide.lastVerified} 核验</small>
+              <small>{guide.updatedAt ? `${guide.updatedAt} 更新` : `${guide.lastVerified} 核验`}</small>
             </div>
             <span class="enter"><svg viewBox="0 0 24 24" set:html={icon('arrow')} /></span>
           </a>
