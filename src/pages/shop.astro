@@ -1,0 +1,244 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { purchaseChannel } from '../data/site-promotion';
+
+const productGroups = [
+  {
+    title: 'AI 订阅与会员',
+    description: '查看当前可购买的 ChatGPT、Claude、Gemini、Grok 等相关服务。',
+  },
+  {
+    title: '礼品卡与充值',
+    description: '查看当前支持的地区、面额、付款方式和交付说明。',
+  },
+  {
+    title: '数字服务',
+    description: '查看当前在售的数字产品、使用期限与售后规则。',
+  },
+];
+---
+
+<BaseLayout title="购买 AI 订阅与数字服务｜GPT Discount" description="查看 GPT Discount 当前可购买的 AI 订阅、礼品卡与数字服务。">
+  <main class="shop-page">
+    <section class="shop-hero">
+      <span class="shop-kicker">GPT Discount 商城</span>
+      <h1>AI 订阅与数字服务购买入口</h1>
+      <p>查看当前可购买项目、实时价格、库存和交付说明。</p>
+      <a class="shop-primary" href={purchaseChannel.href} target="_blank" rel="noreferrer sponsored">
+        {purchaseChannel.label}
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg>
+      </a>
+      <small>最终价格、库存、交付时间与售后规则以购买页面显示为准。</small>
+    </section>
+
+    <section class="shop-groups" aria-label="可购买服务分类">
+      {productGroups.map((item) => (
+        <article>
+          <span aria-hidden="true"></span>
+          <h2>{item.title}</h2>
+          <p>{item.description}</p>
+          <a href={purchaseChannel.href} target="_blank" rel="noreferrer sponsored">查看当前项目 →</a>
+        </article>
+      ))}
+    </section>
+
+    <section class="shop-notice">
+      <strong>购买前先确认</strong>
+      <p>进入购买页面后，先核对产品名称、使用期限、适用地区、交付方式和售后范围，再完成付款。</p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .shop-page {
+    width: min(1120px, calc(100% - 40px));
+    margin: 38px auto 72px;
+  }
+
+  .shop-hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(36px, 6vw, 72px);
+    color: #fff;
+    border-radius: 24px;
+    background:
+      radial-gradient(circle at 85% 15%, rgba(255, 255, 255, .24), transparent 23%),
+      linear-gradient(135deg, #111827 0%, #312e81 50%, #6d28d9 100%);
+    box-shadow: 0 28px 70px rgba(49, 46, 129, .24);
+  }
+
+  .shop-hero::after {
+    content: '';
+    position: absolute;
+    right: -80px;
+    bottom: -120px;
+    width: 320px;
+    height: 320px;
+    border: 48px solid rgba(255, 255, 255, .08);
+    border-radius: 50%;
+  }
+
+  .shop-kicker,
+  .shop-hero h1,
+  .shop-hero p,
+  .shop-primary,
+  .shop-hero small {
+    position: relative;
+    z-index: 1;
+  }
+
+  .shop-kicker {
+    display: inline-flex;
+    min-height: 32px;
+    align-items: center;
+    padding: 0 12px;
+    color: #312e81;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .08em;
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .shop-hero h1 {
+    max-width: 760px;
+    margin: 22px 0 0;
+    font-size: clamp(34px, 6vw, 62px);
+    line-height: 1.08;
+    letter-spacing: -.04em;
+  }
+
+  .shop-hero p {
+    max-width: 660px;
+    margin: 18px 0 0;
+    color: rgba(255, 255, 255, .78);
+    font-size: 18px;
+    line-height: 1.75;
+  }
+
+  .shop-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 52px;
+    margin-top: 28px;
+    padding: 0 22px;
+    color: #312e81;
+    font-size: 15px;
+    font-weight: 900;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 14px 28px rgba(15, 23, 42, .2);
+  }
+
+  .shop-primary svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .shop-hero small {
+    display: block;
+    margin-top: 14px;
+    color: rgba(255, 255, 255, .6);
+    font-size: 12px;
+  }
+
+  .shop-groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 24px;
+  }
+
+  .shop-groups article {
+    padding: 24px;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 14px 34px rgba(15, 23, 42, .06);
+  }
+
+  .shop-groups article > span {
+    display: block;
+    width: 42px;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+  }
+
+  .shop-groups h2 {
+    margin: 20px 0 0;
+    color: #111827;
+    font-size: 21px;
+  }
+
+  .shop-groups p {
+    min-height: 72px;
+    margin: 10px 0 0;
+    color: #667085;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .shop-groups a {
+    display: inline-flex;
+    margin-top: 18px;
+    color: #4f46e5;
+    font-size: 14px;
+    font-weight: 850;
+  }
+
+  .shop-notice {
+    margin-top: 24px;
+    padding: 20px 22px;
+    border: 1px solid #dddafe;
+    border-radius: 16px;
+    background: #f7f7ff;
+  }
+
+  .shop-notice strong {
+    color: #3730a3;
+    font-size: 15px;
+  }
+
+  .shop-notice p {
+    margin: 7px 0 0;
+    color: #5b6474;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 760px) {
+    .shop-page {
+      width: min(100% - 24px, 1120px);
+      margin-top: 20px;
+    }
+
+    .shop-hero {
+      padding: 28px 22px;
+      border-radius: 18px;
+    }
+
+    .shop-hero h1 {
+      font-size: 34px;
+    }
+
+    .shop-hero p {
+      font-size: 15px;
+    }
+
+    .shop-groups {
+      grid-template-columns: 1fr;
+    }
+
+    .shop-groups p {
+      min-height: 0;
+    }
+  }
+</style>
