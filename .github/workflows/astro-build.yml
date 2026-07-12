@@ -4,7 +4,7 @@ on:
   pull_request:
   push:
     branches:
-      - main
+      - master
 
 permissions:
   contents: read
@@ -55,3 +55,6 @@ jobs:
 
       - name: Audit published content
         run: npm run audit:build
+
+      - name: Audit generated pages and internal links
+        run: npm run audit:dist
