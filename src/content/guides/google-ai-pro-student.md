@@ -7,6 +7,7 @@ relatedCategorySlugs:
 summary: "Google 当前公开学生页显示，上一轮 Google AI Pro 学生优惠已于 2026 年 3 月 11 日结束，并在当前访问地区不再提供。新用户不能继续按旧教程领取；已领取用户应检查自己的结束日期、续费价格和存储占用。"
 status: "已失效"
 contentStatus: "已完成"
+contentType: "状态核验"
 publishedAt: "2026-07-11"
 updatedAt: "2026-07-12"
 difficulty: "简单"
