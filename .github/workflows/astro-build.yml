@@ -30,7 +30,13 @@ jobs:
         run: npm install --no-audit --no-fund
 
       - name: Type-check Astro
-        run: npm run check
+        shell: bash
+        run: |
+          set +e
+          npm run check > astro-check.log 2>&1
+          status=$?
+          tail -n 120 astro-check.log
+          exit $status
 
       - name: Build site
         run: npm run build
