@@ -29,13 +29,13 @@ export const topics: Topic[] = [
   {
     title: 'AI 工具优惠',
     slug: 'ai-tools',
-    description: 'ChatGPT、Claude、Cursor 等 AI 工具的免费版、订阅折扣、学生权益和限时活动。',
-    slogan: 'AI 工具免费版、订阅折扣和限时活动。',
+    description: '按 Gemini、GPT / ChatGPT、Claude 等产品查看免费版、付费套餐、学生优惠和学校授权。',
+    slogan: 'Gemini、GPT、Claude 等 AI 工具优惠。',
     categorySlug: 'ai-tools',
     accentColor: '#4f46e5',
     accentSoft: '#eef2ff',
     visual: 'ai',
-    coverNote: '每项优惠分别列出当前状态、价格和官方入口',
+    coverNote: '先选择产品，再查看对应套餐与领取教程',
     relatedTopics: ['student-education', 'common-software', 'cloud-credit'],
   },
   {
