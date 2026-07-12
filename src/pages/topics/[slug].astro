@@ -2,12 +2,12 @@
 import TopicLayout from '../../layouts/TopicLayout.astro';
 import TopicCoverVisual from '../../components/TopicCoverVisual.astro';
 import TopicDealRow from '../../components/TopicDealRow.astro';
+import { aiProducts } from '../../data/ai-products';
 import { topics, type Topic } from '../../data/topics';
 import {
   getGuidePresentationCategory,
   getGuides,
   getGuidesByCategory,
-  type Guide,
 } from '../../data/guides';
 
 export async function getStaticPaths() {
@@ -38,63 +38,10 @@ const categoryCounts = Object.fromEntries(
 );
 const availableCategories = categoryOrder.filter((category) => categoryCounts[category] > 0);
 
-const aiProductDefinitions = [
-  {
-    slug: 'chatgpt',
-    label: 'ChatGPT',
-    owner: 'OpenAI',
-    mark: 'GPT',
-    description: 'Free、Go、Plus、Pro、应用内购买与教育方案。',
-  },
-  {
-    slug: 'claude',
-    label: 'Claude',
-    owner: 'Anthropic',
-    mark: 'CL',
-    description: 'Claude Free、Pro、Max 与学校授权。',
-  },
-  {
-    slug: 'gemini',
-    label: 'Gemini',
-    owner: 'Google',
-    mark: 'G',
-    description: 'Gemini 免费版、Google AI Pro 与学生活动。',
-  },
-  {
-    slug: 'grok',
-    label: 'Grok',
-    owner: 'xAI / X',
-    mark: 'X',
-    description: '免费额度、SuperGrok 与 X Premium 相关权益。',
-  },
-  {
-    slug: 'cursor',
-    label: 'Cursor',
-    owner: 'Anysphere',
-    mark: 'CU',
-    description: '免费版、付费订阅与可能开放的资格活动。',
-  },
-  {
-    slug: 'perplexity',
-    label: 'Perplexity',
-    owner: 'Perplexity AI',
-    mark: 'P',
-    description: '免费版、Pro 订阅与合作活动。',
-  },
-  {
-    slug: 'other',
-    label: '其他 AI 工具',
-    owner: '更多产品',
-    mark: '+',
-    description: '尚未完成产品字段迁移的 AI 工具教程。',
-  },
-] as const;
-
 const aiGuides = allGuides.filter((guide) =>
   guide.categorySlug === 'ai-tools' || guide.relatedCategorySlugs?.includes('ai-tools')
 );
-
-const aiProducts = aiProductDefinitions
+const aiProductGroups = aiProducts
   .map((product) => ({
     ...product,
     guides: aiGuides
@@ -103,7 +50,8 @@ const aiProducts = aiProductDefinitions
         : guide.productSlug === product.slug)
       .sort((a, b) => (a.order ?? 999) - (b.order ?? 999)),
   }))
-  .filter((product) => product.guides.length > 0);
+  .filter((product) => product.guides.length > 0)
+  .sort((a, b) => a.order - b.order);
 
 const heroTags: Record<Topic['visual'], string[]> = {
   education: ['学生认证', '教育邮箱', '学校授权'],
@@ -151,25 +99,25 @@ const initialVisible = 8;
             </div>
           </div>
 
-          {aiProducts.length > 0 ? (
+          {aiProductGroups.length > 0 ? (
             <>
               <nav class="ai-product-nav" aria-label="AI 产品分类">
-                {aiProducts.map((product) => (
+                {aiProductGroups.map((product) => (
                   <a href={`#${product.slug}`}>
                     <span class={`ai-product-nav-mark is-${product.slug}`}>{product.mark}</span>
-                    <span><strong>{product.label}</strong><small>{product.owner}</small></span>
+                    <span><strong>{product.name}</strong><small>{product.owner}</small></span>
                   </a>
                 ))}
               </nav>
 
               <div class="ai-product-groups" data-ai-product-groups>
-                {aiProducts.map((product) => (
+                {aiProductGroups.map((product) => (
                   <section class="ai-product-group" id={product.slug} aria-labelledby={`${product.slug}-title`}>
                     <div class="ai-product-group-heading">
                       <span class={`ai-product-group-mark is-${product.slug}`}>{product.mark}</span>
                       <div>
                         <small>{product.owner}</small>
-                        <h3 id={`${product.slug}-title`}>{product.label}</h3>
+                        <h3 id={`${product.slug}-title`}>{product.name}</h3>
                         <p>{product.description}</p>
                       </div>
                     </div>
