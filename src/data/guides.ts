@@ -27,26 +27,22 @@ export const categories = [
   {
     name: 'AI 工具优惠',
     slug: 'ai-tools',
-    icon: '🤖',
-    description: 'ChatGPT、Claude、Cursor、Perplexity、Grok 等 AI 工具订阅优惠和领取教程。',
+    description: 'ChatGPT、Claude、Gemini、Grok 等 AI 工具的免费版、订阅方案和领取教程。',
   },
   {
-    name: '教育邮箱专题',
+    name: '学生与教育优惠',
     slug: 'edu-ai-discounts',
-    icon: '🎓',
-    description: '教育邮箱、学生认证、GitHub Student Pack 等可领取的 AI 工具、设计、视频、办公优惠。',
+    description: '学生认证、教育邮箱、学校授权和学生折扣教程。',
   },
   {
     name: '常用软件优惠',
     slug: 'common-software',
-    icon: '🧰',
-    description: 'X Premium、Notion、1Password、办公软件、浏览器插件等常用软件订阅优惠和使用教程。',
+    description: '设计、办公、开发和效率软件的免费计划与订阅折扣。',
   },
   {
-    name: '云服务 / 免费额度',
+    name: '云服务赠金',
     slug: 'cloud-credit',
-    icon: '☁️',
-    description: 'Google Cloud、Oracle Cloud、VPS 等云服务赠金、免费额度和账单避坑教程。',
+    description: '云服务新用户赠金、长期免费额度和账单避坑教程。',
   },
 ];
 
