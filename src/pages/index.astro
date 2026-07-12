@@ -91,6 +91,9 @@ const routes = [
       <div class="empty-state" data-empty-state>没有找到匹配的优惠。</div>
     </section>
   </main>
+  <style>
+    .hero-layout { grid-template-columns: minmax(0, 1fr); }
+  </style>
   <script is:inline>
     const input=document.querySelector('[data-search]');
     const cards=[...document.querySelectorAll('[data-guide-card]')];
