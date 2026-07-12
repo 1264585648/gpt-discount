@@ -1,0 +1,5 @@
+GPT Discount deployment trigger
+Commit: 471aa56c91b26d3ad51c9a69d081168e9ff62362
+Route: /topics/ai-tools/
+Expected categories: ChatGPT, Claude, Gemini
+Triggered: 2026-07-12
