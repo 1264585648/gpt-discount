@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { aiProducts } from '../data/ai-products';
+import { aiProducts, guideMatchesAiProduct, isAiTopicGuide } from '../data/ai-products';
 import { categories, getGuideBrand, getGuides, guideMatchesCategory, sortGuidesByFreshness } from '../data/guides';
 import '../styles/home-desktop.css';
 
@@ -14,15 +14,11 @@ const guideGroups = categories.map((category) => ({
   guides: allGuides.filter((guide) => guideMatchesCategory(guide, category.slug)),
 }));
 
-const aiGuides = allGuides.filter((guide) =>
-  guide.categorySlug === 'ai-tools' || guide.relatedCategorySlugs?.includes('ai-tools')
-);
+const aiGuides = allGuides.filter(isAiTopicGuide);
 const homeAiProducts = aiProducts
   .map((product) => ({
     ...product,
-    guides: aiGuides.filter((guide) => product.slug === 'other'
-      ? !guide.productSlug || guide.productSlug === 'other'
-      : guide.productSlug === product.slug),
+    guides: aiGuides.filter((guide) => guideMatchesAiProduct(guide, product.slug)),
   }))
   .filter((product) => product.guides.length > 0)
   .sort((a, b) => a.order - b.order);
