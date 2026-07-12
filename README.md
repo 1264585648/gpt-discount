@@ -38,7 +38,7 @@ main
 /
 ```
 
-包含搜索、最近更新、四类专题入口和全部已完成教程。
+包含搜索、最近更新、四类专题入口和全部已完成教程。AI 工具按产品聚合，其他分类统一使用轻量教程卡片，展示状态、内容类型、核心价格和核验日期。
 
 ### 专题页
 
@@ -50,6 +50,8 @@ main
 ```
 
 AI 专题从 `src/data/ai-products.ts` 读取产品信息，并按照教程的 `productSlug` 自动分组。只有主分类为 AI，或明确填写了 AI 产品字段的教程会进入 AI 专题。
+
+专题列表会根据 `contentType` 区分领取教程、状态核验、方案对比、学校授权和风险说明，不再把全部内容显示成同一种领取卡片。
 
 ### 学生认证
 
@@ -69,10 +71,12 @@ AI 专题从 `src/data/ai-products.ts` 读取产品信息，并按照教程的 `
 
 - 当前状态和核心权益
 - 开始前需要确认的条件
-- 操作步骤
+- 操作步骤或检查方法
 - 官方入口
 - 常见问题与限制
 - 核验方式和核验日期
+
+栏目名称会随 `contentType` 改变。例如状态核验页使用“当前状态 / 检查方法”，方案对比页使用“方案概览 / 判断顺序”，学校授权页使用“授权内容 / 获取方式”。
 
 只有 `contentStatus: 已完成` 的文章会生成公开页面。
 
@@ -110,6 +114,8 @@ AI 专题从 `src/data/ai-products.ts` 读取产品信息，并按照教程的 `
 │  └─ audit-dist-links.mjs
 ├─ src/
 │  ├─ components/
+│  │  ├─ HomeGuideCard.astro
+│  │  └─ TopicDealRow.astro
 │  ├─ content/guides/
 │  ├─ data/
 │  │  ├─ ai-products.ts
@@ -151,12 +157,14 @@ npm run verify
 
 - Astro 类型和静态构建
 - 已删除路径和错误锚点
+- 结构化步骤备注中的站内链接
 - 已发布页面中的占位文案
+- 已发布文章是否存在未渲染 Markdown 正文
 - 活动到期状态
 - 已完成文章是否生成详情页
 - 构建后的站内页面、链接和锚点
 - 空专题页
-- 价格、权益和核验字段的迁移提醒
+- 内容类型、分类、价格、权益和核验字段的迁移提醒
 
 ## Cloudflare Pages
 
@@ -186,6 +194,7 @@ src/content.config.ts
 
 已完成文章应优先填写：
 
+- `contentType`
 - `productName` / `productSlug` / `planName`
 - `offerKind` / `offerType`
 - `eligibilityType` / `availabilityScope`
@@ -194,10 +203,18 @@ src/content.config.ts
 - `priceVerifiedAt` / `benefitsVerifiedAt`
 - `requirements` / `steps` / `faq`
 
+内容类型：
+
+```yaml
+contentType: "领取教程"
+# 可选：状态核验 / 方案对比 / 学校授权 / 风险说明
+```
+
 核验类型：
 
 ```yaml
-verificationType: "官方页面核验" # 或 账号实测 / 付款实测
+verificationType: "官方页面核验"
+# 可选：账号实测 / 付款实测
 ```
 
 文章完成前保持：
@@ -211,6 +228,8 @@ contentStatus: "待完善"
 ```yaml
 contentStatus: "已完成"
 ```
+
+已发布文章不能在 frontmatter 后保留详情页不会渲染的 Markdown 正文；内容必须迁移到结构化字段，或正式修改页面渲染方式。
 
 ## 优化清单
 
