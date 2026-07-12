@@ -5,6 +5,7 @@ const root = process.cwd();
 const dist = join(root, 'dist');
 const errors = [];
 const warnings = [];
+const auditOrigin = 'https://audit.local';
 
 if (!existsSync(dist)) {
   console.error('DIST LINK ERROR: dist 目录不存在，请先执行 npm run build');
@@ -64,11 +65,13 @@ for (const [route, page] of pages) {
 
     let target;
     try {
-      target = new URL(href, `https://audit.local${route}`);
+      target = new URL(href, `${auditOrigin}${route}`);
     } catch {
       errors.push(`${route}: 无法解析链接 ${href}`);
       continue;
     }
+
+    if (target.origin !== auditOrigin) continue;
 
     const targetRoute = normalizeRoute(decodeURI(target.pathname));
     const targetPage = pages.get(targetRoute);
