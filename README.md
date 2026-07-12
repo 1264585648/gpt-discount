@@ -22,13 +22,13 @@
 
 ## 分支
 
-当前持续优化和生产部署使用：
+仓库只使用一个长期分支：
 
 ```text
-master
+main
 ```
 
-`main` 保留此前版本，不再作为本轮优化的提交目标。
+开发、CI 和生产部署均以 `main` 为准。
 
 ## 主要页面
 
@@ -161,7 +161,7 @@ npm run verify
 ## Cloudflare Pages
 
 ```text
-Production branch: master
+Production branch: main
 Framework preset: Astro
 Build command: npm run build
 Build output directory: dist
