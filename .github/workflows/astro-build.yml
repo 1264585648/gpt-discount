@@ -29,5 +29,11 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund
 
-      - name: Type-check, build and audit content
-        run: npm run verify
+      - name: Type-check Astro
+        run: npm run check
+
+      - name: Build site
+        run: npm run build
+
+      - name: Audit published content
+        run: npm run audit:build
