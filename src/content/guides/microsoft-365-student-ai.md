@@ -1,12 +1,13 @@
 ---
 title: "Microsoft 365 学生权益：A1 免费与美国个人版 5 折"
-category: "教育邮箱专题"
+category: "学生与教育优惠"
 categorySlug: "edu-ai-discounts"
 relatedCategorySlugs:
   - "common-software"
 summary: "Microsoft 学生权益有两条独立路径：学校账号可能获得免费的 A1 网页版；美国高校学生还可用个人账号以 US$4.99/月订阅 Microsoft 365 Personal。"
 status: "可领取"
 contentStatus: "已完成"
+contentType: "方案对比"
 publishedAt: "2026-07-11"
 updatedAt: "2026-07-12"
 difficulty: "简单"
