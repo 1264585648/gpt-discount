@@ -35,10 +35,10 @@ const { title, description, navMode = 'home' } = Astro.props;
         </a>
 
         <div class="nav-links" aria-label="分类快捷入口">
-          <a href="/#ai-tools">AI 工具优惠</a>
-          <a href="/#edu-ai-discounts">学生与教育优惠</a>
-          <a href="/#common-software">软件优惠</a>
-          <a href="/#cloud-credit">云服务赠金</a>
+          <a href="/topics/ai-tools/">AI 工具优惠</a>
+          <a href="/topics/student-education/">学生与教育优惠</a>
+          <a href="/topics/common-software/">软件优惠</a>
+          <a href="/topics/cloud-credit/">云服务赠金</a>
           <a href="/verification/">学生认证</a>
         </div>
 
@@ -130,7 +130,7 @@ const { title, description, navMode = 'home' } = Astro.props;
           heroMeta.before(callout);
           priceNode.remove();
 
-          const applyLabel = status.includes('已失效') ? '查看官方状态' : status.includes('待验证') ? '查看官方页面' : '打开申请页面';
+          const applyLabel = status.includes('已失效') ? '查看官方状态' : status.includes('待验证') ? '查看官方页面' : '打开官方页面';
           document.querySelectorAll('.primary-action, .mobile-apply-bar a').forEach((element) => {
             const svg = element.querySelector('svg');
             element.replaceChildren(document.createTextNode(applyLabel));
