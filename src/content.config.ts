@@ -42,6 +42,7 @@ const guides = defineCollection({
     summary: z.string(),
     status: z.enum(['可领取', '待验证', '已失效']),
     contentStatus: z.enum(['已完成', '待完善']).default('待完善'),
+    contentType: z.enum(['领取教程', '状态核验', '方案对比', '学校授权', '风险说明']).default('领取教程'),
     publishedAt: dateStringSchema.optional(),
     updatedAt: dateStringSchema.optional(),
     difficulty: z.string(),
