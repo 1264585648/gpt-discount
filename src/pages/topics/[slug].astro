@@ -15,21 +15,12 @@ const relatedTopics = topic.relatedTopics
   .filter((item): item is Topic => Boolean(item))
   .slice(0, 3);
 
-const searchable = (guide: Guide) => [
-  guide.title,
-  guide.summary,
-  guide.dealType,
-  guide.dealPrice,
-  guide.audience,
-  guide.region,
-  guide.warning,
-  ...(guide.benefits ?? []).flatMap((item) => [item.name, item.value]),
-].filter(Boolean).join(' ');
+const searchable = (guide: Guide) => [guide.title, guide.summary, guide.dealType, guide.dealPrice, guide.audience, guide.region, guide.warning].filter(Boolean).join(' ');
 
 const presentationStatus = (guide: Guide) => {
   const text = searchable(guide);
-  if (guide.status === '已失效') return { label: '已结束', className: 'expired', cta: '查看历史状态' };
-  if (guide.status === '待验证') return { label: '待验证', className: 'pending', cta: '查看核验说明' };
+  if (guide.status === '已失效') return { label: '已结束', className: 'expired', cta: '查看历史信息' };
+  if (guide.status === '待验证') return { label: '待验证', className: 'pending', cta: '查看当前信息' };
   if (/学校授权|学校统一|教师身份|教育机构/.test(text)) return { label: '需学校授权', className: 'school', cta: '查看申请步骤' };
   if (/限时|活动|首年/.test(text)) return { label: '限时活动', className: 'limited', cta: '查看领取教程' };
   if (/部分地区|指定地区|地区限制/.test(text)) return { label: '部分地区可用', className: 'regional', cta: '查看适用地区' };
@@ -49,85 +40,49 @@ const categoryFor = (guide: Guide) => {
 };
 
 const categoryOrder = ['可领取', '学生优惠', '学校授权', '限时活动', '地区限制', '待验证', '已结束'];
-const categoryCounts = categoryOrder.reduce<Record<string, number>>((result, category) => {
-  result[category] = guides.filter((guide) => categoryFor(guide) === category).length;
-  return result;
-}, {});
+const categoryCounts = Object.fromEntries(categoryOrder.map((category) => [category, guides.filter((guide) => categoryFor(guide) === category).length]));
 const availableCategories = categoryOrder.filter((category) => categoryCounts[category] > 0);
-
-const statusRank: Record<string, number> = {
-  可领取: 1,
-  学生优惠: 2,
-  学校授权: 3,
-  限时活动: 4,
-  地区限制: 5,
-  待验证: 6,
-  已结束: 7,
-};
-const sortedGuides = [...guides].sort((a, b) => {
-  const categoryDiff = (statusRank[categoryFor(a)] ?? 9) - (statusRank[categoryFor(b)] ?? 9);
-  if (categoryDiff !== 0) return categoryDiff;
-  return (a.order ?? 999) - (b.order ?? 999);
-});
+const rank = Object.fromEntries(categoryOrder.map((category, index) => [category, index]));
+const sortedGuides = [...guides].sort((a, b) => (rank[categoryFor(a)] ?? 9) - (rank[categoryFor(b)] ?? 9) || (a.order ?? 999) - (b.order ?? 999));
 
 const heroTags: Record<Topic['visual'], string[]> = {
-  education: ['学生认证', '教育邮箱', '官方教育计划'],
-  ai: ['免费试用', '订阅折扣', '官方活动'],
-  software: ['办公效率', '设计开发', '续费提醒'],
-  cloud: ['新用户赠金', '免费额度', '防扣费提醒'],
+  education: ['学生认证', '教育邮箱', '学校授权'],
+  ai: ['免费版本', '订阅折扣', '限时活动'],
+  software: ['办公效率', '设计开发', '订阅价格'],
+  cloud: ['新用户赠金', '免费额度', '计费规则'],
 };
 
 const brandFor = (title: string) => {
   const value = title.toLowerCase();
-  if (value.includes('github')) return { label: 'GH', className: 'github' };
-  if (value.includes('jetbrains')) return { label: 'JB', className: 'jetbrains' };
-  if (value.includes('notion')) return { label: 'N', className: 'notion' };
-  if (value.includes('google')) return { label: 'G', className: 'google' };
-  if (value.includes('microsoft')) return { label: 'M', className: 'microsoft' };
-  if (value.includes('adobe')) return { label: 'A', className: 'adobe' };
-  if (value.includes('figma')) return { label: 'F', className: 'figma' };
-  if (value.includes('canva')) return { label: 'C', className: 'canva' };
+  const brands = [
+    ['github', 'GH', 'github'], ['jetbrains', 'JB', 'jetbrains'], ['notion', 'N', 'notion'],
+    ['google', 'G', 'google'], ['microsoft', 'M', 'microsoft'], ['adobe', 'A', 'adobe'],
+    ['figma', 'F', 'figma'], ['canva', 'C', 'canva'], ['claude', 'CL', 'claude'],
+    ['cloudflare', 'CF', 'cloudflare'], ['oracle', 'O', 'oracle'], ['digitalocean', 'DO', 'digitalocean'],
+  ];
+  const match = brands.find(([key]) => value.includes(key));
+  if (match) return { label: match[1], className: match[2] };
   if (value.includes('openai') || value.includes('chatgpt')) return { label: 'AI', className: 'openai' };
-  if (value.includes('claude')) return { label: 'CL', className: 'claude' };
-  if (value.includes('cloudflare')) return { label: 'CF', className: 'cloudflare' };
-  if (value.includes('oracle')) return { label: 'O', className: 'oracle' };
-  if (value.includes('digitalocean')) return { label: 'DO', className: 'digitalocean' };
   return { label: title.match(/[A-Za-z0-9]+/)?.[0]?.slice(0, 2).toUpperCase() || title.slice(0, 1), className: 'default' };
 };
 
-const benefitItems = (guide: Guide) => {
-  const values = [
-    ...(guide.benefits ?? []).map((item) => item.value),
-    guide.dealPrice,
-    guide.dealType,
-  ].filter((item): item is string => Boolean(item && item.trim()));
-  return [...new Set(values)].slice(0, 3);
-};
-
+const benefitItems = (guide: Guide) => [...new Set([...(guide.benefits ?? []).map((item) => item.value), guide.dealPrice, guide.dealType].filter(Boolean))].slice(0, 3);
+const verifiedText = (guide: Guide) => guide.status === '待验证' ? '尚未核验' : `${guide.lastVerified} 核验`;
 const initialVisible = 8;
 ---
 <TopicLayout title={`${topic.title}｜GPT Discount`} description={topic.description} topic={topic}>
   <main class="topic-page">
     <div class="topic-shell topic-breadcrumb" aria-label="面包屑">
-      <a href="/">首页</a>
-      <span aria-hidden="true">/</span>
-      <a href={`/topics/${topic.slug}/`}>优惠专题</a>
-      <span aria-hidden="true">/</span>
-      <strong>{topic.title}</strong>
+      <a href="/">首页</a><span aria-hidden="true">/</span><a href={`/topics/${topic.slug}/`}>优惠分类</a><span aria-hidden="true">/</span><strong>{topic.title}</strong>
     </div>
 
     <section class="topic-shell topic-hero" aria-labelledby="topic-title">
       <div class="topic-hero-copy">
-        <span class="topic-eyebrow">优惠专题</span>
+        <span class="topic-eyebrow">优惠分类</span>
         <h1 id="topic-title">{topic.title}</h1>
         <p class="topic-description">{topic.description}</p>
-        <div class="topic-tag-row" aria-label="专题标签">
-          {heroTags[topic.visual].map((tag) => (
-            <span>
-              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="m8.5 12 2.2 2.2 4.8-5" /></svg>
-              {tag}
-            </span>
-          ))}
+        <div class="topic-tag-row" aria-label="分类内容">
+          {heroTags[topic.visual].map((tag) => <span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>{tag}</span>)}
         </div>
       </div>
       <TopicCoverVisual visual={topic.visual} />
@@ -135,216 +90,64 @@ const initialVisible = 8;
 
     <section class="topic-shell topic-deals" id="all-deals" aria-labelledby="all-deals-title">
       <div class="topic-deals-header">
-        <div>
-          <span class="topic-section-kicker">该专题下的全部内容</span>
-          <h2 id="all-deals-title">全部优惠</h2>
-          <p>{topic.coverNote}，点击每项优惠查看资格、步骤和失败排查。</p>
-        </div>
-        <label class="topic-sort-field">
-          <span class="sr-only">优惠排序</span>
-          <select id="topic-sort" aria-label="优惠排序">
-            <option value="default">默认排序</option>
-            <option value="verified">最近核验</option>
-            <option value="title">名称排序</option>
-          </select>
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
-        </label>
+        <div><span class="topic-section-kicker">优惠列表</span><h2 id="all-deals-title">{topic.title}</h2><p>{topic.coverNote}。打开具体优惠可查看领取步骤和常见问题。</p></div>
+        <label class="topic-sort-field"><span class="sr-only">优惠排序</span><select id="topic-sort" aria-label="优惠排序"><option value="default">默认排序</option><option value="verified">最近核验</option><option value="title">名称排序</option></select><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg></label>
       </div>
 
-      {availableCategories.length > 0 && (
-        <div class="topic-filter-row" role="tablist" aria-label="优惠状态筛选">
-          <button class="active" type="button" data-category="全部">
-            <span>全部</span><small>{sortedGuides.length}</small>
-          </button>
-          {availableCategories.map((category) => (
-            <button type="button" data-category={category}>
-              <span>{category}</span><small>{categoryCounts[category]}</small>
-            </button>
-          ))}
+      {availableCategories.length > 0 && <div class="topic-filter-row" role="tablist" aria-label="优惠状态筛选">
+        <button class="active" type="button" data-category="全部"><span>全部</span><small>{sortedGuides.length}</small></button>
+        {availableCategories.map((category) => <button type="button" data-category={category}><span>{category}</span><small>{categoryCounts[category]}</small></button>)}
+      </div>}
+
+      {sortedGuides.length > 0 ? <>
+        <div class="topic-deal-list" data-deal-list>
+          {sortedGuides.map((guide, index) => {
+            const status = presentationStatus(guide);
+            const category = categoryFor(guide);
+            const brand = brandFor(guide.title);
+            return <article class:list={['topic-deal-row', `is-${status.className}`, { 'is-initially-hidden': index >= initialVisible }]} data-deal-card data-category={category} data-title={guide.title} data-verified={guide.lastVerified} data-default-order={index}>
+              <div class={`deal-brand-mark is-${brand.className}`} aria-hidden="true">{brand.label}</div>
+              <div class="deal-summary">
+                <div class="deal-title-line"><h3>{guide.title}</h3><span class={`deal-status is-${status.className}`}>{status.label}</span></div>
+                <p>{guide.summary}</p>
+                <div class="deal-meta" aria-label="优惠信息">
+                  <span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M6 20c.5-4 2.5-6 6-6s5.5 2 6 6"/></svg>{guide.audience}</span>
+                  <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20 6v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>{guide.region}</span>
+                  <span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>{verifiedText(guide)}</span>
+                </div>
+              </div>
+              <div class="deal-benefits"><span class="deal-column-label">主要权益</span><ul>{benefitItems(guide).map((benefit) => <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>{benefit}</span></li>)}</ul></div>
+              <div class="deal-actions">
+                <a class="deal-primary-action" href={`/guides/${guide.slug}/`}>{status.cta}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+                {guide.officialUrl ? <a class="deal-secondary-action" href={guide.officialUrl} target="_blank" rel="noreferrer">官方页面<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M13 11l6-6M19 13v6H5V5h6"/></svg></a> : <span class="deal-secondary-note">{guide.warning}</span>}
+              </div>
+            </article>;
+          })}
         </div>
-      )}
-
-      {sortedGuides.length > 0 ? (
-        <>
-          <div class="topic-deal-list" data-deal-list>
-            {sortedGuides.map((guide, index) => {
-              const status = presentationStatus(guide);
-              const category = categoryFor(guide);
-              const brand = brandFor(guide.title);
-              const benefits = benefitItems(guide);
-              return (
-                <article
-                  class:list={['topic-deal-row', `is-${status.className}`, { 'is-initially-hidden': index >= initialVisible }]}
-                  data-deal-card
-                  data-category={category}
-                  data-search={searchable(guide).toLowerCase()}
-                  data-title={guide.title}
-                  data-verified={guide.lastVerified}
-                  data-default-order={index}
-                >
-                  <div class={`deal-brand-mark is-${brand.className}`} aria-hidden="true">{brand.label}</div>
-
-                  <div class="deal-summary">
-                    <div class="deal-title-line">
-                      <h3>{guide.title}</h3>
-                      <span class={`deal-status is-${status.className}`}>{status.label}</span>
-                    </div>
-                    <p>{guide.summary}</p>
-                    <div class="deal-meta" aria-label="领取条件">
-                      <span>
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3" /><path d="M6 20c.5-4 2.5-6 6-6s5.5 2 6 6" /></svg>
-                        {guide.audience}
-                      </span>
-                      <span>
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20 6v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3Z" /><path d="m8.5 12 2.2 2.2 4.8-5" /></svg>
-                        {guide.region}
-                      </span>
-                      <span>
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
-                        {guide.lastVerified} 核验
-                      </span>
-                    </div>
-                  </div>
-
-                  <div class="deal-benefits">
-                    <span class="deal-column-label">核心权益</span>
-                    <ul>
-                      {benefits.map((benefit) => (
-                        <li>
-                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
-                          <span>{benefit}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div class="deal-actions">
-                    <a class="deal-primary-action" href={`/guides/${guide.slug}/`}>
-                      {status.cta}
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
-                    </a>
-                    {guide.officialUrl ? (
-                      <a class="deal-secondary-action" href={guide.officialUrl} target="_blank" rel="noreferrer">
-                        官方申请入口
-                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M13 11l6-6M19 13v6H5V5h6" /></svg>
-                      </a>
-                    ) : (
-                      <span class="deal-secondary-note">{guide.warning}</span>
-                    )}
-                  </div>
-                </article>
-              );
-            })}
-          </div>
-
-          <div class="topic-empty-results" hidden data-empty-results>
-            <strong>没有找到匹配的优惠</strong>
-            <span>可以切换其他状态查看当前专题内容。</span>
-          </div>
-
-          {sortedGuides.length > initialVisible && (
-            <button class="topic-load-more" type="button" data-load-more>
-              加载更多优惠
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
-            </button>
-          )}
-        </>
-      ) : (
-        <div class="topic-content-empty">
-          <span aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="6" y="9" width="36" height="30" rx="8" /><path d="M15 19h18M15 27h12" /></svg></span>
-          <h3>该专题内容正在整理中</h3>
-          <p>我们正在核验公开入口、领取条件和当前状态。</p>
-          <div><a href="/">返回首页</a><a href={`/topics/${relatedTopics[0]?.slug ?? 'student-education'}/`}>查看其他专题</a></div>
-        </div>
-      )}
+        <div class="topic-empty-results" hidden data-empty-results><strong>没有符合当前筛选的优惠</strong><span>可切换到“全部”查看本分类的其他内容。</span></div>
+        {sortedGuides.length > initialVisible && <button class="topic-load-more" type="button" data-load-more>加载更多优惠<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>}
+      </> : <div class="topic-content-empty"><h3>目前没有可查看的优惠</h3><p>可返回首页或查看其他优惠分类。</p><div><a href="/">返回首页</a><a href={`/topics/${relatedTopics[0]?.slug ?? 'student-education'}/`}>查看其他分类</a></div></div>}
     </section>
 
     <section class="topic-shell topic-related" aria-labelledby="related-title">
-      <div class="topic-related-heading">
-        <div>
-          <span class="topic-section-kicker">继续浏览</span>
-          <h2 id="related-title">相关专题</h2>
-        </div>
-        <a href="/">查看全部专题 <span aria-hidden="true">→</span></a>
-      </div>
-      <div class="topic-related-grid">
-        {relatedTopics.map((item) => (
-          <a class={`related-topic-card is-${item.visual}`} href={`/topics/${item.slug}/`}>
-            <span class="related-topic-art" aria-hidden="true">
-              <svg viewBox="0 0 150 100">
-                {item.visual === 'ai' && <><rect x="16" y="22" width="70" height="48" rx="14" /><path d="m34 70-9 16 24-16" /><circle cx="40" cy="45" r="5" /><circle cx="57" cy="45" r="5" /><circle cx="74" cy="45" r="5" /><circle cx="111" cy="45" r="23" /><path d="m111 29 5 12 13 2-10 8 3 13-11-7-11 7 3-13-10-8 13-2 5-12Z" /></>}
-                {item.visual === 'education' && <><path d="m18 34 42-20 42 20-42 20-42-20Z" /><path d="M33 43v26c17 11 37 11 54 0V43" /><rect x="92" y="50" width="42" height="34" rx="8" /><circle cx="106" cy="62" r="6" /><path d="M99 77c4-8 11-8 15 0" /></>}
-                {item.visual === 'software' && <><rect x="14" y="18" width="92" height="66" rx="12" /><path d="M14 34h92" /><circle cx="27" cy="26" r="3" /><circle cx="38" cy="26" r="3" /><path d="m109 46 11 11 20-20 9 9-20 20 8 8-17 17-8-8-15 15-12-12 15-15-8-8 17-17Z" /></>}
-                {item.visual === 'cloud' && <><path d="M33 66h78c18 0 24-24 8-32-7-4-14-3-20 0-5-19-29-27-44-13-7 6-10 13-9 21-17-4-30 8-30 23 0 1 0 1 1 1h16Z" /><rect x="24" y="69" width="60" height="19" rx="7" /><path d="M98 55 122 63v16c0 15-11 22-24 27-13-5-24-12-24-27V63l24-8Z" /><path d="m87 78 8 8 14-17" /></>}
-              </svg>
-            </span>
-            <span class="related-topic-copy">
-              <strong>{item.title}</strong>
-              <small>{item.slogan}</small>
-              <em>查看专题 <span aria-hidden="true">→</span></em>
-            </span>
-          </a>
-        ))}
-      </div>
+      <div class="topic-related-heading"><div><span class="topic-section-kicker">其他分类</span><h2 id="related-title">你可能还在找</h2></div><a href="/">查看全部分类 <span aria-hidden="true">→</span></a></div>
+      <div class="topic-related-grid">{relatedTopics.map((item) => <a class={`related-topic-card is-${item.visual}`} href={`/topics/${item.slug}/`}><span class="related-topic-art" aria-hidden="true"></span><span class="related-topic-copy"><strong>{item.title}</strong><small>{item.slogan}</small><em>查看优惠 <span aria-hidden="true">→</span></em></span></a>)}</div>
     </section>
   </main>
 
   <script is:inline>
-    (() => {
-      const sort = document.querySelector('#topic-sort');
-      const list = document.querySelector('[data-deal-list]');
-      const cards = [...document.querySelectorAll('[data-deal-card]')];
-      const categoryButtons = [...document.querySelectorAll('[data-category]')];
-      const empty = document.querySelector('[data-empty-results]');
-      const loadMore = document.querySelector('[data-load-more]');
-      let activeCategory = '全部';
-      let expanded = false;
-
-      const apply = () => {
-        let visibleCount = 0;
-        let matchingCount = 0;
-
-        cards.forEach((card) => {
-          const matches = activeCategory === '全部' || card.dataset.category === activeCategory;
-          if (matches) matchingCount += 1;
-
-          const withinLimit = expanded || visibleCount < 8;
-          const show = matches && withinLimit;
-          card.hidden = !show;
-          card.classList.remove('is-initially-hidden');
-          if (show) visibleCount += 1;
-        });
-
-        if (empty) empty.hidden = matchingCount !== 0;
-        if (loadMore) loadMore.hidden = expanded || matchingCount <= 8;
-      };
-
-      const reorder = () => {
-        const mode = sort?.value || 'default';
-        const ordered = [...cards].sort((a, b) => {
-          if (mode === 'title') return (a.dataset.title || '').localeCompare(b.dataset.title || '', 'zh-CN');
-          if (mode === 'verified') return (b.dataset.verified || '').localeCompare(a.dataset.verified || '');
-          return Number(a.dataset.defaultOrder || 0) - Number(b.dataset.defaultOrder || 0);
-        });
-
-        ordered.forEach((card) => list?.appendChild(card));
-        apply();
-      };
-
-      categoryButtons.forEach((button) => button.addEventListener('click', () => {
-        activeCategory = button.dataset.category || '全部';
-        expanded = false;
-        categoryButtons.forEach((item) => item.classList.toggle('active', item === button));
-        apply();
-      }));
-
-      sort?.addEventListener('change', reorder);
-      loadMore?.addEventListener('click', () => {
-        expanded = true;
-        apply();
-      });
-
-      apply();
+    (()=>{
+      const sort=document.querySelector('#topic-sort');
+      const list=document.querySelector('[data-deal-list]');
+      const cards=[...document.querySelectorAll('[data-deal-card]')];
+      const buttons=[...document.querySelectorAll('[data-category]')];
+      const empty=document.querySelector('[data-empty-results]');
+      const more=document.querySelector('[data-load-more]');
+      let active='全部',expanded=false;
+      const apply=()=>{let shown=0,matches=0;cards.forEach(card=>{const ok=active==='全部'||card.dataset.category===active;if(ok)matches++;const show=ok&&(expanded||shown<8);card.hidden=!show;card.classList.remove('is-initially-hidden');if(show)shown++;});if(empty)empty.hidden=matches!==0;if(more)more.hidden=expanded||matches<=8;};
+      const reorder=()=>{const mode=sort?.value||'default';[...cards].sort((a,b)=>mode==='title'?(a.dataset.title||'').localeCompare(b.dataset.title||'','zh-CN'):mode==='verified'?(b.dataset.verified||'').localeCompare(a.dataset.verified||''):Number(a.dataset.defaultOrder||0)-Number(b.dataset.defaultOrder||0)).forEach(card=>list?.appendChild(card));apply();};
+      buttons.forEach(button=>button.addEventListener('click',()=>{active=button.dataset.category||'全部';expanded=false;buttons.forEach(item=>item.classList.toggle('active',item===button));apply();}));
+      sort?.addEventListener('change',reorder);more?.addEventListener('click',()=>{expanded=true;apply();});apply();
     })();
   </script>
 </TopicLayout>
