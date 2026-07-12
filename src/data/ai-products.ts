@@ -11,6 +11,11 @@ export type AiProduct = {
   order: number;
 };
 
+type AiGuideLike = {
+  categorySlug: string;
+  productSlug?: AiProductSlug;
+};
+
 export const aiProducts: AiProduct[] = [
   {
     slug: 'chatgpt',
@@ -70,10 +75,20 @@ export const aiProducts: AiProduct[] = [
     name: '其他 AI 工具',
     owner: '更多产品',
     mark: '+',
-    description: '尚未完成产品字段迁移的 AI 工具教程。',
+    description: '尚未填写产品字段的 AI 工具教程。',
     homeDescription: '其他已完成的 AI 工具教程',
     order: 99,
   },
 ];
+
+export const isAiTopicGuide = (guide: AiGuideLike) =>
+  guide.categorySlug === 'ai-tools' || Boolean(guide.productSlug && guide.productSlug !== 'other');
+
+export const guideMatchesAiProduct = (guide: AiGuideLike, productSlug: AiProductSlug) => {
+  if (productSlug === 'other') {
+    return guide.categorySlug === 'ai-tools' && (!guide.productSlug || guide.productSlug === 'other');
+  }
+  return guide.productSlug === productSlug;
+};
 
 export const getAiProduct = (slug?: string) => aiProducts.find((product) => product.slug === slug);
