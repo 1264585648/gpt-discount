@@ -70,7 +70,7 @@ const { title, description, navMode = 'home' } = Astro.props;
     <script is:inline>
       document.addEventListener('DOMContentLoaded', () => {
         const tokenPattern = /\[\[([^|\]]+)\|(https?:\/\/[^\]]+)\]\]/g;
-        const targets = document.querySelectorAll('.step-copy p, .step-copy small, .faq-list summary span, .faq-list p');
+        const targets = document.querySelectorAll('.step-copy p, .step-copy small, .faq-list p');
 
         targets.forEach((element) => {
           const source = element.textContent || '';
@@ -129,13 +129,6 @@ const { title, description, navMode = 'home' } = Astro.props;
           callout.append(badge, copy);
           heroMeta.before(callout);
           priceNode.remove();
-
-          const applyLabel = status.includes('已失效') ? '查看官方状态' : status.includes('待验证') ? '查看官方页面' : '打开官方页面';
-          document.querySelectorAll('.primary-action, .mobile-apply-bar a').forEach((element) => {
-            const svg = element.querySelector('svg');
-            element.replaceChildren(document.createTextNode(applyLabel));
-            if (svg) element.append(svg);
-          });
         }
       });
     </script>
