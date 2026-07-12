@@ -156,6 +156,39 @@ const benefitIcon = (name: string) => {
         <div class="benefit-grid">{guide.benefits.map((benefit) => <article class="benefit-card"><span class="benefit-logo" set:html={benefitIcon(benefit.name)}></span><div><strong>{benefit.name}</strong><p>{benefit.value}</p></div>{benefit.type === 'limited' && <small>有限制</small>}</article>)}</div>
       </section>}
 
+      {guide.comparisonOptions.length > 0 && <section class="comparison-section" id="comparison" aria-labelledby="comparison-title">
+        <div class="section-heading comparison-heading">
+          <div>
+            <h2 id="comparison-title">卡片与认证要求对比</h2>
+            <p>先看你能否合法开户，再比较费用和商户兼容性；“有卡号”不等于一定能通过订阅风控。</p>
+          </div>
+        </div>
+        <div class="comparison-table" role="table" aria-label="卡片方案对比">
+          <div class="comparison-row comparison-header" role="row">
+            <span role="columnheader">方案 / 类型</span>
+            <span role="columnheader">大陆用户</span>
+            <span role="columnheader">认证要求</span>
+            <span role="columnheader">费用</span>
+            <span role="columnheader">适合用途</span>
+            <span role="columnheader">注意事项</span>
+          </div>
+          {guide.comparisonOptions.map((option) => (
+            <div class="comparison-row" role="row">
+              <div class="comparison-name" role="cell" data-label="方案 / 类型">
+                <strong>{option.name}</strong>
+                <small>{option.cardType}</small>
+                {option.officialUrl && <a href={option.officialUrl} target="_blank" rel="noreferrer">官方说明 ↗</a>}
+              </div>
+              <div role="cell" data-label="大陆用户">{option.availability}</div>
+              <div role="cell" data-label="认证要求">{option.verification}</div>
+              <div role="cell" data-label="费用">{option.cost}</div>
+              <div role="cell" data-label="适合用途">{option.bestFor}</div>
+              <div role="cell" data-label="注意事项">{option.caution}</div>
+            </div>
+          ))}
+        </div>
+      </section>}
+
       <div class="content-grid">
         <section class="detail-panel requirements-panel" aria-labelledby="requirements-title">
           <h2 id="requirements-title">{contentLabels.requirements}</h2>
@@ -200,8 +233,113 @@ const benefitIcon = (name: string) => {
     .faq-list summary svg { justify-self: end; }
     .faq-list details[open] > p { display: block; padding: 0 16px 16px; }
 
+    .comparison-section {
+      margin: 28px 0;
+      padding: 28px;
+      border: 1px solid #e8e8ef;
+      border-radius: 24px;
+      background: #fff;
+      box-shadow: 0 16px 42px rgba(28, 25, 61, 0.05);
+    }
+
+    .comparison-heading p {
+      max-width: 760px;
+      margin: 8px 0 0;
+      color: #646477;
+      line-height: 1.7;
+    }
+
+    .comparison-table {
+      margin-top: 20px;
+      overflow: hidden;
+      border: 1px solid #e9e9f1;
+      border-radius: 16px;
+    }
+
+    .comparison-row {
+      display: grid;
+      grid-template-columns: minmax(150px, 1.05fr) minmax(125px, .9fr) minmax(180px, 1.35fr) minmax(130px, .9fr) minmax(155px, 1.1fr) minmax(170px, 1.25fr);
+      border-top: 1px solid #ececf3;
+      background: #fff;
+    }
+
+    .comparison-row:first-child { border-top: 0; }
+
+    .comparison-row > * {
+      min-width: 0;
+      padding: 16px 14px;
+      border-left: 1px solid #ececf3;
+      color: #3f3f4f;
+      font-size: 13px;
+      line-height: 1.55;
+      overflow-wrap: anywhere;
+    }
+
+    .comparison-row > *:first-child { border-left: 0; }
+    .comparison-header { background: #f7f7fb; }
+
+    .comparison-header > * {
+      color: #55556b;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .comparison-name {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .comparison-name strong { color: #20202b; font-size: 14px; }
+    .comparison-name small { color: #77778a; }
+
+    .comparison-name a {
+      width: fit-content;
+      color: #5147f5;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 980px) {
+      .comparison-section { padding: 20px; }
+      .comparison-table { border: 0; overflow: visible; }
+      .comparison-header { display: none; }
+      .comparison-row {
+        display: block;
+        margin-top: 14px;
+        border: 1px solid #e7e7ef;
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .comparison-row:first-child + .comparison-row { margin-top: 0; }
+      .comparison-row > * {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        gap: 12px;
+        border: 0;
+        border-top: 1px solid #eeeef4;
+        padding: 12px 14px;
+      }
+      .comparison-row > *:first-child { border-top: 0; }
+      .comparison-row > *::before {
+        content: attr(data-label);
+        color: #77778a;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .comparison-name { display: grid; grid-template-columns: 92px minmax(0, 1fr); }
+      .comparison-name strong,
+      .comparison-name small,
+      .comparison-name a { grid-column: 2; }
+      .comparison-name::before { grid-row: 1 / span 3; }
+    }
+
     @media (max-width: 520px) {
       .step-list li { grid-template-columns: 44px minmax(0, 1fr); }
+      .comparison-section { margin-inline: -4px; padding: 16px; border-radius: 20px; }
+      .comparison-row > * { grid-template-columns: 78px minmax(0, 1fr); }
+      .comparison-name { grid-template-columns: 78px minmax(0, 1fr); }
     }
   </style>
 </BaseLayout>
