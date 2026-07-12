@@ -8,6 +8,8 @@ relatedCategorySlugs:
 summary: "Google AI Pro 上一轮学生免费优惠已于 2026 年 3 月 11 日结束，目前不再接受新用户领取。已领取用户应检查自己的结束日期、续费价格和 Google One 存储占用。"
 status: "已失效"
 contentStatus: "已完成"
+publishedAt: "2026-07-11"
+updatedAt: "2026-07-12"
 difficulty: "简单"
 estimatedTime: "检查约 3–5 分钟"
 audience: "曾领取 Google AI Pro 学生优惠或准备申请的学生"
@@ -20,6 +22,17 @@ region: "上一轮活动已结束；当前是否出现新活动以 Google 学生
 warning: "不要根据旧新闻、旧教程或仍能打开的历史入口判断为可领取。Google 学生官方页已明确写明上一轮优惠于 2026 年 3 月 11 日结束。已领取用户还需检查免费期结束后的自动续费和存储占用。"
 officialUrl: "https://gemini.google/students/"
 allBenefitsUrl: "https://gemini.google/subscriptions/"
+productName: "Gemini"
+productSlug: "gemini"
+planName: "Google AI Pro"
+offerKind: "free"
+offerType: "历史活动"
+eligibilityType: "不可领取"
+availabilityScope: "历史活动"
+countryCodes: []
+regionLabel: "上一轮活动已结束"
+featured: false
+expiresAt: "2026-03-11"
 benefits:
   - name: "学生免费领取"
     value: "已停止新用户领取"
