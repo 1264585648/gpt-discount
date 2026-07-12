@@ -75,10 +75,10 @@ steps:
     description: "如果满足条件但看不到 Get free education plan，先确认学校邮箱已经验证并设为主要邮箱、工作区已经完全降级到 Free、其他成员已经移除。仍失败时，按照官方说明联系 Notion 支持，请求核对学校域名。Notion 当前不接受学生证、在读证明或其他文件替代学校邮箱。"
     note: "官方说明：[[教育计划常见问题|https://www.notion.com/help/notion-for-education]]"
   - title: "单独判断 Notion AI 权益"
-    description: "Education Plus 等同于 Plus 的主要工作区权益。Notion 当前定价页显示 Free 和 Plus 仅提供 Notion AI 的有限试用；更完整的 Notion Agent、AI Meeting Notes 和 Enterprise Search 等能力主要属于 Business 或更高计划。不要把学生 Plus 写成无限 AI 免费。"
+    description: "Education Plus 等同于 Plus 的主要工作区权益。Notion 当前定价页显示 Free 和 Plus 仅提供 Notion AI 的有限试用；更完整的 Notion Agent、AI Meeting Notes 和 Enterprise Search 等能力主要属于 Business 或更高计划。Education Plus 不等于无限使用 Notion AI。"
     note: "AI 权益以当前定价页为准：[[Notion Pricing|https://www.notion.com/pricing]]"
   - title: "学生组织使用单独申请入口"
-    description: "学校社团和志愿学生组织不要使用个人单成员计划硬塞成员。符合条件的学生组织可以单独申请免费的多成员 Plus 工作区；组织需要受到学校认可，成员通常应使用同一学校域名，且每个组织只会批准一份申请。"
+    description: "符合条件的学生组织可以单独申请免费的多成员 Plus 工作区；组织需要受到学校认可，成员通常应使用同一学校域名，且每个组织只会批准一份申请。"
     note: "学生组织入口：[[Notion for Education|https://www.notion.com/product/notion-for-education]]"
 faq:
   - question: "Gmail 注册的 Notion 可以改用学校邮箱领取吗？"
