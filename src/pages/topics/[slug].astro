@@ -12,10 +12,7 @@ export async function getStaticPaths() {
 const { topic } = Astro.props as { topic: Topic };
 const isAiTopic = topic.slug === 'ai-tools';
 const allGuides = await getGuides();
-const extraAiGuideSlugs = new Set(['google-ai-pro-student']);
-const guides = isAiTopic
-  ? allGuides.filter((guide) => guide.categorySlug === 'ai-tools' || extraAiGuideSlugs.has(guide.slug))
-  : await getGuidesByCategory(topic.categorySlug);
+const guides = isAiTopic ? [] : await getGuidesByCategory(topic.categorySlug);
 
 const relatedTopics = topic.relatedTopics
   .map((slug) => topics.find((item) => item.slug === slug))
@@ -44,74 +41,57 @@ const categoryFor = (guide: Guide) => {
 };
 
 const categoryOrder = ['可领取', '学生优惠', '学校授权', '限时活动', '地区限制', '待验证', '已结束'];
-const categoryCounts = Object.fromEntries(
-  categoryOrder.map((category) => [category, guides.filter((guide) => categoryFor(guide) === category).length])
-);
-const availableCategories = categoryOrder.filter((category) => categoryCounts[category] > 0);
 const rank = Object.fromEntries(categoryOrder.map((category, index) => [category, index]));
 const sortedGuides = [...guides].sort(
   (a, b) => (rank[categoryFor(a)] ?? 9) - (rank[categoryFor(b)] ?? 9) || (a.order ?? 999) - (b.order ?? 999)
 );
+const categoryCounts = Object.fromEntries(
+  categoryOrder.map((category) => [category, sortedGuides.filter((guide) => categoryFor(guide) === category).length])
+);
+const availableCategories = categoryOrder.filter((category) => categoryCounts[category] > 0);
 
-const heroTags: Record<Topic['visual'], string[]> = {
-  education: ['学生认证', '教育邮箱', '学校授权'],
-  ai: ['Gemini', 'GPT / ChatGPT', 'Claude'],
-  software: ['办公效率', '设计开发', '订阅价格'],
-  cloud: ['新用户赠金', '免费额度', '计费规则'],
-};
-
-const aiFamilyFor = (guide: Guide) => {
-  const explicit: Record<string, string> = {
-    'google-ai-pro-student': 'gemini',
-    'chatgpt-plans-student-discount': 'gpt',
-    'claude-pro-discount': 'claude',
-  };
-  if (explicit[guide.slug]) return explicit[guide.slug];
-
-  const text = `${guide.title} ${guide.summary}`.toLowerCase();
-  if (/gemini|google ai/.test(text)) return 'gemini';
-  if (/chatgpt|openai|\bgpt\b/.test(text)) return 'gpt';
-  if (/claude|anthropic/.test(text)) return 'claude';
-  return 'other';
-};
-
-const aiGroupDefinitions = [
+const aiProductDefinitions = [
   {
-    slug: 'gemini',
-    label: 'Gemini',
-    owner: 'Google',
-    mark: 'G',
-    description: 'Gemini 免费版、Google AI Pro、学生优惠和订阅状态。',
-  },
-  {
-    slug: 'gpt',
-    label: 'GPT / ChatGPT',
+    slug: 'chatgpt',
+    label: 'ChatGPT',
     owner: 'OpenAI',
     mark: 'GPT',
-    description: 'ChatGPT Free、Go、Plus、Pro 与学校统一采购方案。',
+    description: 'Free、Go、Plus、Pro 和 ChatGPT Edu。',
+    guideSlugs: ['chatgpt-plans-student-discount'],
   },
   {
     slug: 'claude',
     label: 'Claude',
     owner: 'Anthropic',
     mark: 'CL',
-    description: 'Claude 免费版、Pro 订阅和高校机构授权。',
+    description: 'Claude 免费版、Pro 订阅和高校授权。',
+    guideSlugs: ['claude-pro-discount'],
   },
   {
-    slug: 'other',
-    label: '其他 AI 工具',
-    owner: '更多产品',
-    mark: '+',
-    description: 'Grok、Cursor、Perplexity 等其他 AI 工具的优惠与试用。',
+    slug: 'gemini',
+    label: 'Gemini',
+    owner: 'Google',
+    mark: 'G',
+    description: 'Gemini 免费版、Google AI Pro 和学生优惠。',
+    guideSlugs: ['google-ai-pro-student'],
   },
 ];
 
-const aiGroups = aiGroupDefinitions
-  .map((group) => ({
-    ...group,
-    guides: sortedGuides.filter((guide) => aiFamilyFor(guide) === group.slug),
+const aiProducts = aiProductDefinitions
+  .map((product) => ({
+    ...product,
+    guides: product.guideSlugs
+      .map((slug) => allGuides.find((guide) => guide.slug === slug))
+      .filter((guide): guide is Guide => Boolean(guide)),
   }))
-  .filter((group) => group.guides.length > 0);
+  .filter((product) => product.guides.length > 0);
+
+const heroTags: Record<Topic['visual'], string[]> = {
+  education: ['学生认证', '教育邮箱', '学校授权'],
+  ai: ['ChatGPT', 'Claude', 'Gemini'],
+  software: ['办公效率', '设计开发', '订阅价格'],
+  cloud: ['新用户赠金', '免费额度', '计费规则'],
+};
 
 const initialVisible = 8;
 ---
@@ -149,34 +129,33 @@ const initialVisible = 8;
           <div class="topic-deals-header ai-topic-heading">
             <div>
               <span class="topic-section-kicker">按产品查看</span>
-              <h2 id="all-deals-title">Gemini、GPT 与 Claude</h2>
-              <p>选择产品后查看免费版、付费套餐、学生优惠和学校授权。</p>
+              <h2 id="all-deals-title">ChatGPT、Claude 和 Gemini</h2>
+              <p>选择产品，查看对应套餐、优惠状态和领取教程。</p>
             </div>
           </div>
 
           <nav class="ai-product-nav" aria-label="AI 产品分类">
-            {aiGroups.map((group) => (
-              <a href={`#${group.slug}`}>
-                <span class={`ai-product-nav-mark is-${group.slug}`}>{group.mark}</span>
-                <span><strong>{group.label}</strong><small>{group.guides.length} 篇教程</small></span>
+            {aiProducts.map((product) => (
+              <a href={`#${product.slug}`}>
+                <span class={`ai-product-nav-mark is-${product.slug}`}>{product.mark}</span>
+                <span><strong>{product.label}</strong><small>{product.owner}</small></span>
               </a>
             ))}
           </nav>
 
           <div class="ai-product-groups" data-ai-product-groups>
-            {aiGroups.map((group) => (
-              <section class="ai-product-group" id={group.slug} aria-labelledby={`${group.slug}-title`}>
+            {aiProducts.map((product) => (
+              <section class="ai-product-group" id={product.slug} aria-labelledby={`${product.slug}-title`}>
                 <div class="ai-product-group-heading">
-                  <span class={`ai-product-group-mark is-${group.slug}`}>{group.mark}</span>
+                  <span class={`ai-product-group-mark is-${product.slug}`}>{product.mark}</span>
                   <div>
-                    <small>{group.owner}</small>
-                    <h3 id={`${group.slug}-title`}>{group.label}</h3>
-                    <p>{group.description}</p>
+                    <small>{product.owner}</small>
+                    <h3 id={`${product.slug}-title`}>{product.label}</h3>
+                    <p>{product.description}</p>
                   </div>
-                  <strong>{group.guides.length} 篇</strong>
                 </div>
                 <div class="topic-deal-list">
-                  {group.guides.map((guide, index) => (
+                  {product.guides.map((guide, index) => (
                     <TopicDealRow guide={guide} defaultOrder={index} />
                   ))}
                 </div>
@@ -258,13 +237,11 @@ const initialVisible = 8;
   </main>
 
   <style is:global>
-    .ai-topic-heading {
-      align-items: flex-start;
-    }
+    .ai-topic-heading { align-items: flex-start; }
 
     .ai-product-nav {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
       margin-top: 24px;
       padding-bottom: 24px;
@@ -302,41 +279,16 @@ const initialVisible = 8;
       letter-spacing: -.035em;
     }
 
-    .ai-product-nav-mark {
-      width: 44px;
-      height: 44px;
-    }
-
-    .ai-product-nav-mark.is-gemini,
-    .ai-product-group-mark.is-gemini {
-      background: linear-gradient(135deg, #4285f4, #8e75d6 50%, #d96570);
-    }
-
+    .ai-product-nav-mark { width: 44px; height: 44px; }
     .ai-product-nav-mark.is-claude,
-    .ai-product-group-mark.is-claude {
-      background: #d97757;
-    }
-
-    .ai-product-nav-mark.is-other,
-    .ai-product-group-mark.is-other {
-      background: #4f46e5;
-    }
+    .ai-product-group-mark.is-claude { background: #d97757; }
+    .ai-product-nav-mark.is-gemini,
+    .ai-product-group-mark.is-gemini { background: linear-gradient(135deg, #4285f4, #8e75d6 50%, #d96570); }
 
     .ai-product-nav strong,
-    .ai-product-nav small {
-      display: block;
-    }
-
-    .ai-product-nav strong {
-      color: #182033;
-      font-size: 14px;
-    }
-
-    .ai-product-nav small {
-      margin-top: 4px;
-      color: #8a92a3;
-      font-size: 10px;
-    }
+    .ai-product-nav small { display: block; }
+    .ai-product-nav strong { color: #182033; font-size: 14px; }
+    .ai-product-nav small { margin-top: 4px; color: #8a92a3; font-size: 10px; }
 
     .ai-product-groups {
       display: grid;
@@ -344,10 +296,7 @@ const initialVisible = 8;
       padding-top: 28px;
     }
 
-    .ai-product-group {
-      scroll-margin-top: 96px;
-    }
-
+    .ai-product-group { scroll-margin-top: 96px; }
     .ai-product-group + .ai-product-group {
       padding-top: 28px;
       border-top: 1px solid #edf0f4;
@@ -355,7 +304,7 @@ const initialVisible = 8;
 
     .ai-product-group-heading {
       display: grid;
-      grid-template-columns: 54px minmax(0, 1fr) auto;
+      grid-template-columns: 54px minmax(0, 1fr);
       align-items: center;
       gap: 15px;
     }
@@ -369,11 +318,7 @@ const initialVisible = 8;
 
     .ai-product-group-heading small,
     .ai-product-group-heading h3,
-    .ai-product-group-heading p {
-      display: block;
-      margin: 0;
-    }
-
+    .ai-product-group-heading p { display: block; margin: 0; }
     .ai-product-group-heading small {
       color: var(--topic-accent);
       font-size: 10px;
@@ -381,7 +326,6 @@ const initialVisible = 8;
       text-transform: uppercase;
       letter-spacing: .08em;
     }
-
     .ai-product-group-heading h3 {
       margin-top: 3px;
       color: #151a28;
@@ -389,65 +333,20 @@ const initialVisible = 8;
       line-height: 1.2;
       letter-spacing: -.03em;
     }
-
     .ai-product-group-heading p {
       margin-top: 5px;
       color: #697184;
       font-size: 12px;
       line-height: 1.55;
     }
+    .ai-product-group .topic-deal-list { padding-top: 14px; }
 
-    .ai-product-group-heading > strong {
-      min-width: 48px;
-      padding: 7px 9px;
-      color: #6e7686;
-      border-radius: 8px;
-      background: #f4f6f9;
-      font-size: 11px;
-      text-align: center;
-    }
-
-    .ai-product-group .topic-deal-list {
-      padding-top: 14px;
-    }
-
-    .deal-brand-mark.is-grok,
-    .deal-brand-mark.is-x {
-      background: #111827;
-    }
-
-    @media (max-width: 980px) {
-      .ai-product-nav {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    @media (max-width: 560px) {
-      .ai-product-nav {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-
-      .ai-product-nav a {
-        min-height: 66px;
-      }
-
-      .ai-product-group-heading {
-        grid-template-columns: 48px minmax(0, 1fr);
-      }
-
-      .ai-product-group-mark {
-        width: 48px;
-        height: 48px;
-      }
-
-      .ai-product-group-heading > strong {
-        display: none;
-      }
-
-      .ai-product-group-heading h3 {
-        font-size: 20px;
-      }
+    @media (max-width: 760px) {
+      .ai-product-nav { grid-template-columns: 1fr; gap: 8px; }
+      .ai-product-nav a { min-height: 66px; }
+      .ai-product-group-heading { grid-template-columns: 48px minmax(0, 1fr); }
+      .ai-product-group-mark { width: 48px; height: 48px; }
+      .ai-product-group-heading h3 { font-size: 20px; }
     }
   </style>
 
