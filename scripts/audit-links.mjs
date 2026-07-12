@@ -10,11 +10,24 @@ const sourceDirectory = join(root, 'src');
 const redirectsPath = join(root, 'public', '_redirects');
 const topicsPath = join(root, 'src', 'data', 'topics.ts');
 const indexPath = join(root, 'src', 'pages', 'index.astro');
+const readmePath = join(root, 'README.md');
 
-const guideSlugs = new Set(
-  readdirSync(guideDirectory)
-    .filter((name) => name.endsWith('.md'))
-    .map((name) => name.replace(/\.md$/, '')),
+function readScalar(frontmatter, key) {
+  const match = frontmatter.match(new RegExp(`^${key}:\\s*(.+?)\\s*$`, 'm'));
+  return match?.[1]?.trim().replace(/^['"]|['"]$/g, '');
+}
+
+function getFrontmatter(source) {
+  return source.match(/^---\s*\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? '';
+}
+
+const guideFiles = readdirSync(guideDirectory).filter((name) => name.endsWith('.md'));
+const guideSlugs = new Set(guideFiles.map((name) => name.replace(/\.md$/, '')));
+const publishedGuideFiles = new Set(
+  guideFiles.filter((name) => {
+    const source = readFileSync(join(guideDirectory, name), 'utf8');
+    return (readScalar(getFrontmatter(source), 'contentStatus') ?? '待完善') === '已完成';
+  }),
 );
 
 const topicSource = readFileSync(topicsPath, 'utf8');
@@ -40,6 +53,7 @@ function walk(directory) {
 
 const textExtensions = new Set(['.astro', '.ts', '.js', '.mjs', '.md', '.css']);
 const sourceFiles = walk(sourceDirectory).filter((path) => textExtensions.has(extname(path)));
+if (existsSync(readmePath)) sourceFiles.push(readmePath);
 
 const removedSlugs = [
   'chatgpt-plans-student-discount',
@@ -51,6 +65,7 @@ const placeholderPatterns = [
   /第一版页面骨架/,
   /示例数据/,
   /演示如何/,
+  /截图占位/,
   /Lorem ipsum/i,
   /待补充/,
 ];
@@ -58,6 +73,8 @@ const placeholderPatterns = [
 for (const path of sourceFiles) {
   const name = relative(root, path);
   const source = readFileSync(path, 'utf8');
+  const isGuide = path.startsWith(guideDirectory) && path.endsWith('.md');
+  const isPublishedGuide = !isGuide || publishedGuideFiles.has(name.split(/[/\\]/).pop());
 
   for (const slug of removedSlugs) {
     if (source.includes(slug)) {
@@ -65,30 +82,34 @@ for (const path of sourceFiles) {
     }
   }
 
-  for (const pattern of placeholderPatterns) {
-    if (pattern.test(source)) {
-      errors.push(`${name}: 包含占位文案 ${pattern}`);
+  if (isPublishedGuide) {
+    for (const pattern of placeholderPatterns) {
+      if (pattern.test(source)) {
+        errors.push(`${name}: 已发布内容包含占位文案 ${pattern}`);
+      }
     }
   }
 
-  for (const match of source.matchAll(/\/guides\/([a-z0-9-]+)\/?/g)) {
-    const slug = match[1];
-    if (!guideSlugs.has(slug)) {
-      errors.push(`${name}: 引用了不存在的教程 /guides/${slug}/`);
+  if (!isGuide || isPublishedGuide) {
+    for (const match of source.matchAll(/(?:href=|['"`])\/guides\/([a-z0-9-]+)\/?/g)) {
+      const slug = match[1];
+      if (!guideSlugs.has(slug)) {
+        errors.push(`${name}: 引用了不存在的教程 /guides/${slug}/`);
+      }
     }
-  }
 
-  for (const match of source.matchAll(/\/topics\/([a-z0-9-]+)\/?/g)) {
-    const slug = match[1];
-    if (!topicSlugs.has(slug)) {
-      errors.push(`${name}: 引用了不存在的专题 /topics/${slug}/`);
+    for (const match of source.matchAll(/(?:href=|['"`])\/topics\/([a-z0-9-]+)\/?/g)) {
+      const slug = match[1];
+      if (!topicSlugs.has(slug)) {
+        errors.push(`${name}: 引用了不存在的专题 /topics/${slug}/`);
+      }
     }
-  }
 
-  for (const match of source.matchAll(/href=["']\/#([a-z0-9-]+)["']/g)) {
-    const id = match[1];
-    if (!homeIds.has(id)) {
-      errors.push(`${name}: 首页锚点 #${id} 不存在`);
+    for (const match of source.matchAll(/href=["']\/#([a-z0-9-]+)["']/g)) {
+      const id = match[1];
+      if (!homeIds.has(id)) {
+        errors.push(`${name}: 首页锚点 #${id} 不存在`);
+      }
     }
   }
 }
@@ -106,6 +127,10 @@ if (existsSync(redirectsPath)) {
       continue;
     }
 
+    if (!/^30[1278]$/.test(status)) {
+      warnings.push(`public/_redirects:${index + 1}: 非常用重定向状态码 ${status}`);
+    }
+
     const guideMatch = target.match(/^\/guides\/([a-z0-9-]+)\/$/);
     if (guideMatch && !guideSlugs.has(guideMatch[1])) {
       errors.push(`public/_redirects:${index + 1}: 目标教程不存在 ${target}`);
@@ -118,7 +143,7 @@ if (existsSync(redirectsPath)) {
   }
 }
 
-for (const filename of readdirSync(guideDirectory).filter((name) => name.endsWith('.md'))) {
+for (const filename of guideFiles) {
   const source = readFileSync(join(guideDirectory, filename), 'utf8');
   const parts = source.split(/^---\s*$/m);
   if (parts.length >= 3 && parts.slice(2).join('---').trim()) {
