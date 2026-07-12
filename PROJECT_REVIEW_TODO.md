@@ -2,7 +2,7 @@
 
 更新时间：2026-07-12
 
-当前优化分支：`master`
+当前唯一长期分支：`main`
 
 本清单用于跟踪页面、跳转、内容可信度和去 AI 味优化。按 P0 → P1 → P2 → P3 顺序执行。
 
@@ -13,8 +13,9 @@
 - [x] 补全旧 ChatGPT / Claude / AI 学生优惠页面的无尾斜杠重定向
 - [x] 将旧“AI 工具无官方学生优惠”页面跳转到 AI 工具专题
 - [x] 为 X Premium+ 礼物订阅补充可点击入口与明确状态说明
-- [x] 创建 `master` 并将此前 `main` 的全部修复同步过来
-- [ ] 在 Cloudflare Pages 控制台确认生产分支为 `master`、构建命令为 `npm run build`、输出目录为 `dist`
+- [x] 将此前临时分支的全部提交快进同步回 `main`
+- [x] GitHub Actions 和项目文档恢复为只使用 `main`
+- [ ] 在 Cloudflare Pages 控制台确认生产分支为 `main`、构建命令为 `npm run build`、输出目录为 `dist`
 
 ## P1：统一页面和站内跳转
 
@@ -27,7 +28,7 @@
 - [x] 修复专题面包屑中的假层级
 - [x] 统一分类名称为 AI 工具、学生与教育、常用软件、云服务赠金
 - [x] 清除分类数据中的 emoji 图标元数据
-- [x] 更新 README 的分支、页面、审计和核验字段说明
+- [x] 更新 README 的页面、审计、核验字段和单分支说明
 
 ## P2：系统性降低内容 AI 味
 
@@ -51,20 +52,19 @@
 - [x] 新增源码级 `audit:links`
 - [x] CI 检查已删除 slug、错误路径、错误首页锚点和主要占位词
 - [x] 新增构建后 `audit:dist`，检查静态页面、站内链接、锚点和空专题
-- [x] GitHub Actions 改为监听 `master` 并执行完整审计
+- [x] GitHub Actions 监听 `main` 并执行完整审计
 - [x] 增加 `verificationType`：官方页面核验 / 账号实测 / 付款实测
 - [x] 增加 `priceVerifiedAt` / `benefitsVerifiedAt` 字段和迁移提醒
 - [x] 详情页展示核验方式、总体核验日期、价格日期和权益日期
 - [ ] 为所有已发布教程补齐显式分类字段和独立核验日期
 - [ ] 对高频变化的价格、额度和截止日期建立定期复核流程
 
-## 本轮 `master` 主要提交
+## 已完成的主要提交
 
 - `e23887f`：建立共享 AI 产品数据
 - `ac4d54c`：首页改为读取共享产品数据
 - `2523e19`：专题页改为读取共享产品数据
 - `b346f93`：新增构建后静态链接审计
-- `8a4a9de`：GitHub Actions 改为监听 master
 - `b38149c`：增加核验类型及价格、权益日期字段
 - `73683bb`：详情页展示核验记录
 - `8f0120f`：内容审计增加核验字段提醒
@@ -75,12 +75,12 @@
 - `6ca74a4`：修正 GitHub Student Pack 当前权益状态
 - `d424467`：修正 Notion Education 与 AI 合作权益
 - `e60ae7b`：统一分类名称并移除 emoji 元数据
-- `fa81473`：README 更新为 master 部署与新审计流程
-- `5fc2a2c`：静态审计忽略协议相对外链
+- `d4ff98d`：CI 恢复为只监听 `main`
+- `3b1e1cc`：README 恢复为单分支 `main`
 
 ## 下一步
 
-1. 在 Cloudflare Pages 控制台核对并切换生产分支到 `master`。
-2. 查看 GitHub Actions 的首次 `master` 构建结果，并修复可能的类型或链接问题。
+1. 在 Cloudflare Pages 控制台确认生产分支为 `main`。
+2. 查看 `main` 的 GitHub Actions 构建结果并修复可能的类型或链接问题。
 3. 继续依次重写 Canva、JetBrains、Google Cloud 和 Google AI Pro。
 4. 为剩余已发布教程补齐 `verificationType`、`priceVerifiedAt` 和 `benefitsVerifiedAt`。
