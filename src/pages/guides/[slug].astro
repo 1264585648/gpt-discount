@@ -133,4 +133,16 @@ const benefitIcon = (name: string) => {
     </div>
     {guide.officialUrl && <div class="mobile-apply-bar"><a href={guide.officialUrl} target="_blank" rel="noreferrer">{officialLabel}</a></div>}
   </main>
+
+  <style is:global>
+    .condition-list > div { grid-template-columns: 25px minmax(0, 1fr); }
+    .step-list li { grid-template-columns: 52px minmax(0, 1fr); }
+    .faq-list summary { grid-template-columns: minmax(0, 1fr) 20px; gap: 16px; }
+    .faq-list summary svg { justify-self: end; }
+    .faq-list details[open] > p { display: block; padding: 0 16px 16px; }
+
+    @media (max-width: 520px) {
+      .step-list li { grid-template-columns: 44px minmax(0, 1fr); }
+    }
+  </style>
 </BaseLayout>
