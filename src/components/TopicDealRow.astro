@@ -1,0 +1,112 @@
+---
+import type { Guide } from '../data/guides';
+
+interface Props {
+  guide: Guide;
+  initiallyHidden?: boolean;
+  defaultOrder?: number;
+}
+
+const { guide, initiallyHidden = false, defaultOrder = 0 } = Astro.props;
+
+const searchable = [
+  guide.title,
+  guide.summary,
+  guide.dealType,
+  guide.dealPrice,
+  guide.audience,
+  guide.region,
+  guide.warning,
+].filter(Boolean).join(' ');
+
+const presentationStatus = () => {
+  if (guide.status === '已失效') return { label: '已结束', className: 'expired', cta: '查看历史信息' };
+  if (guide.status === '待验证') return { label: '待验证', className: 'pending', cta: '查看当前信息' };
+  if (/学校授权|学校统一|教师身份|教育机构/.test(searchable)) return { label: '需学校授权', className: 'school', cta: '查看申请步骤' };
+  if (/限时|活动|首年/.test(searchable)) return { label: '限时活动', className: 'limited', cta: '查看领取教程' };
+  if (/部分地区|指定地区|地区限制/.test(searchable)) return { label: '部分地区可用', className: 'regional', cta: '查看适用地区' };
+  if (/学生|教育邮箱|在校/.test(searchable)) return { label: '需学生认证', className: 'student', cta: '查看申请步骤' };
+  return { label: '可领取', className: 'available', cta: '查看领取教程' };
+};
+
+const categoryFor = () => {
+  if (guide.status === '已失效') return '已结束';
+  if (guide.status === '待验证') return '待验证';
+  if (/部分地区|指定地区|地区限制/.test(searchable)) return '地区限制';
+  if (/学校授权|学校统一|教师身份|教育机构/.test(searchable)) return '学校授权';
+  if (/学生|教育邮箱|在校/.test(searchable)) return '学生优惠';
+  if (/限时|活动|首年/.test(searchable)) return '限时活动';
+  return '可领取';
+};
+
+const brandFor = () => {
+  const value = guide.title.toLowerCase();
+  const brands = [
+    ['github', 'GH', 'github'], ['jetbrains', 'JB', 'jetbrains'], ['notion', 'N', 'notion'],
+    ['gemini', 'G', 'google'], ['google', 'G', 'google'], ['microsoft', 'M', 'microsoft'],
+    ['adobe', 'A', 'adobe'], ['figma', 'F', 'figma'], ['canva', 'C', 'canva'],
+    ['claude', 'CL', 'claude'], ['grok', 'G', 'grok'], ['x premium', 'X', 'x'],
+    ['cloudflare', 'CF', 'cloudflare'], ['oracle', 'O', 'oracle'], ['digitalocean', 'DO', 'digitalocean'],
+  ];
+  const match = brands.find(([key]) => value.includes(key));
+  if (match) return { label: match[1], className: match[2] };
+  if (value.includes('openai') || value.includes('chatgpt') || /\bgpt\b/.test(value)) return { label: 'GPT', className: 'openai' };
+  return { label: guide.title.match(/[A-Za-z0-9]+/)?.[0]?.slice(0, 2).toUpperCase() || guide.title.slice(0, 1), className: 'default' };
+};
+
+const status = presentationStatus();
+const category = categoryFor();
+const brand = brandFor();
+const benefits = [...new Set([
+  ...(guide.benefits ?? []).map((item) => item.value),
+  guide.dealPrice,
+  guide.dealType,
+].filter(Boolean))].slice(0, 3);
+const verifiedText = guide.status === '待验证' ? '尚未核验' : `${guide.lastVerified} 核验`;
+---
+
+<article
+  class:list={['topic-deal-row', `is-${status.className}`, { 'is-initially-hidden': initiallyHidden }]}
+  data-deal-card
+  data-category={category}
+  data-title={guide.title}
+  data-verified={guide.lastVerified}
+  data-default-order={defaultOrder}
+>
+  <div class={`deal-brand-mark is-${brand.className}`} aria-hidden="true">{brand.label}</div>
+
+  <div class="deal-summary">
+    <div class="deal-title-line">
+      <h3>{guide.title}</h3>
+      <span class={`deal-status is-${status.className}`}>{status.label}</span>
+    </div>
+    <p>{guide.summary}</p>
+    <div class="deal-meta" aria-label="优惠信息">
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3"/><path d="M6 20c.5-4 2.5-6 6-6s5.5 2 6 6"/></svg>{guide.audience}</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 20 6v6c0 5-3.4 8-8 9-4.6-1-8-4-8-9V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg>{guide.region}</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>{verifiedText}</span>
+    </div>
+  </div>
+
+  <div class="deal-benefits">
+    <span class="deal-column-label">主要权益</span>
+    <ul>
+      {benefits.map((benefit) => <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span>{benefit}</span></li>)}
+    </ul>
+  </div>
+
+  <div class="deal-actions">
+    <a class="deal-primary-action" href={`/guides/${guide.slug}/`}>
+      {status.cta}
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
+    </a>
+    {guide.officialUrl ? (
+      <a class="deal-secondary-action" href={guide.officialUrl} target="_blank" rel="noreferrer">
+        官方页面
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5M13 11l6-6M19 13v6H5V5h6"/></svg>
+      </a>
+    ) : (
+      <span class="deal-secondary-note">{guide.warning}</span>
+    )}
+  </div>
+</article>
