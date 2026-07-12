@@ -19,15 +19,33 @@ const statusClass = guide.status === '可领取'
     ? 'is-expired'
     : 'is-pending';
 
-const officialLabel = guide.title.includes('GitHub') ? 'Student Developer Pack' : '官方申请页面';
+const needsStudentVerification = Boolean(
+  guide.verification
+  || guide.eligibilityType === '学生认证'
+  || guide.offerType === '学生优惠'
+  || guide.offerType === '学校授权'
+  || guide.availabilityScope === '学校或机构'
+);
+
+const officialLabel = guide.status === '已失效'
+  ? '查看官方状态'
+  : guide.offerType === '学生优惠' || guide.offerType === '学校授权'
+    ? '打开官方申请'
+    : guide.offerType === '普通订阅'
+      ? '查看官方订阅'
+      : guide.offerKind === 'credit'
+        ? '查看官方赠金'
+        : '打开官方页面';
+
 const conditionItems = [
   ...requirements,
   ...(guide.verification
     ? [{ label: `认证方式：${guide.verification.label}`, level: 'required' as const, guide: guide.verification.guide }]
     : []),
 ];
+
 const relatedGuides = [
-  { label: '学生认证', href: '/verification/' },
+  ...(needsStudentVerification ? [{ label: '学生认证准备', href: '/verification/' }] : []),
   ...requirements
     .filter((item) => item.guide)
     .map((item) => ({ label: item.label.replace(/^学校/, '').replace(/^当前/, ''), href: item.guide as string })),
@@ -39,20 +57,8 @@ const benefitIcon = (name: string) => {
   if (normalized.includes('github')) {
     return `<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#050505"/><path fill="#fff" d="M24 11.2c-7.2 0-13 5.8-13 13 0 5.7 3.7 10.6 8.9 12.3.7.1.9-.3.9-.7v-2.5c-3.6.8-4.4-1.5-4.4-1.5-.6-1.5-1.4-1.9-1.4-1.9-1.2-.8.1-.8.1-.8 1.3.1 2 1.3 2 1.3 1.2 2 3 1.4 3.8 1.1.1-.8.5-1.4.9-1.7-2.9-.3-5.9-1.4-5.9-6.4 0-1.4.5-2.6 1.3-3.5-.1-.3-.6-1.7.1-3.5 0 0 1.1-.4 3.6 1.3a12.5 12.5 0 0 1 6.6 0c2.5-1.7 3.6-1.3 3.6-1.3.7 1.8.3 3.2.1 3.5.8.9 1.3 2.1 1.3 3.5 0 5-3 6.1-5.9 6.4.5.4.9 1.2.9 2.4v3.6c0 .5.3.8.9.7A13 13 0 0 0 37 24.2c0-7.2-5.8-13-13-13Z"/></svg>`;
   }
-  if (normalized.includes('codespace')) {
-    return `<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="codeGradient" x1="8" y1="6" x2="41" y2="43"><stop stop-color="#8157ff"/><stop offset="1" stop-color="#5738ed"/></linearGradient></defs><rect x="4" y="4" width="40" height="40" rx="8" fill="url(#codeGradient)"/><rect x="10" y="11" width="28" height="24" rx="3" fill="none" stroke="#fff" stroke-width="2" opacity=".94"/><path d="m15 19 5 4-5 4m8 0h8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  }
   if (normalized.includes('jetbrains')) {
     return `<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="jbGradient" x1="3" y1="3" x2="45" y2="45"><stop stop-color="#ff3d00"/><stop offset=".45" stop-color="#ff00a8"/><stop offset=".72" stop-color="#6d28d9"/><stop offset="1" stop-color="#26f7c7"/></linearGradient></defs><rect x="4" y="4" width="40" height="40" rx="3" fill="url(#jbGradient)"/><rect x="9" y="9" width="30" height="30" fill="#070707"/><text x="13" y="23" fill="#fff" font-size="8" font-family="Arial, sans-serif" font-weight="700">JET</text><text x="13" y="31" fill="#fff" font-size="8" font-family="Arial, sans-serif" font-weight="700">BRAINS</text><path d="M13 35h10" stroke="#fff" stroke-width="1.5"/></svg>`;
-  }
-  if (normalized.includes('azure')) {
-    return `<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#168dd0" d="M19.7 6h11.1L43 39H31.7l-2.6-8.2H16.8L12.4 39H3L19.7 6Zm.6 18.3h7.1l-3.1-10.1-4 10.1Z"/><path fill="#43b4e9" d="m24.3 14.2 7.4 24.8H43L30.8 6h-5.2l-1.3 8.2Z" opacity=".85"/></svg>`;
-  }
-  if (normalized.includes('digitalocean')) {
-    return `<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#1685f8" d="M24 5a19 19 0 0 1 19 19c0 10.5-8.5 19-19 19h-3v-8h3a11 11 0 1 0-11-11v3H5v-3A19 19 0 0 1 24 5Z"/><path fill="#1685f8" d="M13 35h8v8h-8zM5 29h8v8H5zM13 27h6v6h-6z"/></svg>`;
-  }
-  if (normalized.includes('namecheap')) {
-    return `<svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#f04d19" d="M4 29.5 17.5 9l8.2 11.7L20 29.5l-2.8-4.1-6.5 10H4l0-5.9Zm40-11L30.5 39l-8.2-11.7 5.7-8.8 2.8 4.1 6.5-10H44v5.9Z"/></svg>`;
   }
   return `<svg viewBox="0 0 48 48" aria-hidden="true"><rect x="5" y="5" width="38" height="38" rx="10" fill="#eef0ff"/><path d="M24 13v22M13 24h22" stroke="#5147f5" stroke-width="3" stroke-linecap="round"/></svg>`;
 };
@@ -71,47 +77,60 @@ const benefitIcon = (name: string) => {
             <span><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>耗时：{guide.estimatedTime}</span>
           </div>
           <div class="hero-actions">
-            {guide.officialUrl && <a class="primary-action" href={guide.officialUrl} target="_blank" rel="noreferrer">打开申请页面<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>}
-            {guide.benefits.length > 0 && <a class="secondary-action" href="#benefits">查看全部权益<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>}
+            {guide.officialUrl && <a class="primary-action" href={guide.officialUrl} target="_blank" rel="noreferrer">{officialLabel}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>}
+            {guide.benefits.length > 0 && <a class="secondary-action" href="#benefits">查看主要权益<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a>}
           </div>
         </div>
 
         <aside class={`eligibility-card ${statusClass}`} aria-label="申请资格">
-          <div class="eligibility-status"><span class="status-check" aria-hidden="true">{guide.status === '可领取' ? '✓' : guide.status === '已失效' ? '×' : '!'}</span><strong>{guide.status === '可领取' ? '可申请' : guide.status}</strong></div>
+          <div class="eligibility-status"><span class="status-check" aria-hidden="true">{guide.status === '可领取' ? '✓' : guide.status === '已失效' ? '×' : '!'}</span><strong>{guide.status === '可领取' ? '当前可用' : guide.status}</strong></div>
           <div class="eligibility-list">
             <div><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21a8 8 0 0 1 16 0" /></svg><span>适用人群：{guide.audience}</span></div>
-            <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5-9-5Z" /><path d="M7 12v5c3 2 7 2 10 0v-5" /></svg><span>认证方式：{guide.verification?.label ?? guide.dealType}</span></div>
+            <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 9 9-5 9 5-9 5-9-5Z" /><path d="M7 12v5c3 2 7 2 10 0v-5" /></svg><span>获取方式：{guide.verification?.label ?? guide.dealType}</span></div>
             {guide.officialUrl && <a href={guide.officialUrl} target="_blank" rel="noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M20 4 10 14" /><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6" /></svg><span>官方入口：<b>{officialLabel}</b></span></a>}
           </div>
         </aside>
       </section>
 
       {guide.benefits.length > 0 && <section class="benefits-section" id="benefits" aria-labelledby="benefits-title">
-        <div class="section-heading"><h2 id="benefits-title">主要权益</h2>{guide.allBenefitsUrl && <a href={guide.allBenefitsUrl} target="_blank" rel="noreferrer">查看官方权益<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg></a>}</div>
-        <div class="benefit-grid">{guide.benefits.map((benefit) => <article class="benefit-card"><span class="benefit-logo" set:html={benefitIcon(benefit.name)}></span><div><strong>{benefit.name}</strong><p>{benefit.value}</p></div>{benefit.type === 'limited' && <small>有限期或额度</small>}</article>)}</div>
+        <div class="section-heading"><h2 id="benefits-title">主要权益</h2>{guide.allBenefitsUrl && <a href={guide.allBenefitsUrl} target="_blank" rel="noreferrer">查看官方说明<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5" /></svg></a>}</div>
+        <div class="benefit-grid">{guide.benefits.map((benefit) => <article class="benefit-card"><span class="benefit-logo" set:html={benefitIcon(benefit.name)}></span><div><strong>{benefit.name}</strong><p>{benefit.value}</p></div>{benefit.type === 'limited' && <small>有限制</small>}</article>)}</div>
       </section>}
 
       <div class="content-grid">
         <section class="detail-panel requirements-panel" aria-labelledby="requirements-title">
-          <h2 id="requirements-title">领取条件</h2>
-          <div class="condition-list">{conditionItems.map((item) => item.guide ? <a href={item.guide}><span class="condition-check" aria-hidden="true">✓</span><span class="condition-copy"><strong>{item.label}</strong><small>{item.level === 'recommended' ? '建议准备' : '必须满足'} · 查看说明 →</small></span><svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></a> : <div><span class="condition-check" aria-hidden="true">✓</span><span class="condition-copy"><strong>{item.label}</strong><small>{item.level === 'recommended' ? '建议准备' : '必须满足'}</small></span><svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></div>)}</div>
-          {relatedGuides.length > 0 && <div class="related-guides"><h3>相关页面</h3><div class="related-guide-grid">{relatedGuides.map((item, index) => <a href={item.href}><span class="related-icon" aria-hidden="true">{index === 0 ? <svg viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v17H7.5A3.5 3.5 0 0 0 4 22V5.5ZM20 5.5A3.5 3.5 0 0 0 16.5 2H13v17h3.5A3.5 3.5 0 0 1 20 22V5.5Z" /></svg> : index === 1 ? <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg> : index === 2 ? <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2" /><path d="M9 8h6M9 12h6M9 16h4" /></svg> : <svg viewBox="0 0 24 24"><path d="m12 3 8 3v5c0 5-3.4 8.6-8 10-4.6-1.4-8-5-8-10V6l8-3Z" /><path d="m9 12 2 2 4-4" /></svg>}</span><span>{item.label}</span></a>)}</div></div>}
+          <h2 id="requirements-title">开始前确认</h2>
+          <div class="condition-list">
+            {conditionItems.map((item) => item.guide ? (
+              <a href={item.guide}>
+                <span class="condition-check" aria-hidden="true">✓</span>
+                <span class="condition-copy"><strong>{item.label}</strong><small>{item.level === 'recommended' ? '建议准备' : '必须满足'} · 查看说明 →</small></span>
+                <svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+              </a>
+            ) : (
+              <div>
+                <span class="condition-check" aria-hidden="true">✓</span>
+                <span class="condition-copy"><strong>{item.label}</strong><small>{item.level === 'recommended' ? '建议准备' : '必须满足'}</small></span>
+              </div>
+            ))}
+          </div>
+          {relatedGuides.length > 0 && <div class="related-guides"><h3>相关页面</h3><div class="related-guide-grid">{relatedGuides.map((item) => <a href={item.href}><span class="related-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A3.5 3.5 0 0 1 7.5 2H11v17H7.5A3.5 3.5 0 0 0 4 22V5.5ZM20 5.5A3.5 3.5 0 0 0 16.5 2H13v17h3.5A3.5 3.5 0 0 1 20 22V5.5Z" /></svg></span><span>{item.label}</span></a>)}</div></div>}
         </section>
 
         <section class="detail-panel steps-panel" id="steps" aria-labelledby="steps-title">
           <h2 id="steps-title">操作步骤</h2>
-          <ol class="step-list">{guide.steps.map((step, index) => <li><span class="step-number">{index + 1}</span><div class="step-copy"><h3>{step.title}</h3><p>{step.description}</p>{step.note && <small>{step.note}</small>}</div><svg class="row-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg></li>)}</ol>
+          <ol class="step-list">{guide.steps.map((step, index) => <li><span class="step-number">{index + 1}</span><div class="step-copy"><h3>{step.title}</h3><p>{step.description}</p>{step.note && <small>{step.note}</small>}</div></li>)}</ol>
         </section>
       </div>
 
       {(guide.faq.length > 0 || guide.warning) && <section class="faq-panel" aria-labelledby="faq-title">
         <h2 id="faq-title">常见问题</h2>
         <div class="faq-list">
-          {guide.faq.map((item) => <details><summary><strong>{item.question}</strong><span>{item.answer}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5" /></svg></summary><p>{item.answer}</p></details>)}
-          {guide.warning && <details><summary><strong>费用与限制</strong><span>{guide.warning}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5" /></svg></summary><p>{guide.warning}</p></details>}
+          {guide.faq.map((item) => <details><summary><strong>{item.question}</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5" /></svg></summary><p>{item.answer}</p></details>)}
+          {guide.warning && <details><summary><strong>费用与限制</strong><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 9 5 5 5-5" /></svg></summary><p>{guide.warning}</p></details>}
         </div>
       </section>}
     </div>
-    {guide.officialUrl && <div class="mobile-apply-bar"><a href={guide.officialUrl} target="_blank" rel="noreferrer">打开申请页面</a></div>}
+    {guide.officialUrl && <div class="mobile-apply-bar"><a href={guide.officialUrl} target="_blank" rel="noreferrer">{officialLabel}</a></div>}
   </main>
 </BaseLayout>
