@@ -8,8 +8,9 @@
     "check": "astro check",
     "build": "astro build",
     "audit:links": "node scripts/audit-links.mjs",
+    "audit:dist": "node scripts/audit-dist-links.mjs",
     "audit:build": "node scripts/audit-build.mjs",
-    "verify": "npm run check && npm run audit:links && npm run build && npm run audit:build",
+    "verify": "npm run check && npm run audit:links && npm run build && npm run audit:build && npm run audit:dist",
     "preview": "astro preview"
   },
   "dependencies": {
