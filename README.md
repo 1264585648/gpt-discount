@@ -2,14 +2,13 @@
 
 面向中文用户的 AI 工具、学生教育优惠、软件折扣和云服务赠金教程站。
 
-网站不只列出价格，还会说明：
+每篇公开教程应回答五个问题：
 
-- 当前优惠是否仍可用
-- 哪些人符合条件
+- 现在还能不能领取或购买
+- 哪些人和地区适用
 - 应从哪个官方入口开始
-- 具体操作步骤
-- 地区、续费、退款和账号风险
-- 常见失败原因
+- 实际操作步骤是什么
+- 价格、续费、退款和账号风险有哪些
 
 ## 技术栈
 
@@ -19,7 +18,17 @@
 - CSS / SVG
 - Cloudflare Pages
 
-构建输出为纯静态文件，目录为 `dist/`。
+构建结果为纯静态文件，输出目录是 `dist/`。
+
+## 分支
+
+当前持续优化和生产部署使用：
+
+```text
+master
+```
+
+`main` 保留此前版本，不再作为本轮优化的提交目标。
 
 ## 主要页面
 
@@ -29,7 +38,7 @@
 /
 ```
 
-首页包含搜索、最近更新、四类专题入口和全部已完成教程。
+包含搜索、最近更新、四类专题入口和全部已完成教程。
 
 ### 专题页
 
@@ -40,7 +49,7 @@
 /topics/cloud-credit/
 ```
 
-专题页根据已发布内容自动生成。AI 工具专题按 `productSlug` 自动分组，不再依赖文章文件名。
+AI 专题从 `src/data/ai-products.ts` 读取产品信息，并按照教程的 `productSlug` 自动分组。只有主分类为 AI，或明确填写了 AI 产品字段的教程会进入 AI 专题。
 
 ### 学生认证
 
@@ -56,13 +65,14 @@
 /guides/[slug]/
 ```
 
-详情页由 `src/content/guides/*.md` 自动生成，包含：
+详情页展示：
 
-- 当前状态和主要权益
+- 当前状态和核心权益
 - 开始前需要确认的条件
 - 操作步骤
 - 官方入口
 - 常见问题与限制
+- 核验方式和核验日期
 
 只有 `contentStatus: 已完成` 的文章会生成公开页面。
 
@@ -95,22 +105,19 @@
 │  ├─ _headers
 │  └─ _redirects
 ├─ scripts/
-│  └─ audit-build.mjs
+│  ├─ audit-links.mjs
+│  ├─ audit-build.mjs
+│  └─ audit-dist-links.mjs
 ├─ src/
 │  ├─ components/
 │  ├─ content/guides/
 │  ├─ data/
+│  │  ├─ ai-products.ts
 │  │  ├─ guides.ts
 │  │  ├─ topics.ts
 │  │  └─ verification.ts
 │  ├─ layouts/
-│  │  ├─ BaseLayout.astro
-│  │  └─ TopicLayout.astro
 │  ├─ pages/
-│  │  ├─ index.astro
-│  │  ├─ guides/[slug].astro
-│  │  ├─ topics/[slug].astro
-│  │  └─ verification/index.astro
 │  └─ styles/
 ├─ PROJECT_REVIEW_TODO.md
 ├─ astro.config.mjs
@@ -128,8 +135,10 @@ npm run dev
 
 ```bash
 npm run check
+npm run audit:links
 npm run build
 npm run audit:build
+npm run audit:dist
 ```
 
 完整执行：
@@ -138,12 +147,21 @@ npm run audit:build
 npm run verify
 ```
 
-CI 会检查 Astro 类型、静态构建、内容发布日期、活动到期状态，以及待完善文章是否被错误发布。
+检查内容包括：
+
+- Astro 类型和静态构建
+- 已删除路径和错误锚点
+- 已发布页面中的占位文案
+- 活动到期状态
+- 已完成文章是否生成详情页
+- 构建后的站内页面、链接和锚点
+- 空专题页
+- 价格、权益和核验字段的迁移提醒
 
 ## Cloudflare Pages
 
 ```text
-Production branch: main
+Production branch: master
 Framework preset: Astro
 Build command: npm run build
 Build output directory: dist
@@ -166,13 +184,21 @@ src/content/guides/
 src/content.config.ts
 ```
 
-新增内容时应优先填写：
+已完成文章应优先填写：
 
 - `productName` / `productSlug` / `planName`
 - `offerKind` / `offerType`
 - `eligibilityType` / `availabilityScope`
 - `publishedAt` / `updatedAt` / `lastVerified`
+- `verificationType`
+- `priceVerifiedAt` / `benefitsVerifiedAt`
 - `requirements` / `steps` / `faq`
+
+核验类型：
+
+```yaml
+verificationType: "官方页面核验" # 或 账号实测 / 付款实测
+```
 
 文章完成前保持：
 
@@ -180,7 +206,7 @@ src/content.config.ts
 contentStatus: "待完善"
 ```
 
-核验并完成后再改为：
+确认内容和官方入口后再改为：
 
 ```yaml
 contentStatus: "已完成"
@@ -188,7 +214,7 @@ contentStatus: "已完成"
 
 ## 优化清单
 
-全站问题和执行状态统一记录在：
+执行状态记录在：
 
 ```text
 PROJECT_REVIEW_TODO.md
