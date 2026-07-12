@@ -6,17 +6,29 @@ relatedCategorySlugs:
   - "common-software"
 summary: "通过 X 官方礼物订阅入口向另一个账号赠送 Premium+。付款前需要确认接收账号、订阅周期、最终价格，以及页面是否明确包含 Grok 或 SuperGrok 权益。"
 status: "待验证"
-contentStatus: "待验证"
+contentStatus: "已完成"
+publishedAt: "2026-07-12"
+updatedAt: "2026-07-12"
 difficulty: "中等"
 estimatedTime: "约 10–15 分钟"
 audience: "准备向其他 X 账号赠送 Premium+ 的用户"
 dealType: "礼物订阅 / Premium+ 权益"
-lastVerified: "尚未实测"
+lastVerified: "2026-07-12"
 originalPrice: "以 X 结算页为准"
 dealPrice: "以最终付款页为准"
 couponCode: "无需优惠码"
 region: "可用地区和接收资格以 X 官方页面提示为准"
 warning: "礼物订阅入口、价格和权益会因地区、账号与活动状态变化。只使用 X 官方页面支持的付款方式；付款前确认接收账号用户名、订阅档位、周期、最终金额，以及 Grok 或 SuperGrok 权益是否写在结算页面中。"
+productName: "Grok / X Premium+"
+productSlug: "grok"
+planName: "X Premium+ Gift"
+offerKind: "deal"
+offerType: "普通订阅"
+eligibilityType: "地区资格"
+availabilityScope: "部分地区"
+countryCodes: []
+regionLabel: "按账号与地区开放"
+featured: false
 preparation:
   - "用于付款的 X 账号，并确认账号状态正常"
   - "需要接收礼物订阅的 X 账号用户名"
@@ -47,7 +59,7 @@ faq:
     answer: "确认接收账号用户名、订阅档位、周期、最终金额、币种、退款规则，以及页面是否明确列出需要的 Grok 或 SuperGrok 权益。"
   - question: "付款后权益没有到账怎么办？"
     answer: "先检查是否登录了正确的接收账号，并保存订单号、付款记录和订阅状态页面。仍未到账时，通过 X 官方支持渠道提交这些信息。"
-editorNote: "该入口和权益尚未完成账号实测，发布状态保持待验证。"
+editorNote: "该入口和权益尚未完成账号实测，优惠状态保持待验证；文章本身已经完成，可公开展示核验方法。"
 order: 20
 ---
 

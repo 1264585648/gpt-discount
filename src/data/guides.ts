@@ -1,6 +1,8 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type GuideStatus = '可领取' | '待验证' | '已失效';
+export type GuidePresentationCategory = '可领取' | '学生优惠' | '学校授权' | '限时活动' | '地区限制' | '待验证' | '已结束';
+export type GuideOfferKind = 'free' | 'discount' | 'trial' | 'credit' | 'deal' | 'expired' | 'pending';
 
 export type GuideStep = {
   title: string;
@@ -63,13 +65,107 @@ function sortGuides(a: Guide, b: Guide) {
   return a.title.localeCompare(b.title, 'zh-CN');
 }
 
+function legacySearchText(guide: Guide) {
+  return [
+    guide.title,
+    guide.summary,
+    guide.dealType,
+    guide.dealPrice,
+    guide.audience,
+    guide.region,
+    guide.warning,
+  ].filter(Boolean).join(' ');
+}
+
+export function isGuidePublished(entry: GuideEntry) {
+  return entry.data.contentStatus === '已完成';
+}
+
+export function getGuideFreshnessDate(guide: Guide) {
+  return guide.updatedAt ?? guide.lastVerified ?? guide.publishedAt ?? '1970-01-01';
+}
+
+export function sortGuidesByFreshness(a: Guide, b: Guide) {
+  return getGuideFreshnessDate(b).localeCompare(getGuideFreshnessDate(a))
+    || (b.order ?? 0) - (a.order ?? 0)
+    || a.title.localeCompare(b.title, 'zh-CN');
+}
+
+export function getGuidePresentationCategory(guide: Guide): GuidePresentationCategory {
+  if (guide.status === '已失效') return '已结束';
+  if (guide.status === '待验证') return '待验证';
+
+  if (guide.offerType === '学校授权' || guide.eligibilityType === '学校授权' || guide.availabilityScope === '学校或机构') {
+    return '学校授权';
+  }
+  if (guide.offerType === '学生优惠' || guide.eligibilityType === '学生认证') {
+    return '学生优惠';
+  }
+  if (guide.offerType === '地区活动' || guide.eligibilityType === '地区资格' || guide.availabilityScope === '部分地区' || guide.availabilityScope === '指定国家') {
+    return '地区限制';
+  }
+  if (guide.expiresAt || guide.offerType === '官方活动' || guide.offerType === '运营商赠送' || guide.offerType === '设备捆绑' || guide.offerType === '免费试用') {
+    return '限时活动';
+  }
+
+  // 兼容尚未迁移的旧内容；新内容应填写显式字段。
+  const text = legacySearchText(guide);
+  if (/部分地区|指定地区|地区限制/.test(text)) return '地区限制';
+  if (/学校授权|学校统一|教师身份|教育机构/.test(text)) return '学校授权';
+  if (/学生|教育邮箱|在校/.test(text)) return '学生优惠';
+  if (/限时|活动|首年/.test(text)) return '限时活动';
+  return '可领取';
+}
+
+export function getGuideOfferKind(guide: Guide): GuideOfferKind {
+  if (guide.status === '已失效') return 'expired';
+  if (guide.status === '待验证') return 'pending';
+  if (guide.offerKind) return guide.offerKind;
+
+  const text = `${guide.title} ${guide.summary} ${guide.dealType} ${guide.dealPrice}`.toLowerCase();
+  if (/(免费试用|free trial|trial)/i.test(text)) return 'trial';
+  if (/(免费额度|赠金|credits?|云额度)/i.test(text)) return 'credit';
+  if (/(免费|零元|0\s*(元|美元|美金|usd|rmb))/i.test(text)) return 'free';
+  if (/(折扣|学生价|优惠价|首年|半价|减免|立减|优惠)/i.test(text)) return 'discount';
+  return 'deal';
+}
+
+export function getGuideBrand(guide: Guide) {
+  const product = guide.productSlug;
+  if (product === 'chatgpt') return { label: 'GPT', className: 'openai' };
+  if (product === 'gemini') return { label: 'G', className: 'google' };
+  if (product === 'claude') return { label: 'CL', className: 'claude' };
+  if (product === 'perplexity') return { label: 'P', className: 'perplexity' };
+  if (product === 'grok') return { label: 'X', className: 'x' };
+  if (product === 'cursor') return { label: 'CU', className: 'cursor' };
+
+  const value = guide.title.toLowerCase();
+  const brands = [
+    ['github', 'GH', 'github'], ['jetbrains', 'JB', 'jetbrains'], ['notion', 'N', 'notion'],
+    ['gemini', 'G', 'google'], ['google', 'G', 'google'], ['microsoft', 'M', 'microsoft'],
+    ['adobe', 'A', 'adobe'], ['figma', 'F', 'figma'], ['canva', 'C', 'canva'],
+    ['claude', 'CL', 'claude'], ['perplexity', 'P', 'perplexity'], ['grok', 'X', 'x'], ['x premium', 'X', 'x'],
+    ['cloudflare', 'CF', 'cloudflare'], ['oracle', 'O', 'oracle'], ['digitalocean', 'DO', 'digitalocean'],
+  ];
+  const match = brands.find(([key]) => value.includes(key));
+  if (match) return { label: match[1], className: match[2] };
+  if (value.includes('openai') || value.includes('chatgpt') || /\bgpt\b/.test(value)) return { label: 'GPT', className: 'openai' };
+  return {
+    label: guide.title.match(/[A-Za-z0-9]+/)?.[0]?.slice(0, 2).toUpperCase() || guide.title.slice(0, 1),
+    className: 'default',
+  };
+}
+
 export function guideMatchesCategory(guide: Guide, categorySlug: string) {
   return guide.categorySlug === categorySlug || guide.relatedCategorySlugs?.includes(categorySlug);
 }
 
-export async function getGuides() {
+export async function getGuides(options: { includeUnpublished?: boolean } = {}) {
   const entries = await getCollection('guides');
-  return entries.map(normalizeGuide).sort(sortGuides);
+  return entries
+    .filter((entry) => options.includeUnpublished || isGuidePublished(entry))
+    .map(normalizeGuide)
+    .sort(sortGuides);
 }
 
 export async function getGuideBySlug(slug: string) {
