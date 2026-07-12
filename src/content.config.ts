@@ -27,6 +27,17 @@ const guideRequirementSchema = z.object({
   guide: z.string().optional(),
 });
 
+const guideComparisonOptionSchema = z.object({
+  name: z.string(),
+  cardType: z.string(),
+  availability: z.string(),
+  verification: z.string(),
+  cost: z.string(),
+  bestFor: z.string(),
+  caution: z.string(),
+  officialUrl: z.string().url().optional(),
+});
+
 const guideVerificationSchema = z.object({
   label: z.string(),
   guide: z.string(),
@@ -62,6 +73,7 @@ const guides = defineCollection({
     allBenefitsUrl: z.string().url().optional(),
     benefits: z.array(guideBenefitSchema).default([]),
     requirements: z.array(guideRequirementSchema).default([]),
+    comparisonOptions: z.array(guideComparisonOptionSchema).default([]),
     verification: guideVerificationSchema.optional(),
     preparation: z.array(z.string()),
     steps: z.array(guideStepSchema),
