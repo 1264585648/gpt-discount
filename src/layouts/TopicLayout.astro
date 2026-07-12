@@ -37,7 +37,7 @@ const { title, description, topic } = Astro.props;
           <a href="/">首页</a>
           <details class="topic-menu">
             <summary aria-label="打开专题菜单">
-              优惠专题
+              优惠分类
               <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
             </summary>
             <div class="topic-menu-panel">
@@ -52,13 +52,13 @@ const { title, description, topic } = Astro.props;
               ))}
             </div>
           </details>
-          <a href="/#all-guides">所有优惠</a>
-          <a href="/verification/">认证指南</a>
+          <a href="/#all-guides">全部教程</a>
+          <a href="/verification/">学生认证</a>
           <a href="/#latest">最近更新</a>
         </div>
 
         <a class="topic-nav-action" href="#all-deals">
-          查看本专题
+          查看优惠
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
         </a>
       </nav>
@@ -78,32 +78,30 @@ const { title, description, topic } = Astro.props;
             </span>
             <strong>GPT Discount</strong>
           </a>
-          <p>发现和分享 AI 工具、软件与云服务的公开优惠和可复查领取路径。</p>
+          <p>AI 工具、学生计划、软件折扣和云服务赠金教程。</p>
         </div>
 
         <div class="topic-footer-column">
-          <strong>优惠专题</strong>
+          <strong>优惠分类</strong>
           {topics.slice(0, 4).map((item) => <a href={`/topics/${item.slug}/`}>{item.title}</a>)}
         </div>
 
         <div class="topic-footer-column">
-          <strong>使用帮助</strong>
-          <a href="/verification/">认证指南</a>
+          <strong>常用入口</strong>
+          <a href="/verification/">学生认证</a>
           <a href="/#latest">最近更新</a>
           <a href="/#all-guides">全部教程</a>
         </div>
 
         <div class="topic-footer-column">
-          <strong>关于本站</strong>
-          <a href="/#feedback">反馈入口</a>
-          <a href="/#disclaimer">免责声明</a>
+          <strong>网站</strong>
           <a href="/">返回首页</a>
         </div>
       </div>
 
       <div class="topic-shell topic-footer-bottom">
         <span>© {new Date().getFullYear()} GPT Discount</span>
-        <span>只整理公开可核验的信息，不承诺第三方活动长期有效。</span>
+        <span>第三方优惠、价格和资格可能随时调整，以申请页面为准。</span>
       </div>
     </footer>
   </body>
